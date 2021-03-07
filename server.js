@@ -10,7 +10,9 @@ app.use(express.json({extended:false}));
 
 //* Defining Routes
 app.use('/api/user',require('./routes/api/user'));
+app.use('/api/auth',require('./routes/api/auth'));
 app.use('/api/sale',require('./routes/api/sale'));
+app.use('/api/product',require('./routes/api/product'));
 // app.use('/api/profile',require('./routes/api/profile'));
 // app.use('/api/posts',require('./routes/api/posts'));
 
