@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema({
   },
   state:{
     type:Number,
-    default: 1
+    default: 1,
   },
 })
 
