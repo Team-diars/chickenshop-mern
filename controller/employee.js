@@ -2,7 +2,7 @@ const Employee = require("../models/Employee");
 
 const getEmployees = async (req, res) => {
   try {
-    const employees = await Employee.find({ status: true }).exec();
+    const employees = await Employee.find({ status: 1 }).exec();
     return res.json(employees);
   } catch (error) {
     return res.status(500).send("Server error");
@@ -12,7 +12,7 @@ const getEmployees = async (req, res) => {
 const getEmployee = async (req, res) => {
   try {
     const { id } = req.params;
-    const checkifexists = await Employee.exists({ _id: id, status: true });
+    const checkifexists = await Employee.exists({ _id: id, status: 1 });
     if (!checkifexists) {
       return res.status(500).send("Employee not found");
     }
@@ -26,11 +26,11 @@ const getEmployee = async (req, res) => {
 const registerEmployee = async (req, res) => {
   try {
     const { name, lastname, dni, address, email } = req.body;
-    const checkifexists = await Employee.exists({ name: name, status: false });
+    const checkifexists = await Employee.exists({ name: name, status: 0 });
     if (checkifexists) {
       await Employee.findOneAndUpdate(
         { dni },
-        { name, lastname, dni, address, email, status: true }
+        { name, lastname, dni, address, email, status: 1 }
       );
       return res.json({
         status: "OK",
@@ -50,7 +50,7 @@ const updateEmployee = async (req, res) => {
   try {
     const { id } = req.params;
     const newEmployee = req.body;
-    const checkifexists = await Employee.exists({ _id: id, status: true });
+    const checkifexists = await Employee.exists({ _id: id, status: 1 });
     if (!checkifexists) {
       return res.status(500).send("Employee doesn't exist");
     }
@@ -68,13 +68,13 @@ const updateEmployee = async (req, res) => {
 const deleteEmployee = async (req, res) => {
   try {
     const { id } = req.params;
-    const employee = await Employee.exists({ _id: id, status: true });
+    const employee = await Employee.exists({ _id: id, status: 1 });
     if (!employee) {
       return res.status(500).send("Employee doesn't exist");
     }
     await Employee.findByIdAndUpdate(
       id,
-      { status: false },
+      { status: 0 },
       {
         new: true,
       }

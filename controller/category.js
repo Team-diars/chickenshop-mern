@@ -2,7 +2,7 @@ const Category = require("../models/Category");
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await Category.find({ status: true }).exec();
+    const categories = await Category.find({ status: 1 }).exec();
     return res.json(categories);
   } catch (error) {
     res.status(500).send("Server error");
@@ -12,7 +12,7 @@ const getCategories = async (req, res) => {
 const getCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const checkifexists = await Category.exists({ _id: id, status: true });
+    const checkifexists = await Category.exists({ _id: id, status: 1 });
     if (!checkifexists) {
       res.status(500).send("Category not found");
     }
@@ -26,9 +26,9 @@ const getCategory = async (req, res) => {
 const registerCategory = async (req, res) => {
   try {
     const { name } = req.body;
-    const checkifexists = await Category.exists({ name: name, status: false });
+    const checkifexists = await Category.exists({ name: name, status: 0 });
     if (checkifexists) {
-      await Category.findOneAndUpdate({ name }, { name, status: true });
+      await Category.findOneAndUpdate({ name }, { name, status: 1 });
       return res.json({
         status: "OK",
       });
@@ -47,7 +47,7 @@ const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
-    const checkifexists = await Category.exists({ _id: id, status: true });
+    const checkifexists = await Category.exists({ _id: id, status: 1 });
     if (!checkifexists) {
       return res.status(500).send("Category not found");
     }
@@ -63,11 +63,11 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const checkifexists = await Category.exists({ _id: id, status: true });
+    const checkifexists = await Category.exists({ _id: id, status: 1 });
     if (!checkifexists) {
       return res.status(500).send("Category not found");
     }
-    await Category.findByIdAndUpdate(id, { status: false }, { new: true });
+    await Category.findByIdAndUpdate(id, { status: 0 }, { new: true });
     return res.json({
       status: "OK",
     });

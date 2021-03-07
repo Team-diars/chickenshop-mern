@@ -25,10 +25,11 @@ const EmployeeSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: "user",
     require: false,
+    default: null,
   },
   status: {
-    type: Boolean,
-    default: true,
+    type: Number,
+    default: 1,
   },
 });
 
