@@ -6,8 +6,8 @@ const CategorySchema = Schema({
     require: true,
   },
   status: {
-    type: Boolean,
-    default: true,
+    type:Number,
+    default: 1,
   },
 });
 
