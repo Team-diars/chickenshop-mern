@@ -11,6 +11,7 @@ app.use(express.json({extended:false}));
 //* Defining Routes
 app.use('/api/user',require('./routes/api/user'));
 app.use('/api/employee',require('./routes/api/employee'));
+app.use('/api/category',require('./routes/api/category'));
 
 if (process.env.NODE_ENV === 'production'){
   //* Set static folder
