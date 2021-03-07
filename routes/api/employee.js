@@ -32,7 +32,7 @@ router.post(
   registerEmployee
 );
 
-router.post(
+router.put(
   "/update/:id",
   [
     check("name", "Name is required").not().isEmpty(),
@@ -50,6 +50,6 @@ router.post(
   updateEmployee
 );
 
-router.post("/delete/:id", deleteEmployee);
+router.delete("/delete/:id", deleteEmployee);
 
 module.exports = router;

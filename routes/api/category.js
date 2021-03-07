@@ -20,12 +20,12 @@ router.post(
   registerCategory
 );
 
-router.post(
+router.put(
   "/update/:id",
   [check("name", "Name is required").not().isEmpty(), fieldValidation],
   updateCategory
 );
 
-router.post("/delete/:id", deleteCategory);
+router.delete("/delete/:id", deleteCategory);
 
 module.exports = router;
