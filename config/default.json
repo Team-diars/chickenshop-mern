@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://hectorsum:r8yg7gpd@cluster0.rfjqv.mongodb.net/chickenshop?retryWrites=true&w=majority",
+  "jwtSecret": "mysecrettoken",
+  "githubClientId": "c5ec06ff79027979c7ba",
+  "githubSecret":"595e48fd81e5a0bd28c91d46987cd95a93fdf89c"
+}
