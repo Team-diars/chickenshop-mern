@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const SaleSchema = new mongoose.Schema({
+const {Schema,model} = require('mongoose');
+const SaleSchema = new Schema({
   product:{
-    type: [mongoose.Schema.Types.ObjectId],
+    type: [Schema.Types.ObjectId],
     ref: 'product',
     require:true
   },
@@ -27,10 +27,10 @@ const SaleSchema = new mongoose.Schema({
     type: Boolean,
     default:false
   },
-  state:{
+  status:{
     type:Number,
     default: 1
   }
 })
 
-module.exports = Sale = mongoose.model('sale',SaleSchema);
+module.exports = model('sales',SaleSchema);
