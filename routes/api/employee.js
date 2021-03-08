@@ -12,7 +12,7 @@ const auth = require('../../middleware/auth');
 const { fieldValidation } = require("../../middleware/fieldValidation");
 
 //* @route  GET api/employee
-//* @des    Test Route
+//* @des    Get all employees
 //* @access Private
 router.get("/", getEmployees);
 
