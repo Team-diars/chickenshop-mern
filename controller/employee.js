@@ -80,7 +80,7 @@ const deleteEmployee = async (req, res) => {
       }
     );
     return res.json({
-      status: "OK",
+      status: "Employee was removed Successfully",
     });
   } catch (error) {}
 };
