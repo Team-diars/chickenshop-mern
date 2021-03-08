@@ -11,10 +11,19 @@ const {
 const auth = require('../../middleware/auth');
 const { fieldValidation } = require("../../middleware/fieldValidation");
 
+//* @route  GET api/category
+//* @des    Getting all categories
+//* @access Private
 router.get("/",[auth], getCategories);
 
+//* @route  GET api/category/:id
+//* @des    Get category by ID
+//* @access Private
 router.get("/:id",[auth], getCategory);
 
+//* @route  POST api/category/register
+//* @des    Register new category
+//* @access Private
 router.post(
   "/register",
   [ 
@@ -25,6 +34,9 @@ router.post(
   registerCategory
 );
 
+//* @route  PUT api/category/update/:id
+//* @des    Updating category
+//* @access Private
 router.put(
   "/update/:id",
   [ 
@@ -35,6 +47,9 @@ router.put(
   updateCategory
 );
 
-router.delete("/delete/:id", [auth], deleteCategory);
+//* @route  DELETE api/category/delete/:id
+//* @des    Delete category
+//* @access Private
+router.delete("/delete/:id",[auth], deleteCategory);
 
 module.exports = router;

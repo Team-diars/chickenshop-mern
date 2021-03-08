@@ -11,10 +11,19 @@ const {
 const auth = require('../../middleware/auth');
 const { fieldValidation } = require("../../middleware/fieldValidation");
 
+//* @route  GET api/employee
+//* @des    Test Route
+//* @access Private
 router.get("/", getEmployees);
 
+//* @route  GET api/employee/:id
+//* @des    Get employee by ID
+//* @access Private
 router.get("/:id",[auth], getEmployee);
 
+//* @route  POST api/employee/register
+//* @des    Register new employee
+//* @access Private
 router.post(
   "/register",
   [ 
@@ -33,11 +42,14 @@ router.post(
       check("email", "Email is required").not().isEmpty(),
       check("email", "Must be a valid email").isEmail(),
     ],
-    fieldValidation,
   ],
+  fieldValidation,
   registerEmployee
 );
 
+//* @route  PUT api/employee/update/:id
+//* @des    Updating employee by ID
+//* @access Private
 router.put(
   "/update/:id",
   [
@@ -56,11 +68,14 @@ router.put(
       })
     ],
     check("address", "Address is required").not().isEmpty(),
-    fieldValidation,
   ],
+  fieldValidation,
   updateEmployee
 );
 
+//* @route  DELETE api/employee/delete/:id
+//* @des    Delete employee by ID
+//* @access Private
 router.delete("/delete/:id",[auth], deleteEmployee);
 
 module.exports = router;
