@@ -8,24 +8,33 @@ const {
   updateCategory,
   deleteCategory,
 } = require("../../controller/category");
+const auth = require('../../middleware/auth');
 const { fieldValidation } = require("../../middleware/fieldValidation");
 
-router.get("/", getCategories);
+router.get("/",[auth], getCategories);
 
-router.get("/:id", getCategory);
+router.get("/:id",[auth], getCategory);
 
 router.post(
   "/register",
-  [check("name", "Name is required").not().isEmpty(), fieldValidation],
+  [ 
+    auth,
+    check("name", "Name is required").not().isEmpty(), 
+    fieldValidation
+  ],
   registerCategory
 );
 
 router.put(
   "/update/:id",
-  [check("name", "Name is required").not().isEmpty(), fieldValidation],
+  [ 
+    auth,
+    check("name", "Name is required").not().isEmpty(), 
+    fieldValidation
+  ],
   updateCategory
 );
 
-router.delete("/delete/:id", deleteCategory);
+router.delete("/delete/:id", [auth], deleteCategory);
 
 module.exports = router;
