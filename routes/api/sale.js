@@ -34,15 +34,16 @@ router.post('/',[auth,
   let { product,
         num_table
       } = req.body;
-  if(product.length > 1){
     let subtotal = 0;
-    let prices = [];
-    product.forEach(async(item)=>{
+    let numbers = product.map(async(item,index)=>{
       let {price} = await Product.findById(item);
-      subtotal += price
+      return price;
     })
-    console.log(subtotal)
-  }
+    const prices = await Promise.all(numbers);
+    subtotal = prices.reduce((total,num)=>{
+      return total + num;
+    },0)
+    console.log('numbers: ',subtotal)
   // const {price} = await Product.findById(product);
   // console.log(price);
   res.json({product,name,num_table});
