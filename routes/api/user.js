@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const gravatar = require("gravatar");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const { check, validationResult } = require("express-validator/check");
-
-const User = require("../../models/User");
+const { check } = require("express-validator/check");
+const auth = require("../../middleware/auth");
+const {
+  GetAllUser,
+  RegisterUser,
+  SelectUserbyId,
+  UpdateUser,
+  DeleteUser,
+} = require("../../controller/user");
+const { fieldValidation } = require("../../middleware/fieldValidation");
+const { checkPasswordFormat } = require("../../lib/checkPasswordFormat");
 
 //* @route  POST api/user
 //* @des    Register User
@@ -14,67 +18,56 @@ const User = require("../../models/User");
 router.post(
   "/",
   [
-    check("name", "Name is required").not().isEmpty(),
-    check("email", "Please include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({
-      min: 6,
-    }),
+    check("employee", "Employee is required").not().isEmpty(),
+    [
+      check(
+        "password",
+        "Please enter a password with 6 or more characters"
+      ).isLength({
+        min: 6,
+      }),
+      check(
+        "password",
+        "Password must contain at least one letter or number"
+      ).custom(checkPasswordFormat),
+    ],
+    fieldValidation,
   ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    const { name, email, password } = req.body;
-    try {
-      //* Validate if user exists
-      let user = await User.findOne({ email });
-      if (user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "User already exists" }] });
-      }
-      //* Get users gravatar
-      const avatar = gravatar.url(email, {
-        s: "200",
-        r: "pd",
-        d: "mm",
-      });
-      user = new User({
-        name,
-        email,
-        avatar,
-        password,
-      });
-
-      //* Encrypt password
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt); //* Hashing password
-      await user.save();
-
-      //* Return JWT (jsonwebtoken)
-      const payload = {
-        user: {
-          id: user.id,
-        },
-      };
-      jwt.sign(
-        payload,
-        config.get("jwtSecret"),
-        { expiresIn: 360000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Server error");
-    }
-  }
+  RegisterUser
 );
+
+//* @route  GET api/user
+//* @des    Get all Users
+//* @access Private
+router.get("/", auth, GetAllUser);
+
+//* @route  GET api/user
+//* @des    Get User by id
+//* @access Private
+router.get("/:id", auth, SelectUserbyId);
+
+router.put(
+  "/update/:id",
+  [
+    auth,
+    check("password", "Please enter your current password").not().isEmpty(),
+    [
+      check(
+        "newpassword",
+        "Please enter a password with 6 or more characters"
+      ).isLength({
+        min: 6,
+      }),
+      check(
+        "newpassword",
+        "Password must contain at least one letter or number"
+      ).custom(checkPasswordFormat),
+      fieldValidation,
+    ],
+  ],
+  UpdateUser
+);
+
+router.delete("/delete/:id", auth, DeleteUser);
 
 module.exports = router;

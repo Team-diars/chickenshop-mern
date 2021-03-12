@@ -19,6 +19,7 @@ const EmployeeSchema = Schema({
   },
   email: {
     type: String,
+    unique: true,
     require: true,
   },
   coduser: {
@@ -26,6 +27,10 @@ const EmployeeSchema = Schema({
     ref: "user",
     require: false,
     default: null,
+  },
+  role: {
+    type: String,
+    require: true,
   },
   status: {
     type: Number,

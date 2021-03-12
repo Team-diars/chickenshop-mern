@@ -8,7 +8,8 @@ const {
   updateEmployee,
   deleteEmployee,
 } = require("../../controller/employee");
-const auth = require('../../middleware/auth');
+const { checkRole } = require("../../lib/checkRole");
+const auth = require("../../middleware/auth");
 const { fieldValidation } = require("../../middleware/fieldValidation");
 
 //* @route  GET api/employee
@@ -19,18 +20,22 @@ router.get("/", getEmployees);
 //* @route  GET api/employee/:id
 //* @des    Get employee by ID
 //* @access Private
-router.get("/:id",[auth], getEmployee);
+router.get("/:id", [auth], getEmployee);
 
 //* @route  POST api/employee/register
 //* @des    Register new employee
 //* @access Private
 router.post(
   "/register",
-  [ 
+  [
     auth,
     check("name", "Name is required").not().isEmpty(),
     check("lastname", "Lastname is required").not().isEmpty(),
     check("address", "Address is required").not().isEmpty(),
+    [
+      check("role", "Role is required").not().isEmpty(),
+      check("role", "Select a valid role").custom(checkRole) /* Admin/Worker */,
+    ],
     [
       check("dni", "DNI is required").not().isEmpty(),
       check("dni", "DNI length must be 8 characters").isLength({
@@ -57,6 +62,10 @@ router.put(
     check("name", "Name is required").not().isEmpty(),
     check("lastname", "Lastname is required").not().isEmpty(),
     [
+      check("role", "Role is required").not().isEmpty(),
+      check("role", "Select a valid role").custom(checkRole) /* Admin/Worker */,
+    ],
+    [
       check("email", "Email is required").not().isEmpty(),
       check("email", "Must be a valid email").isEmail(),
     ],
@@ -65,7 +74,7 @@ router.put(
       check("dni", "DNI length must be 8 characters").isLength({
         min: 8,
         max: 8,
-      })
+      }),
     ],
     check("address", "Address is required").not().isEmpty(),
   ],
@@ -76,6 +85,6 @@ router.put(
 //* @route  DELETE api/employee/delete/:id
 //* @des    Delete employee by ID
 //* @access Private
-router.delete("/delete/:id",[auth], deleteEmployee);
+router.delete("/delete/:id", [auth], deleteEmployee);
 
 module.exports = router;
