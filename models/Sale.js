@@ -6,12 +6,11 @@ const SaleSchema = new Schema({
     require:true
   },
   num_table: {
-    type: String,
+    type: Number,
     require: true
   },
   cashier: {
     type: String,
-    require:true
   },
   subtotal:{
     type: Number,
