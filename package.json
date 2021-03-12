@@ -18,12 +18,15 @@
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "config": "^3.3.4",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.19",
-    "request": "^2.88.2"
+    "nodemailer": "^6.5.0",
+    "request": "^2.88.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
