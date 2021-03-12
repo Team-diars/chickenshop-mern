@@ -4,8 +4,7 @@ const Category = require("../models/Category");
 const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const newProduct = req.body;
-    const { category } = newProduct;
+    const { category, name, price } = req.body;
     const categoryExists = await Category.exists({ _id: category, status: 1 });
     if (!categoryExists) {
       return res.status(500).send("Category doesn't exist");
@@ -14,11 +13,15 @@ const editProduct = async (req, res) => {
     if (!exists) {
       return res.status(500).send("Product doesn't exist");
     }
-    const productUpdated = await Product.findByIdAndUpdate(id, newProduct, {
-      new: true,
-    });
+    const productUpdated = await Product.findByIdAndUpdate(
+      id,
+      { category, name, price },
+      {
+        new: true,
+      }
+    );
     return res.json({
-      status: "Product edited",
+      status: "Product updated",
       newproduct: productUpdated,
     });
   } catch (error) {

@@ -94,6 +94,9 @@ router.delete("/delete/:id", [auth], async (req, res) => {
   }
 });
 
+//* @route  PUT api/product
+//* @des    Updating product by ID
+//* @access Private
 router.put(
   "/edit/:id",
   [
