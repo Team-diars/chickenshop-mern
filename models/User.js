@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  recovery_code: {
+    type: String,
+    default: null
+  }
 });
 
 module.exports = mongoose.model("user", UserSchema);
