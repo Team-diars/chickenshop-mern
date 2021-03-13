@@ -38,8 +38,11 @@ const registerCategory = async (req, res) => {
     return res.json({
       status: "Category created successfully",
     });
-  } catch (error) {
-    res.status(500).send("Server error");
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(500).send("Category already registered");
+    }
+    return res.status(500).send("Server error");
   }
 };
 
