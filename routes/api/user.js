@@ -9,6 +9,7 @@ const {encryptpassword} = require('../../lib/encryptPassword');
 const {checkPasswordFormat} = require('../../lib/checkPasswordFormat');
 const { fieldValidation } = require("../../middleware/fieldValidation");
 const auth = require("../../middleware/auth");
+require('colors');
 const {
   GetAllUser,
   RegisterUser,
@@ -16,6 +17,7 @@ const {
   UpdateUser,
   DeleteUser,
 } = require("../../controller/user");
+const Employee = require("../../models/Employee");
 
 //* @route  POST api/user
 //* @des    Register User
@@ -49,41 +51,46 @@ router.post('/reset-password',[
   check('email','Must be an email').isEmail()
 ],async(req,res)=>{
   const {email} = req.body;
-  const emailExists = User.find({email}).exec();
+  const emailExists = await Employee.exists({email});
   if (emailExists){
-    let protocol = req.protocol;
-    let host = req.get('host');
-    let path = req.originalUrl;
-    let recovery_code = uuid.v5.URL.substring(0,8);
-    let mail_message = `${protocol}://${host}${path}/${recovery_code}`;
-    await User.findOneAndUpdate({email},{recovery_code},{new:true});
+    try {
+      let protocol = req.protocol;
+      let host = req.get('host');
+      let path = req.originalUrl;
+      let recovery_code = uuid.v5.URL.substring(0,8);
+      let mail_message = `${protocol}://${host}${path}/${recovery_code}`;
+      const [userData] = await Employee.find({email}).exec();
+      await User.findOneAndUpdate({userData},{recovery_code},{new:true});
 
-    let transporter = nodemailer.createTransport({
-      service: 'gmail',
-      port: 587,
-      secure: false,
-      auth: {
-          user: process.env.EMAIL,
-          pass: process.env.PASSWORD,
-      }
-    });
-    //* Email data
-    var mailOptions = {
-      from: 'shop.testing.150@gmail.com',
-      to: email,
-      subject: 'Recovery Code',
-      html: `<a href="${mail_message}">Update your password here!</a>`
-    };
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
+        }
+      });
+      //* Email data
+      var mailOptions = {
+        from: 'shop.testing.150@gmail.com',
+        to: email,
+        subject: 'Recovery Code',
+        html: `<a href="${mail_message}">Update your password here!</a>`
+      };
 
-    transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-        res.redirect('/login');
-      } else {
-        res.redirect('/login');
-      }
-    });
-    // console.log({protocol:req.protocol,host:req.get('host'),url:req.originalUrl})
-    return res.json({status:"Code has been sent to the email provided"})
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          res.redirect('/login');
+        } else {
+          res.redirect('/login');
+        }
+      });
+      return res.json({status:"Code has been sent to the email provided"})
+    } catch (err) {
+      console.log(e.message)
+      res.status(500).send(e.message)
+    }
   }else{
     return res.json({status:"Code has been sent to the email provided"})
   }
