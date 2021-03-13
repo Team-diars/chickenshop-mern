@@ -9,13 +9,14 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 //* Defining Routes
-app.use('/api/user',require('./routes/api/user'));
 app.use('/api/auth',require('./routes/api/auth'));
+app.use('/api/category',require('./routes/api/category'));
+app.use('/api/contact',require('./routes/api/contact'));
+app.use('/api/user',require('./routes/api/user'));
 app.use('/api/sale',require('./routes/api/sale'));
 app.use('/api/ticket',require('./routes/api/ticket'));
 app.use('/api/product',require('./routes/api/product'));
 app.use('/api/employee',require('./routes/api/employee'));
-app.use('/api/category',require('./routes/api/category'));
 app.use('/api/settings',require('./routes/api/settings'));
 
 if (process.env.NODE_ENV === "production") {

@@ -9,7 +9,7 @@ const Config = require("../../models/Settings");
 //* @desc   Get Settings Info
 //* @access Private
 router.get('/',[
-  // auth
+  auth
 ],async(req,res)=>{
   try {
     const config = await Config.find().exec();
@@ -23,7 +23,7 @@ router.get('/',[
 //* @desc   Save Settings
 //* @access Private
 router.post('/',[
-  // auth,
+  auth,
   check('address','Address is required').not().isEmpty()
 ],async(req,res)=>{
   const errors = validationResult(req);
