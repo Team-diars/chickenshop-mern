@@ -16,6 +16,7 @@ app.use('/api/ticket',require('./routes/api/ticket'));
 app.use('/api/product',require('./routes/api/product'));
 app.use('/api/employee',require('./routes/api/employee'));
 app.use('/api/category',require('./routes/api/category'));
+app.use('/api/settings',require('./routes/api/settings'));
 
 if (process.env.NODE_ENV === "production") {
   //* Set static folder
