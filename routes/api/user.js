@@ -44,7 +44,7 @@ router.post(
 );
 
 //* @route  POST api/user/reset-password
-//* @des    Reset password
+//* @des    Sending recovery code
 //* @access Public
 router.post('/reset-password',[
   check('email','Email is required').not().isEmpty(),
