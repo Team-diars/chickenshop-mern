@@ -5,6 +5,14 @@ const ProductSchema = new Schema({
     ref:'category',
     required:true
   },
+  description:{
+    type:String,
+    require:true
+  },
+  stock:{
+    type:Number,
+    require:true,
+  },
   name:{
     type:String,
     require:true,
