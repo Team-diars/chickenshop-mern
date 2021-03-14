@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const UserClientSchema = new mongoose.Schema({
-  name:{
+  name: {
     type: String,
     require: true,
   },
-  email:{
+  email: {
     type: String,
+    unique: true,
     require: true,
   },
   password: {
@@ -21,8 +22,8 @@ const UserClientSchema = new mongoose.Schema({
   },
   recovery_code: {
     type: String,
-    default: null
-  }
+    default: null,
+  },
 });
 
 module.exports = mongoose.model("user-client", UserClientSchema);

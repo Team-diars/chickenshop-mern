@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const Order = require("../../../models/client/Order");
-
+const auth = require('../../../middleware/client/auth');
 //* @desc    Create new order
 //* @route   POST /api/orders
 //* @access  Private
-router.post('/',asyncHandler(async(req, res) => {
+router.post('/',[auth],asyncHandler(async(req, res) => {
   const {
     orderItems,
     shippingAddress,
