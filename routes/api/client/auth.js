@@ -9,6 +9,16 @@ const {
 const { checkPasswordFormat } = require("../../../lib/checkPasswordFormat");
 const auth = require("../../../middleware/client/auth");
 const { fieldValidation } = require("../../../middleware/fieldValidation");
+const asyncHandler = require('express-async-handler');
+const UserClient = require("../../../models/client/UserClient");
+
+//* @route  GET api/client
+//* @des    Get all clients
+//* @access Private
+router.get('/',asyncHandler(async(req,res)=>{
+  const clients = await UserClient.find().exec();
+  return res.json(clients)
+}))
 
 //* @route  POST api/client/auth
 //* @des    Authenticate user & get token

@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
 const path = require("path");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 //* Connecting to Database
 connectDB();
 
@@ -19,6 +20,7 @@ app.use('/api/product',require('./routes/api/product'));
 app.use('/api/employee',require('./routes/api/employee'));
 app.use('/api/settings',require('./routes/api/settings'));
 app.use('/api/client',require('./routes/api/client/auth'))
+app.use('/api/order',require('./routes/api/client/order'))
 
 if (process.env.NODE_ENV === "production") {
   //* Set static folder
@@ -27,6 +29,11 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
+//* Handling 404 error
+app.use(notFound);
+
+//* Handling custom errors
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
