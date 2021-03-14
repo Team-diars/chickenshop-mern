@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const UserClientSchema = new mongoose.Schema({
+const OrderSchema = new mongoose.Schema({
   cod_user_client:{
     type: mongoose.Schema.Types.ObjectId,
     require: true,
@@ -99,4 +99,4 @@ const UserClientSchema = new mongoose.Schema({
   },
 },{ timestamps:true });
 
-module.exports = mongoose.model("user-client", UserClientSchema);
+module.exports = mongoose.model("order", OrderSchema);
