@@ -3,12 +3,12 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import FormContainer from './FormContainer'
 
-const LoginScreen = ({ location, history }) => {
+const LoginScreenClient = ({ location, history }) => {
   return (
     <FormContainer>
       <Row className="d-flex justify-content-between">
-        <h3 style={{margin:0}}>Sign In</h3>
-        <Link to={'/auth'} className="d-flex align-items-center justify-content-center">
+        <h1 style={{margin:0}}>Sign In</h1>
+        <Link to={'/auth'} className="d-flex align-items-center justify-content-center" style={{textDecoration:'none'}}>
           <Button type='button' variant='primary'>
             Employee <i className='fas fa-user'></i>
           </Button>
@@ -48,4 +48,4 @@ const LoginScreen = ({ location, history }) => {
   )
 }
 
-export default LoginScreen
+export default LoginScreenClient
