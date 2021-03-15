@@ -5,6 +5,7 @@ import HomeScreen from "./components/landing/HomeScreen";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import LoginScreen from "./components/login/LoginScreen";
+import { UsersScreen } from "./components/maintain-users/UsersScreen";
 import ProductScreen from "./components/products/ProductScreen";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/" component={HomeScreen}/>
           <Route exact path="/products" component={ProductScreen}/>
           <Route exact path="/login" component={LoginScreen}/>
+          <Route exact path="/intranet/users" component={UsersScreen}/>
         </Container>
       </main>
       <Footer/>
