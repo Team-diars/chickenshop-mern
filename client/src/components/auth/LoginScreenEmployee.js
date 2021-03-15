@@ -20,7 +20,7 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
   //* Redirect if logged in
   //* Login.js
   if(isAuthenticated){
-    return <Redirect to="/dashboard"/>
+    return <Redirect to="/profile"/>
   }
   return (
     <FormContainer>

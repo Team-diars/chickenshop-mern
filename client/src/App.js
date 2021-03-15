@@ -14,6 +14,11 @@ import DashboardScreen from "./components/dashboard/DashboardScreen";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 import PrivateRoute from "./routing/PrivateRoute";
+import SettingsScreen from "./components/settings/SettingsScreen";
+import UserScreen from "./components/users-employee/UserScreen";
+import EmployeeScreen from "./components/employees/EmployeeScreen";
+import OrderScreen from "./components/orders/OrderScreen";
+import SaleScreen from "./components/sales/SaleScreen";
 
 if(localStorage.token){
   setAuthToken(localStorage.token);
@@ -30,11 +35,16 @@ function App() {
         <main className="py-3">
           <Container>
             <Route exact path="/" component={HomeScreen}/>
-            <Route exact path="/products" component={ProductScreen}/>
             <Route exact path="/login" component={LoginScreenClient}/>
             <Route exact path="/auth" component={LoginScreenEmployee}/>
             <Route exact path="/register" component={RegisterScreen}/>
-            <PrivateRoute exact path="/dashboard" component={DashboardScreen}/>
+            <PrivateRoute exact path="/profile" component={DashboardScreen}/>
+            <PrivateRoute exact path="/products" component={ProductScreen}/>
+            <PrivateRoute exact path="/settings" component={SettingsScreen}/>
+            <PrivateRoute exact path="/users" component={UserScreen}/>
+            <PrivateRoute exact path="/employees" component={EmployeeScreen}/>
+            <PrivateRoute exact path="/orders" component={OrderScreen}/>
+            <PrivateRoute exact path="/sales" component={SaleScreen}/>
           </Container>
         </main>
         <Footer/>

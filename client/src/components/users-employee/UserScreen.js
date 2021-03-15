@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Col, Row, Spinner, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import {getProducts} from '../../actions/product'
-const ProductScreen = ({getProducts, product:{products,loading}}) => {
+import {getUsers} from '../../actions/user'
+const UserScreen = ({getUsers, user:{users,loading}}) => {
   useEffect(()=>{
-    getProducts();
-  },[getProducts])
-  console.log(products)
+    getUsers();
+  },[getUsers])
+  console.log(users)
   return (loading) ?
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
@@ -15,11 +15,11 @@ const ProductScreen = ({getProducts, product:{products,loading}}) => {
       <>
       <Row className='align-items-center'>
         <Col>
-          <h1>Products</h1>
+          <h1>Users</h1>
         </Col>
         <Col className='text-right'>
           <Button className='my-3 btn-success'>
-            <i className='fas fa-plus'></i> Create Product
+            <i className='fas fa-plus'></i> Register User
           </Button>
         </Col>
       </Row>
@@ -29,20 +29,18 @@ const ProductScreen = ({getProducts, product:{products,loading}}) => {
               <tr>
                 <th>ID</th>
                 <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
+                <th>EMAIL</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>S/. {product.price}</td>
-                  <td>{product.category}</td>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user._id}</td>
+                  <td>{user.name} {user.lastname}</td>
+                  <td>{user.email}</td>
                   <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                    <LinkContainer to={`/admin/product/${user._id}/edit`}>
                       <Button variant='light' className='btn-sm'>
                         <i className='fas fa-edit'></i>
                       </Button>
@@ -63,6 +61,6 @@ const ProductScreen = ({getProducts, product:{products,loading}}) => {
   
 }
 const mapStateToProps = state => ({
-  product: state.product
+  user: state.user
 })
-export default connect(mapStateToProps,{getProducts})(ProductScreen);
+export default connect(mapStateToProps,{getUsers})(UserScreen);

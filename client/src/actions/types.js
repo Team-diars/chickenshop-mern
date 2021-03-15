@@ -22,3 +22,10 @@ export const DELETE_POST = 'DELETE_POST';
 export const ADD_POST = 'ADD_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
+
+export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const PRODUCT_ERROR = 'PRODUCT_ERROR';
+export const GET_EMPLOYEES = 'GET_EMPLOYEES';
+export const EMPLOYEE_ERROR = 'EMPLOYEE_ERROR';
+export const GET_USERS = 'GET_USERS';
+export const USER_ERROR = 'USER_ERROR';
