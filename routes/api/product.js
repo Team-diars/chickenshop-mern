@@ -8,10 +8,26 @@ const { editProduct } = require("../../controller/product");
 const { fieldValidation } = require("../../middleware/fieldValidation");
 require("colors");
 
+
+//* @route  GET api/product/search/:category
+//* @des    Get product by category
+//* @access Public
+router.get('/search/:category',async(req,res)=>{
+  try{
+    let {category} = req.params;
+    console.log(category);
+    const products = await Product.find({category}).exec();
+    if (!products) return res.status(500).send('Category does not exist')
+    res.json(products);
+  }catch(e){
+    res.status(500).send("Server error");
+  }
+})
+
+
 //* @route  GET api/product
 //* @des    Get all products
 //* @access Private
-
 router.get("/", [auth], async (req, res) => {
   try {
     const products = await Product.find({ status: 1 }).exec();
@@ -49,24 +65,18 @@ router.post(
 
     //* Validate if product exists
     let product = await Product.findOne({ name });
-    console.log("product".green, product);
     if (product && product.status === 1) {
       return res
         .status(400)
         .json({ errors: [{ msg: "Product already exists" }] });
     }
-
     const exists = await Product.exists({ name: name, status: 0 });
     if (exists) {
-      await Product.findOneAndUpdate(
-        { name, category, price },
-        { name, status: 1 }
-      );
-      return res.json({
-        status: "Product created successfully",
-      });
+      console.log(true);
+      await Product.findOneAndUpdate({ name, category, price },{ name, status: 1 });
+      return res.json({ status: "Product created successfully" });
     }
-    const newProduct = new Product({ category, name, price });
+    const newProduct = new Product({ category:category.toLowerCase(), name, price });
     await newProduct.save();
     return res.json({
       status: "Product created successfully",

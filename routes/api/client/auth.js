@@ -20,11 +20,11 @@ router.get('/',asyncHandler(async(req,res)=>{
   return res.json(clients)
 }))
 
-//* @route  POST api/client/auth
+//* @route  POST api/client/login
 //* @des    Authenticate user & get token
 //* @access Public
 router.post(
-  "/auth",
+  "/login",
   [
     [
       check("email", "Email is required").not().isEmpty(),
