@@ -13,8 +13,11 @@ const DashboardScreen = ({loadUser, auth:{user,loading}}) => {
       <span className="sr-only">Loading...</span>
     </Spinner> :
     <>
-      <h1>Dashboard</h1>
-      <p>{user.user.name}</p>
+      <h1>Menu</h1>
+      <img src={user.avatar} className="rounded" alt="User Avatar"/>
+      <p>User: {user.name} {user.lastname}</p>
+      <p>DNI: {user.dni}</p>
+      <p>Role: {user.role}</p>
     </>
     
 }

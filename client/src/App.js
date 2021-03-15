@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import HomeScreen from "./components/landing/HomeScreen";
@@ -10,9 +10,19 @@ import RegisterScreen from "./components/auth/RegisterScreen";
 import ProductScreen from "./components/products/ProductScreen";
 import {Provider} from 'react-redux';
 import store from "./store";
-import DashboardScreen from "./components/dashboard/Dashboard";
+import DashboardScreen from "./components/dashboard/DashboardScreen";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth";
+import PrivateRoute from "./routing/PrivateRoute";
+
+if(localStorage.token){
+  setAuthToken(localStorage.token);
+}
 
 function App() {
+  useEffect(()=>{
+    store.dispatch(loadUser())
+  },[]);
   return (
     <Provider store={store}>
       <Router>
@@ -24,7 +34,7 @@ function App() {
             <Route exact path="/login" component={LoginScreenClient}/>
             <Route exact path="/auth" component={LoginScreenEmployee}/>
             <Route exact path="/register" component={RegisterScreen}/>
-            <Route exact path="/dashboard" component={DashboardScreen}/>
+            <PrivateRoute exact path="/dashboard" component={DashboardScreen}/>
           </Container>
         </main>
         <Footer/>
