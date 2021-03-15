@@ -10,6 +10,7 @@ import RegisterScreen from "./components/auth/RegisterScreen";
 import ProductScreen from "./components/products/ProductScreen";
 import {Provider} from 'react-redux';
 import store from "./store";
+import DashboardScreen from "./components/dashboard/Dashboard";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route exact path="/login" component={LoginScreenClient}/>
             <Route exact path="/auth" component={LoginScreenEmployee}/>
             <Route exact path="/register" component={RegisterScreen}/>
+            <Route exact path="/dashboard" component={DashboardScreen}/>
           </Container>
         </main>
         <Footer/>
