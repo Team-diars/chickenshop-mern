@@ -8,11 +8,10 @@ const Employee = require("../models/Employee");
 
 const GetAllUser = async (req, res) => {
   try {
-    const users = await User.find().exec();
-    return res.json({
-      users,
-    });
+    const Users = await Employee.find({status:1});
+    return res.json(Users);
   } catch (error) {
+    console.log(error)
     return res.status(500).send("Server error");
   }
 };

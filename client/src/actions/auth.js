@@ -58,39 +58,7 @@ export const auth = (email, password) => async dispatch =>{
   }
 };
 
-export const getUserDetails = (id) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: GET_PROFILE,
-    })
-
-    const {
-      userLogin: { userInfo },
-    } = getState()
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    }
-
-    const { data } = await axios.get(`/api/users/${id}`, config)
-
-    dispatch({
-      type: GET_PROFILE,
-      payload: data,
-    })
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
-    // if (message === 'Not authorized, token failed') {
-    //   dispatch(logout())
-    // }
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: message,
-    })
-  }
+//* Log out / Clear Profile
+export const logout = () => dispatch => {
+  dispatch({type: LOGOUT});
 }

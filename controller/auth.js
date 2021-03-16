@@ -11,13 +11,11 @@ const GetUserInfo = async (req, res) => {
     const { name, lastname, role, dni } = employee;
     const { avatar } = user;
     res.json({
-      user: {
-        name,
-        lastname,
-        role,
-        dni,
-        avatar,
-      },
+      name,
+      lastname,
+      role,
+      dni,
+      avatar,
     });
   } catch (err) {
     res.status(500).send("Server Error");
