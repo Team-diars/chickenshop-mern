@@ -17,7 +17,7 @@ function App() {
           <Route exact path="/" component={HomeScreen}/>
           <Route exact path="/products" component={ProductScreen}/>
           <Route exact path="/login" component={LoginScreen}/>
-          <Route exact path="/intranet/users" component={UsersScreen}/>
+          <Route exact path="/users" component={UsersScreen}/>
         </Container>
       </main>
       <Footer/>
