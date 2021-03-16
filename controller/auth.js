@@ -6,14 +6,15 @@ const User = require("../models/User");
 const GetUserInfo = async (req, res) => {
   try {
     //* Search for User and take out the password for not showing as a result
-    const employee = await Employee.findById(req.user.id);
-    const user = await User.findById(employee.coduser).select("-password");
-    const { name, lastname, role, dni } = employee;
-    const { avatar } = user;
+    const user = await User.findById(req.user.id).select("-password");
+    const employee = await Employee.findOne({ coduser: user._id });
+    const { dni, role } = employee;
+    const { name, lastname, email, avatar } = user;
     res.json({
       name,
       lastname,
       role,
+      email,
       dni,
       avatar,
     });
