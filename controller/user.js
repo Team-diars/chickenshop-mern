@@ -41,7 +41,6 @@ const RegisterUser = async (req, res) => {
     const { coduser, email, name, lastname } = await Employee.findById(
       employeeId
     );
-    res.send(coduser);
     //* Get users gravatar
     if (coduser) {
       return res.status(500).send("Employee already has an account");
@@ -70,22 +69,12 @@ const RegisterUser = async (req, res) => {
       { new: true }
     );
     //* Return JWT (jsonwebtoken)
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
-    jwt.sign(
-      payload,
-      config.get("jwtSecret"),
-      { expiresIn: 360000 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    return res.json({
+      status: "OK",
+      msg: "User created",
+    });
   } catch (err) {
-    res.status(500).send("Server error" + err);
+    res.status(500).send("Server error");
   }
 };
 
