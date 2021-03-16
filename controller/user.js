@@ -8,10 +8,10 @@ const Employee = require("../models/Employee");
 
 const GetAllUser = async (req, res) => {
   try {
-    const Users = await Employee.find({status:1});
+    const Users = await User.find().exec();
     return res.json(Users);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send("Server error");
   }
 };
@@ -38,7 +38,10 @@ const RegisterUser = async (req, res) => {
     if (!employeeExists) {
       return res.status(500).send("Employee doesn't exists");
     }
-    const { coduser, email } = await Employee.findById(employeeId);
+    const { coduser, email, name, lastname } = await Employee.findById(
+      employeeId
+    );
+    res.send(coduser);
     //* Get users gravatar
     if (coduser) {
       return res.status(500).send("Employee already has an account");
@@ -49,6 +52,9 @@ const RegisterUser = async (req, res) => {
       d: "mm",
     });
     user = new User({
+      name,
+      lastname,
+      email,
       avatar,
       password,
     });
@@ -117,11 +123,11 @@ const UpdateUser = async (req, res) => {
 const DeleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findById(id).exec();
     if (!user) {
       res.status(500).send("User doesn't exist");
     }
-    const employee = await Employee.find({ coduser: id, status: 1 });
+    const [employee] = await Employee.find({ coduser: user._id, status: 1 });
     if (!employee) {
       res.status(500).send("There are no employees with this account");
     }

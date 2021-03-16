@@ -25,21 +25,15 @@ const GetUserInfo = async (req, res) => {
 const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const [employee] = await Employee.find({ email }).exec();
-    if (!employee) {
-      return res.status(400).json({ errors: [{ msg: "Invalid Credencials" }] });
-    }
-    const { _id: id, coduser } = employee;
-    const user = await User.findById(coduser);
+    const [user] = await User.find({ email }).exec();
     if (!user) {
       return res.status(400).json({ errors: [{ msg: "Invalid Credencials" }] });
     }
-    const { password: userPassword } = user;
-    const isMatch = await bcrypt.compare(password, userPassword);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ errors: [{ msg: "Invalid Credencials" }] });
     }
-    const token = await generateJWT(id);
+    const token = await generateJWT(user._id);
     return res.json({
       status: "OK",
       msg: "User logged",
