@@ -51,7 +51,7 @@ router.post(
     ],
     [
       check("price", "Price is required").not().isEmpty(),
-      check("price", "Price must be number").not().isString(),
+      // check("price", "Price must be number").not().isString(),
     ],
   ],
   async (req, res) => {

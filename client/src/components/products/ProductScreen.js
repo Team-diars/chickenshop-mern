@@ -2,31 +2,40 @@ import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Col, Form, ModalBody, ModalFooter, Row, Spinner, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import {getProducts} from '../../actions/product'
+import {getProducts,addProduct} from '../../actions/product'
 import {Modal} from 'reactstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
-const ProductScreen = ({getProducts, product:{products,loading}}) => {
+import PropTypes from 'prop-types'
+const ProductScreen = ({addProduct,getProducts, product:{products,loading}}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [ formData, setFormData ] = useState({
     name:'',
     category: '',
-    price: '',
+    price: 0,
   });
   const {
     name,
     category,
     price,
   } = formData;
+  useEffect(()=>{
+    getProducts();
+  },[])
   const handleOpen = () =>{
     setIsOpen(!isOpen);
   }
-  useEffect(()=>{
-    getProducts();
-  },[getProducts])
+  const submitProduct = (e) => {
+    // e.preventDefault();
+    addProduct({ name,category,price });
+    setFormData({name:'',category:'',price:0})
+    setIsOpen(!isOpen);
+  }
   const onChange = e => setFormData({ ...formData,
                                       [e.target.name]:e.target.value
                                     });
-  console.log(products)
+  console.log({name,
+    category,
+    price,})
   return (loading) ?
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
@@ -84,20 +93,10 @@ const ProductScreen = ({getProducts, product:{products,loading}}) => {
           <div className="form-group">
             <label>Product name</label>
             <br/>
-            <input type="text" 
-                    name="name" 
-                    className="form-control"
-                    value={name}
-                    onChange={(e) => onChange(e)}
-            />
+            <Form.Control name="name" value={name}  type="text" onChange={(e) => onChange(e)}/>
             <label>Product price</label>
             <br/>
-            <input type="number" 
-                    name="price"
-                    className="form-control" 
-                    value={price}
-                    onChange={(e) => onChange(e)}
-            />
+            <Form.Control type="number" step="any" name="price" value={price} onChange={(e) => onChange(e)}/>
             <label>Product category</label>
             <br/>
             <Form.Control as="select" 
@@ -107,14 +106,15 @@ const ProductScreen = ({getProducts, product:{products,loading}}) => {
                           onChange={(e) => onChange(e)}
                           custom 
                           >
+              <option>-- Select a category --</option>
               <option value="dishes">Dishes</option>
-              <option>Drinks</option>
+              <option value="drinks">Drinks</option>
             </Form.Control>
           </div>
         </ModalBody>
         <ModalFooter>
           <button className="btn btn-primary" 
-                  // onClick={postMethod}
+                  onClick={submitProduct}
           >Insert</button>
           <button className="btn btn-danger" 
                   onClick={handleOpen}
@@ -124,6 +124,7 @@ const ProductScreen = ({getProducts, product:{products,loading}}) => {
     </>
 }
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  addProduct: PropTypes.func.isRequired,
 })
-export default connect(mapStateToProps,{getProducts})(ProductScreen);
+export default connect(mapStateToProps,{getProducts,addProduct})(ProductScreen);

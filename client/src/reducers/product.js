@@ -1,4 +1,4 @@
-import {PRODUCT_ERROR,GET_PRODUCTS} from '../actions/types'
+import {PRODUCT_ERROR,GET_PRODUCTS, ADD_PRODUCT} from '../actions/types'
 const initialState = {
   posts: [],
   post: null,
@@ -9,6 +9,12 @@ const initialState = {
 export function product(state = initialState, action){
   const { type, payload } = action;
   switch(type){
+    case ADD_PRODUCT:
+      return {
+        ...state,
+        posts: [payload,...state.posts],
+        loading:false
+      }
     case GET_PRODUCTS:
       return {
         ...state,
