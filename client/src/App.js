@@ -19,6 +19,8 @@ import UserScreen from "./components/users-employee/UserScreen";
 import EmployeeScreen from "./components/employees/EmployeeScreen";
 import OrderScreen from "./components/orders/OrderScreen";
 import SaleScreen from "./components/sales/SaleScreen";
+import Alert from "./components/layout/Alert";
+import EditProduct from "./components/products/EditProduct";
 
 if(localStorage.token){
   setAuthToken(localStorage.token);
@@ -34,12 +36,14 @@ function App() {
         <Header/>
         <main className="py-3">
           <Container>
+            <Alert />
             <Route exact path="/" component={HomeScreen}/>
             <Route exact path="/login" component={LoginScreenClient}/>
             <Route exact path="/auth" component={LoginScreenEmployee}/>
             <Route exact path="/register" component={RegisterScreen}/>
             <PrivateRoute exact path="/profile" component={DashboardScreen}/>
             <PrivateRoute exact path="/products" component={ProductScreen}/>
+            <PrivateRoute exact path="/products/edit/:id" component={EditProduct}/>
             <PrivateRoute exact path="/settings" component={SettingsScreen}/>
             <PrivateRoute exact path="/users" component={UserScreen}/>
             <PrivateRoute exact path="/employees" component={EmployeeScreen}/>

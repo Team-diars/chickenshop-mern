@@ -30,7 +30,7 @@ router.get('/search/:category',async(req,res)=>{
 //* @access Private
 router.get("/", [auth], async (req, res) => {
   try {
-    const products = await Product.find({ status: 1 }).exec();
+    const products = await Product.find({ status: 1 }).sort({date: -1}).exec();
     return res.json(products);
   } catch (error) {
     res.status(500).send("Server error");
@@ -78,9 +78,7 @@ router.post(
     }
     const newProduct = new Product({ category:category.toLowerCase(), name, price });
     await newProduct.save();
-    return res.json({
-      status: "Product created successfully",
-    });
+    return res.json(newProduct);
   }
 );
 

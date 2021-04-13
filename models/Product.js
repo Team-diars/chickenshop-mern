@@ -25,6 +25,10 @@ const ProductSchema = new Schema({
     type:Number,
     default: 1,
   },
+  date:{
+    type:Date,
+    default: Date.now,
+  }
 })
 
 module.exports = model('product',ProductSchema);

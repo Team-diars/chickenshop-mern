@@ -25,8 +25,8 @@ router.get('/',[
 router.post('/',[
   auth,
   [
-    check('email','Email is required').not().isEmpty(),
-    check('email','Must be a valid email').isEmail(),
+    check('subject','Email is required').not().isEmpty(),
+    check('subject','Must be a valid email').isEmail(),
   ],
   check('suggestion','Suggestion is required').not().isEmpty()
 ],async(req,res)=>{
@@ -35,8 +35,8 @@ router.post('/',[
     return res.status(400).json({errors: errors.array()})
   }
   try {
-    const {email,suggestion} = req.body;
-    const contactForm = new Contact({email,suggestion});
+    const {subject,suggestion} = req.body;
+    const contactForm = new Contact({subject,suggestion});
     contactForm.save();
     return res.json({msg:"Suggestion has been sent!"});
   } catch (e) {

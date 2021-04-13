@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert';
-import {GET_PRODUCTS,PRODUCT_ERROR,ADD_PRODUCT} from './types'
+import {GET_PRODUCTS,PRODUCT_ERROR,ADD_PRODUCT, REMOVE_PRODUCT, CLEAR_PRODUCT} from './types'
 
 //* Add Product
 export const addProduct = (formData, history) => async dispatch => {
@@ -29,14 +29,32 @@ export const addProduct = (formData, history) => async dispatch => {
   }
 }
 
-//* Get posts
+//* Get products
 export const getProducts = () => async dispatch =>{
+  dispatch({ type: CLEAR_PRODUCT });
   try {
     const res = await axios.get('/api/product');
     dispatch({
       type: GET_PRODUCTS,
       payload: res.data
     })
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
+  }
+}
+
+//* Delete product
+export const deleteProduct = (productId) => async dispatch =>{
+  try {
+    await axios.delete(`/api/product/delete/${productId}`);
+    dispatch({
+      type: REMOVE_PRODUCT,
+      payload: productId
+    })
+    dispatch(setAlert('Product Removed','danger'));
   } catch (err) {
     dispatch({
       type: PRODUCT_ERROR,
