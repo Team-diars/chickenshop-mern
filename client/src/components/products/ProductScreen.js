@@ -121,41 +121,6 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
           >Cancel</button>
         </ModalFooter>
       </Modal>
-      <Modal isOpen={isOpen}>
-        <ModalHeader>Add Product</ModalHeader>
-        <ModalBody>
-          <div className="form-group">
-            <label>Product name</label>
-            <br/>
-            <Form.Control name="name" value={name}  type="text" onChange={(e) => onChange(e)}/>
-            <label>Product price</label>
-            <br/>
-            <Form.Control type="number" step="any" name="price" value={price} onChange={(e) => onChange(e)}/>
-            <label>Product category</label>
-            <br/>
-            <Form.Control as="select" 
-                          size="sm" 
-                          name="category"
-                          value={category}
-                          onChange={(e) => onChange(e)}
-                          custom 
-                          >
-              <option>-- Select a category --</option>
-              <option value="dishes">Dishes</option>
-              <option value="drinks">Drinks</option>
-            </Form.Control>
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <button className="btn btn-primary" 
-                  onClick={submitProduct}
-          >Insert</button>
-          <button className="btn btn-danger" 
-                  onClick={handleOpen}
-          >Cancel</button>
-        </ModalFooter>
-      </Modal>
-
     </>
 }
 const mapStateToProps = state => ({

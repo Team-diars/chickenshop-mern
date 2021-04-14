@@ -37,6 +37,19 @@ router.get("/", [auth], async (req, res) => {
   }
 });
 
+//* @route  GET api/product/:id
+//* @des    Get product by ID
+//* @access Private
+router.get("/:id", [auth], async (req, res) => {
+  try {
+    const {id} = req.params;
+    const product = await Product.find({ _id:id, status: 1 }).exec();
+    return res.json(product);
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
+});
+
 //* @route  POST api/product
 //* @des    Register product
 //* @access Private
@@ -74,7 +87,7 @@ router.post(
     if (exists) {
       console.log(true);
       await Product.findOneAndUpdate({ name, category, price },{ name, status: 1 });
-      return res.json({ status: "Product created successfully" });
+      return res.json(product);
     }
     const newProduct = new Product({ category:category.toLowerCase(), name, price });
     await newProduct.save();
