@@ -9,13 +9,10 @@ const editProduct = async (req, res) => {
     if (!exists) {
       return res.status(500).send("Product doesn't exist");
     }
-    const productUpdated = await Product.findByIdAndUpdate(
-      id,
-      { category:category.toLowerCase(), name, price },
-      {
-        new: true,
-      }
-    );
+    const productUpdated = 
+          await Product.findByIdAndUpdate(id,
+                                          { category:category.toLowerCase(), name, price },
+                                          { new: true });
     return res.json({
       status: "Product updated",
       newproduct: productUpdated,

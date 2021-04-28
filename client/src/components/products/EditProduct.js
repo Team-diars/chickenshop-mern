@@ -1,52 +1,71 @@
 import React, { useEffect, useState } from 'react'
-import {Form, ModalBody, ModalFooter, Spinner } from 'react-bootstrap';
+import {Button, Form, ModalBody, ModalFooter, Spinner } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import { useParams } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import {getProductByID} from '../../actions/product'
-const EditProduct = ({getProductByID,product:{products,loading}}) => {
-  // const [ formData, setFormData ] = useState({
-  //   name_edit:'',
-  //   category_edit: '',
-  //   price_edit: 0,
-  // });
-  // const {
-  //   name,
-  //   category,
-  //   price,
-  // } = formData;
-  // const onChange = e => setFormData({ ...formData,
-  //   [e.target.name]:e.target.value
-  // });
-  const { id } = useParams();
-  console.log(id)
-  useEffect(async()=>{
+import {getProductByID,updateProduct} from '../../actions/product'
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { profile_url } from 'gravatar';
+const EditProduct = ({history,getProductByID,updateProduct,product:{products,loading},match}) => {
+  const {_id,name,category,price} = products;
+  // console.log(products)
+  const [ formData, setFormData ] = useState({
+    _id: null,
+    name: "",
+    category: "",
+    price: 0,
+  });
+  
+  const dispatch = useDispatch();
+  const getProduct = (id) =>{
     getProductByID(id);
-  },[])
-  console.log(products)
-  const { name, price, category } = products[0];
+  }
+  useEffect(()=>{
+    getProduct(match.params.id);
+  },[match.params.id]);
+
+  useEffect(() => {
+    setFormData({
+      _id: products._id,
+      name: products.name,
+      category: products.category,
+      price: products.price
+    });
+  },[products])
+  const onChange = e => setFormData({ 
+    ...formData,
+    [e.target.name]:e.target.value
+  });
+  
+  const updatingProduct = (e) =>{
+    e.preventDefault();
+    // updateProduct(formData._id,formData);
+  }
+
+  
   return (loading) ?
     <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
     </Spinner> :
-    <div>
+    <Form onSubmit={updatingProduct}>
         <ModalHeader>Edit Product</ModalHeader>
         <ModalBody>
           <div className="form-group">
             <label>Product name</label>
             <br/>
-            <Form.Control name="name" value={name}  type="text" />
+            <Form.Control name="name" value={formData.name} type="text" onChange={ (e) => onChange(e)}/>
             <label>Product price</label>
             <br/>
-            <Form.Control type="number" step="any" name="price" value={price} />
+            <Form.Control name="price" step="any" type="number" value={formData.price} onChange={ (e) => onChange(e)}/>
             <label>Product category</label>
             <br/>
             <Form.Control as="select" 
                           size="sm" 
                           name="category"
-                          value={category}
-                          
+                          value={formData.category}
+                          onChange={ (e) => onChange(e)}
                           custom 
                           >
               <option>-- Select a category --</option>
@@ -56,16 +75,23 @@ const EditProduct = ({getProductByID,product:{products,loading}}) => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-primary" 
-          >Insert</button>
-          <button className="btn btn-danger" 
-          >Cancel</button>
+          <Button
+              type="submit"
+              variant='warning'
+              className='btn-sm'
+              >
+                Update
+          </Button>
+          <Link to="/products" className="btn btn-danger">
+            Cancel
+          </Link>
         </ModalFooter>
-      </div>
+      </Form>
   
 }
 const mapStateToProps = state => ({
   product: state.product,
   getProductByID: PropTypes.func.isRequired,
+  updateProduct: PropTypes.func.isRequired,
 })
-export default connect(mapStateToProps,{getProductByID})(EditProduct)
+export default connect(mapStateToProps,{getProductByID,updateProduct})(EditProduct)

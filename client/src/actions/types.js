@@ -33,3 +33,4 @@ export const EMPLOYEE_ERROR = 'EMPLOYEE_ERROR';
 export const GET_USERS = 'GET_USERS';
 export const USER_ERROR = 'USER_ERROR';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const EDIT_PRODUCT = 'EDIT_PRODUCT';

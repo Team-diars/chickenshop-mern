@@ -1,4 +1,4 @@
-import {PRODUCT_ERROR,GET_PRODUCTS, ADD_PRODUCT, REMOVE_PRODUCT, CLEAR_PRODUCT, GET_PRODUCT} from '../actions/types'
+import {PRODUCT_ERROR,GET_PRODUCTS, ADD_PRODUCT, REMOVE_PRODUCT, CLEAR_PRODUCT, GET_PRODUCT, EDIT_PRODUCT} from '../actions/types'
 const initialState = {
   products: [],
   product: null,
@@ -22,6 +22,17 @@ export function product(state = initialState, action){
         products: payload,
         loading: false
       };
+    case EDIT_PRODUCT:
+      return state.products.map((product) => {
+        if (product._id === payload){
+          return {
+            products: [...product,...payload],
+            loading:false
+          }
+        }else{
+          return product
+        }
+      })
     case REMOVE_PRODUCT: 
       return {
         ...state,
