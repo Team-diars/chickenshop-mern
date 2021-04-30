@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { profile_url } from 'gravatar';
 import store from "../../store";
-const EditProduct = ({history,getProductByID,updateProduct,product:{product,products,loading},match}) => {
+const EditProduct = ({history,getProductByID,updateProduct,product:{product,loading},match}) => {
   // const {_id,name,category,price} = products;
   console.log("Products >",product)
   const [ formData, setFormData ] = useState({
@@ -35,7 +35,7 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,prod
         price: product.price
       });
     }
-  },[products,loading])
+  },[product,loading])
 
   const onChange = e => setFormData({ 
     ...formData,
