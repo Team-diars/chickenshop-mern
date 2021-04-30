@@ -2,7 +2,6 @@ import axios from 'axios'
 import { useHistory } from 'react-router';
 import { setAlert } from './alert';
 import {GET_PRODUCTS,EDIT_PRODUCT,PRODUCT_ERROR,ADD_PRODUCT, REMOVE_PRODUCT, CLEAR_PRODUCT, GET_PRODUCT} from './types'
-
 //* Add Product
 export const addProduct = (formData, history) => async dispatch => {
   try {
@@ -31,33 +30,35 @@ export const addProduct = (formData, history) => async dispatch => {
 }
 
 //* Update Product
-export const updateProduct = (id,data) => async (dispatch,getState) => {
-  const history = useHistory();
+export const updateProduct = (id,formData,history) => async (dispatch) => {
+  // console.log(`Data >>`, {id,data:formData});
+  // const history = useHistory();
+  // console.log(history)
   try {
-    console.log(`Data >>`, {id,data});
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     }
-    const res = await axios.put(`/api/product/${id}`,data,config)
-    console.log('Response PUT >>> ',res);
+    const res = await axios.put(`/api/product/edit/${id}`,formData,config)
+    // console.log('Response PUT >>> ',res);
     dispatch({
       type:EDIT_PRODUCT,
-      payload:res.data
+      payload: {id, products: res.data}
     });
-    dispatch(setAlert('Product Updated','success'));
     history.push('/products');
+    dispatch(setAlert('Product Updated','success'));
     // return Promise.resolve(res.data);
   } catch (err) {
-    const errors = err.response.data.errors;
-    if(errors){
-      errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
-    }
-    dispatch({
-      type: PRODUCT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    })
+    console.log(err)
+    // const errors = err.response.data.errors;
+    // if(errors){
+    //   errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
+    // }
+    // dispatch({
+    //   type: PRODUCT_ERROR,
+    //   payload: { msg: err.response.statusText, status: err.response.status }
+    // })
   }
 }
 

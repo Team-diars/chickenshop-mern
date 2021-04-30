@@ -13,10 +13,7 @@ const editProduct = async (req, res) => {
           await Product.findByIdAndUpdate(id,
                                           { category:category.toLowerCase(), name, price },
                                           { new: true });
-    return res.json({
-      status: "Product updated",
-      newproduct: productUpdated,
-    });
+    return res.json(productUpdated);
   } catch (error) {
     if (error.code === 11000) {
       return res.status(500).send("Product duplicated");

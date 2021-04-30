@@ -16,23 +16,32 @@ export function product(state = initialState, action){
         loading:false
       }
     case GET_PRODUCTS:
-    case GET_PRODUCT:
       return {
         ...state,
         products: payload,
         loading: false
       };
+    case GET_PRODUCT:
+      return {
+        ...state,
+        product: payload,
+        loading: false
+      };
     case EDIT_PRODUCT:
-      return state.products.map((product) => {
-        if (product._id === payload){
-          return {
-            products: [...product,...payload],
-            loading:false
-          }
-        }else{
-          return product
+      console.log(`Reducers - Payload >>`,payload);
+      console.log(`Array >>`,state.product);
+      if (state.product._id === payload.id){
+        console.log(true)
+        const {products:{_id,category,name,price}} = payload;
+        // state.products = {}
+        return {
+          ...state,
+          product: [...state.products, {_id,category,name,price}]
         }
-      })
+      }else{
+        console.log(false)
+        return product
+      }
     case REMOVE_PRODUCT: 
       return {
         ...state,
