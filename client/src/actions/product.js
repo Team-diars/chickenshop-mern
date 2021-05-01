@@ -31,9 +31,6 @@ export const addProduct = (formData, history) => async dispatch => {
 
 //* Update Product
 export const updateProduct = (id,formData,history) => async (dispatch) => {
-  // console.log(`Data >>`, {id,data:formData});
-  // const history = useHistory();
-  // console.log(history)
   try {
     const config = {
       headers: {
@@ -41,24 +38,22 @@ export const updateProduct = (id,formData,history) => async (dispatch) => {
       }
     }
     const res = await axios.put(`/api/product/edit/${id}`,formData,config)
-    // console.log('Response PUT >>> ',res);
     dispatch({
       type:EDIT_PRODUCT,
       payload: {id, products: res.data}
     });
     history.push('/products');
     dispatch(setAlert('Product Updated','success'));
-    // return Promise.resolve(res.data);
   } catch (err) {
-    console.log(err)
-    // const errors = err.response.data.errors;
-    // if(errors){
-    //   errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
-    // }
-    // dispatch({
-    //   type: PRODUCT_ERROR,
-    //   payload: { msg: err.response.statusText, status: err.response.status }
-    // })
+    console.log(err.response.data.errors)
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
+    }
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
   }
 }
 
@@ -98,17 +93,19 @@ export const getProductByID = (id) => async dispatch =>{
 
 //* Delete product
 export const deleteProduct = (productId) => async dispatch =>{
-  try {
-    await axios.delete(`/api/product/delete/${productId}`);
-    dispatch({
-      type: REMOVE_PRODUCT,
-      payload: productId
-    })
-    dispatch(setAlert('Product Removed','danger'));
-  } catch (err) {
-    dispatch({
-      type: PRODUCT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    })
+  if (window.confirm('Are you sure you want to delete this product?')) {
+    try {
+      await axios.delete(`/api/product/delete/${productId}`);
+      dispatch({
+        type: REMOVE_PRODUCT,
+        payload: productId
+      })
+      dispatch(setAlert('Product Removed','danger'));
+    } catch (err) {
+      dispatch({
+        type: PRODUCT_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      })
+    }
   }
 }

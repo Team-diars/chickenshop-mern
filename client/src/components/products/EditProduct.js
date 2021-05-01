@@ -10,16 +10,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { profile_url } from 'gravatar';
 import store from "../../store";
 const EditProduct = ({history,getProductByID,updateProduct,product:{product,loading},match}) => {
-  // const {_id,name,category,price} = products;
-  console.log("Products >",product)
   const [ formData, setFormData ] = useState({
     _id: null,
     name: "",
     category: "",
     price: 0,
   });
-  const [hasLoaded, setHasLoaded] = useState();
-  const dispatch = useDispatch();
   const getProduct = (id) =>{
     getProductByID(id);
   }
@@ -27,27 +23,23 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
     getProduct(match.params.id);
   },[match.params.id]);
   useEffect(() => {
-    if(!loading){
+    if(!loading && product){
+      console.log("Product >",product)
       setFormData({
-        _id: product._id,
-        name: product.name,
-        category: product.category,
-        price: product.price
+        _id: product._id || "",
+        name: product.name || "",
+        category: product.category || "",
+        price: product.price || 0
       });
     }
   },[product,loading])
-
-  const onChange = e => setFormData({ 
-    ...formData,
-    [e.target.name]:e.target.value
-  });
-  
-  const updatingProduct = (e) =>{
-    // e.preventDefault();
-    // updateProduct(formData._id,formData);
+  const onChange = e => {
+    const { name, value, type } = e.target;
+    setFormData({ 
+      ...formData,
+      [name]:type === "number" ? parseInt(value) : value
+    });
   }
-  console.log(loading);
-  
   return (!loading) ?
     <>
       <ModalHeader>Edit Product</ModalHeader>
@@ -58,7 +50,7 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
           <Form.Control name="name" value={formData.name} type="text" onChange={ (e) => onChange(e)}/>
           <label>Product price</label>
           <br/>
-          <Form.Control name="price" step="any" type="number" value={formData.price} onChange={ (e) => onChange(e)}/>
+          <Form.Control type="number" step="any" name="price" value={formData.price} onChange={(e) => onChange(e)}/>
           <label>Product category</label>
           <br/>
           <Form.Control as="select" 
@@ -68,7 +60,7 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
                         onChange={ (e) => onChange(e)}
                         custom 
                         >
-            <option>-- Select a category --</option>
+            <option value="">-- Select a category --</option>
             <option value="dishes">Dishes</option>
             <option value="drinks">Drinks</option>
           </Form.Control>

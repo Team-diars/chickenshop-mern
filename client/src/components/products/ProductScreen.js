@@ -106,7 +106,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
                           onChange={(e) => onChange(e)}
                           custom 
                           >
-              <option>-- Select a category --</option>
+              <option value="">-- Select a category --</option>
               <option value="dishes">Dishes</option>
               <option value="drinks">Drinks</option>
             </Form.Control>
