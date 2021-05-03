@@ -20,13 +20,26 @@ router.get("/", getEmployees);
 //* @route  GET api/employee/:id
 //* @des    Get employee by ID
 //* @access Private
+router.get("/:id", [auth], async (req, res) => {
+  try {
+    const {id} = req.params;
+    const employee = await Employee.find({ _id:id, status: 1 }).exec();
+    return res.json(employee[0]);
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
+});
+
+//* @route  GET api/employee/:id
+//* @des    Get employee by ID
+//* @access Private
 router.get("/:id", [auth], getEmployee);
 
-//* @route  POST api/employee/register
+//* @route  POST api/employee/
 //* @des    Register new employee
 //* @access Private
 router.post(
-  "/register",
+  "/",
   [
     auth,
     check("name", "Name is required").not().isEmpty(),

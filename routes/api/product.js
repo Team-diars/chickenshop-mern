@@ -30,7 +30,7 @@ router.get('/search/:category',async(req,res)=>{
 //* @access Private
 router.get("/", [auth], async (req, res) => {
   try {
-    const products = await Product.find({ status: 1 }).sort({date: -1}).exec();
+    const products = await Product.find({ status: 1 }).sort({date: 1}).exec();
     return res.json(products);
   } catch (error) {
     res.status(500).send("Server error");
@@ -85,8 +85,7 @@ router.post(
     }
     const exists = await Product.exists({ name: name, status: 0 });
     if (exists) {
-      console.log(true);
-      await Product.findOneAndUpdate({ name, category, price },{ name, status: 1 });
+      const product = await Product.findOneAndUpdate({ name },{ category:category.toLowerCase(), price, status: 1 });
       return res.json(product);
     }
     const newProduct = new Product({ category:category.toLowerCase(), name, price });
@@ -139,8 +138,12 @@ router.put(
       const { id } = req.params;
       const { category, name, price } = req.body;
       const exists = await Product.exists({ _id: id, status: 1 });
-      if (!exists) {
-        return res.status(500).send("Product doesn't exist");
+      if (!exists) return res.status(500).send("Product doesn't exist");
+      const duplicatedProduct = await Product.exists({ name: name, status: 0 });
+      if (duplicatedProduct) {
+        await Product.findByIdAndRemove(id);
+        const productUpdated = await Product.findOneAndUpdate({ name, status:0 },{ name,category:category.toLowerCase(), status: 1 });
+        return res.json(productUpdated);
       }
       const productUpdated = await Product.findByIdAndUpdate(id,
                                             { category:category.toLowerCase(), name, price },

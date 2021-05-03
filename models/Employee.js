@@ -36,6 +36,10 @@ const EmployeeSchema = Schema({
     type: Number,
     default: 1,
   },
+  date:{
+    type:Date,
+    default: Date.now,
+  }
 });
 
 module.exports = model("employee", EmployeeSchema);

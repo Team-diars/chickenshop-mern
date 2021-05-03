@@ -2,7 +2,7 @@ const Employee = require("../models/Employee");
 
 const getEmployees = async (req, res) => {
   try {
-    const employees = await Employee.find({ status: 1 }).exec();
+    const employees = await Employee.find({ status: 1 }).sort({date: 1}).exec();
     return res.json(employees);
   } catch (error) {
     return res.status(500).send("Server error");
@@ -32,10 +32,7 @@ const registerEmployee = async (req, res) => {
         { dni },
         { name, lastname, role, dni, address, email, status: 1 }
       );
-      return res.json({
-        status: "OK",
-        newEmployee: employee,
-      });
+      return res.json(employee);
     }
     const newEmployee = new Employee({
       name,
@@ -46,10 +43,7 @@ const registerEmployee = async (req, res) => {
       email,
     });
     await newEmployee.save();
-    return res.json({
-      status: "Employee registered",
-      newEmployee: newEmployee,
-    });
+    return res.json(newEmployee);
   } catch (error) {
     if (error.code === 11000) {
       return res.status(500).send("Employee is already registered");
@@ -63,20 +57,17 @@ const updateEmployee = async (req, res) => {
     const { id } = req.params;
     const { name, lastname, role, dni, address, email } = req.body;
     const exists = await Employee.exists({ _id: id, status: 1 });
-    if (!exists) {
-      return res.status(500).send("Employee doesn't exist");
+    if (!exists) return res.status(500).send("Employee doesn't exist");
+    const duplicatedEmployee = await Employee.exists({ dni: dni, status: 0 });
+    if (duplicatedEmployee) {
+      await Employee.findByIdAndRemove(id);
+      const employeeUpdated = await Employee.findOneAndUpdate({ dni, status:0 },{ name, lastname, role, dni, address, email, status: 1 });
+      return res.json(employeeUpdated);
     }
     const employee = await Employee.findByIdAndUpdate(
-      id,
-      { name, lastname, role, dni, address, email },
-      {
-        new: true,
-      }
+      id,{ name, lastname, role, dni, address, email }, { new: true }
     );
-    res.json({
-      status: "Employee updated",
-      employee: employee,
-    });
+    return res.json(employee);
   } catch (error) {
     if (error.code === 11000) {
       return res.status(500).send("Employee is already registered");
@@ -89,20 +80,12 @@ const deleteEmployee = async (req, res) => {
   try {
     const { id } = req.params;
     const employee = await Employee.exists({ _id: id, status: 1 });
-    if (!employee) {
-      return res.status(500).send("Employee doesn't exist");
-    }
-    await Employee.findByIdAndUpdate(
-      id,
-      { status: 0 },
-      {
-        new: true,
-      }
-    );
-    return res.json({
-      status: "Employee was removed Successfully",
-    });
-  } catch (error) {}
+    if (!employee) return res.status(500).send("Employee doesn't exist");
+    await Employee.findByIdAndUpdate(id,{ status: 0 }, { new: true });
+    return res.json({ status: "Employee was removed Successfully" });
+  } catch (error) {
+    return res.status(500).send("Server error");
+  }
 };
 
 module.exports = {
