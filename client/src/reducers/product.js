@@ -28,18 +28,13 @@ export function product(state = initialState, action){
         loading: false
       };
     case EDIT_PRODUCT:
-      console.log(`Reducers - Payload >>`,payload);
-      console.log(`Array >>`,state.product);
       if (state.product._id === payload.id){
-        console.log(true)
         const {products:{_id,category,name,price}} = payload;
-        // state.products = {}
         return {
           ...state,
           product: [...state.products, {_id,category,name,price}]
         }
       }else{
-        console.log(false)
         return product
       }
     case REMOVE_PRODUCT: 

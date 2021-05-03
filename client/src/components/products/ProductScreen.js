@@ -8,9 +8,6 @@ import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import PropTypes from 'prop-types'
 const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,loading}}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [modalEdit, setModalEdit]= useState(false);
-  const [modalDelete, setModalDelete]= useState(false);
-
   const [ formData, setFormData ] = useState({
     name:'',
     category: '',
@@ -22,8 +19,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
     price,
   } = formData;
   const handleOpen = () => setIsOpen(!isOpen);
-  const submitProduct = (e) => {
-    // e.preventDefault();
+  const submitProduct = () => {
     addProduct({ name,category,price });
     setFormData({name:'',category:'',price:0})
     setIsOpen(!isOpen);
@@ -34,11 +30,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
   const onChange = e => setFormData({ ...formData,
                                       [e.target.name]:e.target.value
                                     });
-  console.log(products)
-  return (loading) ?
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner> :
+  return (
       <>
         <Row className='align-items-center'>
           <Col>
@@ -50,19 +42,25 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
             </Button>
           </Col>
         </Row>
-      <>
-        <Table striped bordered hover responsive className='table-sm '>
+      <div className="d-flex justify-content-center align-items-center">
+      {
+        (loading) ? 
+          <Spinner animation="border" role="status">
+                  <span className="sr-only"></span>
+          </Spinner> :
+          <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
               <th>ID</th>
               <th>NAME</th>
               <th>PRICE</th>
               <th>CATEGORY</th>
-              <th></th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {products.map((product,idx) => (
+          {
+            products.map((product,idx) => (
               <tr key={idx}>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
@@ -70,7 +68,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
                 <td>{product.category}</td>
                 <td>
                   <LinkContainer to={`/products/edit/${product._id}`}>
-                    <Button variant='light' className='btn-sm'>
+                    <Button variant='warning' className='btn-sm'>
                       <i className='fas fa-edit'></i>
                     </Button>
                   </LinkContainer>
@@ -83,10 +81,12 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
                   </Button>
                 </td>
               </tr>
-            ))}
+            ))
+          }
           </tbody>
         </Table>
-      </>
+      }
+      </div>
       <Modal isOpen={isOpen}>
         <ModalHeader>Add Product</ModalHeader>
         <ModalBody>
@@ -122,10 +122,14 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
         </ModalFooter>
       </Modal>
     </>
+  )
 }
 const mapStateToProps = state => ({
   product: state.product,
+})
+ProductScreen.propTypes = {
+  getProducts: PropTypes.func.isRequired,
   addProduct: PropTypes.func.isRequired,
   deleteProduct: PropTypes.func.isRequired,
-})
+}
 export default connect(mapStateToProps,{getProducts,addProduct,deleteProduct})(ProductScreen);

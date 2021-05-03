@@ -21,6 +21,7 @@ import OrderScreen from "./components/orders/OrderScreen";
 import SaleScreen from "./components/sales/SaleScreen";
 import Alert from "./components/layout/Alert";
 import EditProduct from "./components/products/EditProduct";
+import EditEmployee from "./components/employees/EditEmployee";
 
 if(localStorage.token){
   setAuthToken(localStorage.token);
@@ -44,9 +45,10 @@ function App() {
             <PrivateRoute exact path="/profile" component={DashboardScreen}/>
             <PrivateRoute exact path="/products" component={ProductScreen}/>
             <PrivateRoute exact path="/products/edit/:id" component={EditProduct}/>
+            <PrivateRoute exact path="/employees" component={EmployeeScreen}/>
+            <PrivateRoute exact path="/employees/edit/:id" component={EditEmployee}/>
             <PrivateRoute exact path="/settings" component={SettingsScreen}/>
             <PrivateRoute exact path="/users" component={UserScreen}/>
-            <PrivateRoute exact path="/employees" component={EmployeeScreen}/>
             <PrivateRoute exact path="/orders" component={OrderScreen}/>
             <PrivateRoute exact path="/sales" component={SaleScreen}/>
           </Container>

@@ -40,50 +40,57 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
       [name]:type === "number" ? parseInt(value) : value
     });
   }
-  return (!loading) ?
+  return (
     <>
       <ModalHeader>Edit Product</ModalHeader>
-      <ModalBody>
-        <div className="form-group">
-          <label>Product name</label>
-          <br/>
-          <Form.Control name="name" value={formData.name} type="text" onChange={ (e) => onChange(e)}/>
-          <label>Product price</label>
-          <br/>
-          <Form.Control type="number" step="any" name="price" value={formData.price} onChange={(e) => onChange(e)}/>
-          <label>Product category</label>
-          <br/>
-          <Form.Control as="select" 
-                        size="sm" 
-                        name="category"
-                        value={formData.category}
-                        onChange={ (e) => onChange(e)}
-                        custom 
-                        >
-            <option value="">-- Select a category --</option>
-            <option value="dishes">Dishes</option>
-            <option value="drinks">Drinks</option>
-          </Form.Control>
-        </div>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-            type="submit"
-            variant='warning'
-            className='btn-sm'
-            onClick={() => updateProduct(match.params.id,formData,history)}
-            >
-              Update
-        </Button>
-        <Link to="/products" className="btn btn-danger">
-          Cancel
-        </Link>
-      </ModalFooter>
-    </>:
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner>
-      
+      {
+        (loading) ? 
+          <div className="container p-5 d-flex justify-content-center align-items-center">
+            <Spinner animation="border" role="status">
+              <span className="sr-only"></span>
+            </Spinner>
+          </div> :
+          <>
+            <ModalBody>
+              <div className="form-group">
+                <label>Product name</label>
+                <br/>
+                <Form.Control name="name" value={formData.name} type="text" onChange={ (e) => onChange(e)}/>
+                <label>Product price</label>
+                <br/>
+                <Form.Control type="number" step="any" name="price" value={formData.price} onChange={(e) => onChange(e)}/>
+                <label>Product category</label>
+                <br/>
+                <Form.Control as="select" 
+                              size="sm" 
+                              name="category"
+                              value={formData.category}
+                              onChange={ (e) => onChange(e)}
+                              custom 
+                              >
+                <option value="">-- Select a category --</option>
+                <option value="dishes">Dishes</option>
+                <option value="drinks">Drinks</option>
+              </Form.Control>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+                type="submit"
+                variant='warning'
+                className='btn-sm'
+                onClick={() => updateProduct(match.params.id,formData,history)}
+                >
+                  Update
+            </Button>
+            <Link to="/products" className="btn btn-danger">
+              Cancel
+            </Link>
+          </ModalFooter>
+        </>
+      }
+    </>
+  )
 }
 const mapStateToProps = state => ({
   product: state.product,

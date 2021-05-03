@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { useHistory } from 'react-router';
 import { setAlert } from './alert';
 import {GET_PRODUCTS,EDIT_PRODUCT,PRODUCT_ERROR,ADD_PRODUCT, REMOVE_PRODUCT, CLEAR_PRODUCT, GET_PRODUCT} from './types'
 //* Add Product
-export const addProduct = (formData, history) => async dispatch => {
+export const addProduct = (formData) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -16,7 +15,6 @@ export const addProduct = (formData, history) => async dispatch => {
       payload:res.data
     });
     dispatch(setAlert('Product Added','success'));
-    // history.push('/dashboard');
   } catch (err) {
     const errors = err.response.data.errors;
     if(errors){
@@ -45,7 +43,6 @@ export const updateProduct = (id,formData,history) => async (dispatch) => {
     history.push('/products');
     dispatch(setAlert('Product Updated','success'));
   } catch (err) {
-    console.log(err.response.data.errors)
     const errors = err.response.data.errors;
     if(errors){
       errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
@@ -92,13 +89,13 @@ export const getProductByID = (id) => async dispatch =>{
 }
 
 //* Delete product
-export const deleteProduct = (productId) => async dispatch =>{
+export const deleteProduct = (id) => async dispatch =>{
   if (window.confirm('Are you sure you want to delete this product?')) {
     try {
-      await axios.delete(`/api/product/delete/${productId}`);
+      await axios.delete(`/api/product/delete/${id}`);
       dispatch({
         type: REMOVE_PRODUCT,
-        payload: productId
+        payload: id
       })
       dispatch(setAlert('Product Removed','danger'));
     } catch (err) {
