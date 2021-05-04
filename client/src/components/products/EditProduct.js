@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {Button, Form, ModalBody, ModalFooter, Spinner } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
-import { useParams } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import {getProductByID,updateProduct} from '../../actions/product'
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'
-import { profile_url } from 'gravatar';
-import store from "../../store";
 const EditProduct = ({history,getProductByID,updateProduct,product:{product,loading},match}) => {
   const [ formData, setFormData ] = useState({
     _id: null,
@@ -32,7 +28,7 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
         price: product.price || 0
       });
     }
-  },[product,loading])
+  },[product,loading]);
   const onChange = e => {
     const { name, value, type } = e.target;
     setFormData({ 
@@ -78,7 +74,7 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
             <Button
                 type="submit"
                 variant='warning'
-                className='btn-sm'
+                className='btn'
                 onClick={() => updateProduct(match.params.id,formData,history)}
                 >
                   Update
@@ -94,7 +90,9 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
 }
 const mapStateToProps = state => ({
   product: state.product,
+})
+EditProduct.propTypes = {
   getProductByID: PropTypes.func.isRequired,
   updateProduct: PropTypes.func.isRequired,
-})
+}
 export default connect(mapStateToProps,{getProductByID,updateProduct})(EditProduct)
