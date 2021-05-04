@@ -11,6 +11,7 @@ const {
 const { checkRole } = require("../../lib/checkRole");
 const auth = require("../../middleware/auth");
 const { fieldValidation } = require("../../middleware/fieldValidation");
+const Employee = require("../../models/Employee");
 
 //* @route  GET api/employee
 //* @des    Get all employees
@@ -65,11 +66,11 @@ router.post(
   registerEmployee
 );
 
-//* @route  PUT api/employee/update/:id
+//* @route  PUT api/employee/edit/:id
 //* @des    Updating employee by ID
 //* @access Private
 router.put(
-  "/update/:id",
+  "/edit/:id",
   [
     auth,
     check("name", "Name is required").not().isEmpty(),
