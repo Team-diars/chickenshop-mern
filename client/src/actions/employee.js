@@ -56,7 +56,7 @@ export const updateEmployee = (id,formData,history) => async (dispatch) => {
       type:EDIT_EMPLOYEE,
       payload: {id, employees: res.data}
     });
-    history.push('/employee');
+    history.push('/employees');
     dispatch(setAlert('Employee Updated','success'));
   } catch (err) {
     const errors = err.response.data.errors;
