@@ -45,7 +45,7 @@ const Header = ({auth: {isAuthenticated, loading},logout}) => {
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' className="navbar-dark bg-primary" collapseOnSelect>
         <Container>
-          <Navbar.Brand href="/">Shop</Navbar.Brand>
+          <Navbar.Brand href="/">Harike</Navbar.Brand>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ml-auto'>
