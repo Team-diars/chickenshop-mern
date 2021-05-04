@@ -78,7 +78,7 @@ const EmployeeScreen = ({getEmployees,addEmployee,deleteEmployee, employee:{empl
                     <td>{employee.address}</td>
                     <td>
                       <LinkContainer to={`/employees/edit/${employee._id}`}>
-                        <Button variant='light' className='btn-sm'>
+                        <Button variant='warning' className='btn-sm'>
                           <i className='fas fa-edit'></i>
                         </Button>
                       </LinkContainer>
