@@ -26,10 +26,23 @@ const getEmployee = async (req, res) => {
 const registerEmployee = async (req, res) => {
   try {
     const { name, lastname, role, dni, address, email } = req.body;
-    const exists = await Employee.exists({ dni: dni, status: 0 });
-    if (exists) {
+    const existsDNI = await Employee.exists({ dni, status: 0 });
+    const existsEmail = await Employee.exists({ email, status: 0 });
+    if (existsDNI && existsEmail) {
+      const employee = await Employee.findOneAndUpdate(
+        { dni, email },
+        { name, lastname, role, dni, address, email, status: 1 }
+      );
+      return res.json(employee);
+    }else if (existsDNI){
       const employee = await Employee.findOneAndUpdate(
         { dni },
+        { name, lastname, role, dni, address, email, status: 1 }
+      );
+      return res.json(employee);
+    }else if(existsEmail){
+      const employee = await Employee.findOneAndUpdate(
+        { email },
         { name, lastname, role, dni, address, email, status: 1 }
       );
       return res.json(employee);
@@ -58,11 +71,28 @@ const updateEmployee = async (req, res) => {
     const { name, lastname, role, dni, address, email } = req.body;
     const exists = await Employee.exists({ _id: id, status: 1 });
     if (!exists) return res.status(500).send("Employee doesn't exist");
+    const isSameEmployee = await Employee.exists({_id:id, dni,email});
     const duplicatedEmployee = await Employee.exists({ dni: dni, status: 0 });
+    const EmployeeDNI = await Employee.exists({ dni, status: 1 });
+    const EmployeeEmail = await Employee.exists({ email, status: 1 });
     if (duplicatedEmployee) {
       await Employee.findByIdAndRemove(id);
       const employeeUpdated = await Employee.findOneAndUpdate({ dni, status:0 },{ name, lastname, role, dni, address, email, status: 1 });
       return res.json(employeeUpdated);
+    }else {
+      if (EmployeeDNI && EmployeeEmail && !isSameEmployee ){
+        return res.status(500).json({
+          errors: [{msg:`There is an employee with those dni and email registered`}]
+        });
+      }else if (EmployeeDNI && !isSameEmployee){
+        return res.status(500).json({
+          errors: [{msg:`There is an employee with this DNI registered`}]
+        });
+      }else if (EmployeeEmail && !isSameEmployee) {
+        return res.status(500).json({
+          errors: [{msg:`There is an employee with this email registered`}]
+        });
+      }
     }
     const employee = await Employee.findByIdAndUpdate(
       id,{ name, lastname, role, dni, address, email }, { new: true }
