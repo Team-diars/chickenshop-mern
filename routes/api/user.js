@@ -143,11 +143,11 @@ router.get("/", auth, GetAllUser);
 //* @access Private
 router.get("/:id", auth, SelectUserbyId);
 
-//* @route  PUT api/user/update
+//* @route  PUT api/user/edit
 //* @des    Update user by id
 //* @access Private
 router.put(
-  "/update/:id",
+  "/edit/:id",
   [
     auth,
     check("password", "Please enter your current password").not().isEmpty(),

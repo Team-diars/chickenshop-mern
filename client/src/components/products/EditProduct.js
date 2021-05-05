@@ -20,7 +20,6 @@ const EditProduct = ({history,getProductByID,updateProduct,product:{product,load
   },[match.params.id]);
   useEffect(() => {
     if(!loading && product){
-      console.log("Product >",product)
       setFormData({
         _id: product._id || "",
         name: product.name || "",

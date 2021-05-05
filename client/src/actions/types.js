@@ -18,6 +18,9 @@ export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const USER_LOADED = 'USER_LOADED';
 export const GET_PROFILE = 'GET_PROFILE';
 export const GET_PROFILES = 'GET_PROFILES';
+export const ADD_USER = 'ADD_USER';
+export const EDIT_USER = 'EDIT_USER';
+export const REMOVE_USER = 'REMOVE_USER';
 
 //* Auth
 export const AUTH_ERROR = 'AUTH_ERROR';

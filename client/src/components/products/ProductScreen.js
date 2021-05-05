@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {getProducts,addProduct,deleteProduct} from '../../actions/product'
 import {Modal} from 'reactstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,loading}}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [ formData, setFormData ] = useState({
@@ -20,7 +20,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
   } = formData;
   const handleOpen = () => setIsOpen(!isOpen);
   const submitProduct = () => {
-    addProduct({ name,category,price });
+    addProduct({ name:name.trim(),category,price });
     setFormData({name:'',category:'',price:0})
     setIsOpen(!isOpen);
   }

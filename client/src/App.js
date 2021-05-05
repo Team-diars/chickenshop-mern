@@ -15,7 +15,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth";
 import PrivateRoute from "./routing/PrivateRoute";
 import SettingsScreen from "./components/settings/SettingsScreen";
-import UserScreen from "./components/users-employee/UserScreen";
+import UserScreen from "./components/users/UserScreen";
 import EmployeeScreen from "./components/employees/EmployeeScreen";
 import OrderScreen from "./components/orders/OrderScreen";
 import SaleScreen from "./components/sales/SaleScreen";

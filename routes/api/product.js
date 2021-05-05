@@ -88,7 +88,7 @@ router.post(
       const product = await Product.findOneAndUpdate({ name },{ category:category.toLowerCase(), price, status: 1 });
       return res.json(product);
     }
-    const newProduct = new Product({ category:category.toLowerCase(), name, price });
+    const newProduct = new Product({ category:category.toLowerCase(), name:name.trim(), price });
     await newProduct.save();
     return res.json(newProduct);
   }
@@ -140,13 +140,21 @@ router.put(
       const exists = await Product.exists({ _id: id, status: 1 });
       if (!exists) return res.status(500).send("Product doesn't exist");
       const duplicatedProduct = await Product.exists({ name: name, status: 0 });
+      const isSameProduct = await Product.exists({_id:id,name});
+      const isThereAnyProduct = await Product.exists({ name, status: 1 });
       if (duplicatedProduct) {
         await Product.findByIdAndRemove(id);
-        const productUpdated = await Product.findOneAndUpdate({ name, status:0 },{ name,category:category.toLowerCase(), status: 1 });
+        const productUpdated = await Product.findOneAndUpdate({ name, status:0 },{ name:name.trim(),category:category.toLowerCase(), status: 1 });
         return res.json(productUpdated);
+      }else{
+        if(isThereAnyProduct && !isSameProduct){
+          return res.status(500).json({
+            errors: [{msg:`There is an product with the same name registered`}]
+          });
+        }
       }
       const productUpdated = await Product.findByIdAndUpdate(id,
-                                            { category:category.toLowerCase(), name, price },
+                                            { category:category.toLowerCase(), name:name.trim(), price },
                                             { new: true });
       return res.json(productUpdated);
     }catch(error){
