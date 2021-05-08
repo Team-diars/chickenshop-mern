@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const bcrypt = require("bcryptjs");
 const uuid = require('uuid');
 require('dotenv').config()
 const { check, validationResult } = require("express-validator/check");
@@ -139,10 +140,23 @@ router.post('/reset-password/:code',[
 router.get("/:id", [auth], async (req, res) => {
   try {
     const {id} = req.params;
-    const user = await Employee.find({ coduser:id, status: 1 }).exec();
-    return res.json(user[0]);
+    const EmployeeInfo = await Employee.find({coduser:id,status:1});
+    const {_id,name,lastname,dni,email,coduser} = EmployeeInfo[0];
+    const UserInfo = await User.find({_id:coduser});
+    const {password} = UserInfo[0];
+    const user = {
+      _id,
+      name,
+      lastname,
+      dni,
+      email,
+      password,
+      coduser
+    }
+    return res.json(user);
   } catch (error) {
-    res.status(500).send("Server error");
+    console.log(error)
+    res.status(500).send(error);
   }
 });
 
@@ -157,11 +171,63 @@ router.get("/", auth, GetAllUser);
 //* @access Private
 router.get("/:id", auth, SelectUserbyId);
 
+
+//* @route  PUT api/user/edit
+//* @des    Update user by id (Admin)
+//* @access Private
+router.put("/edit/:id",[auth],
+  [
+    check("password", "Password is required").not().isEmpty(),
+    check(
+      "password",
+      "Password must have 6 or more characters"
+    ).isLength({
+      min: 6,
+    }),
+    check(
+      "password",
+      "Password must contain at least one letter or number"
+    ).custom(checkPasswordFormat),
+  ], async(req,res) => {
+    try {
+      //* Handling errors
+      const errors = validationResult(req);
+      if(!errors.isEmpty()) return res.status(400).json({errors: errors.array()});
+      const { id } = req.params;
+      const { password:new_password } = req.body;
+      const user = await User.findById(id);
+      if (!user) return res.status(500).send("User doesn't exist");
+      
+      console.log({new_password,pass:user.password})
+      console.log(new_password == user.password);
+      if(new_password === user.password){
+        const userUpdated = await User.findByIdAndUpdate(id,{});
+        console.log(userUpdated);
+        return res.json(userUpdated);
+      }else{
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(new_password, salt); //* Hashing password
+        const userUpdated = await User.findByIdAndUpdate(
+          id,
+          {
+            password: hashPassword,
+          },
+          { new: true }
+        );
+        return res.json(userUpdated);
+      }
+    } catch (error) {
+      console.log(error)
+      res.status(500).send("Server error");
+    }
+})
+
+
 //* @route  PUT api/user/edit
 //* @des    Update user by id
 //* @access Private
 router.put(
-  "/edit/:id",
+  "/user/edit/:id",
   [
     auth,
     check("password", "Please enter your current password").not().isEmpty(),

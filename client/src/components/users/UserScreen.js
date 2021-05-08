@@ -72,7 +72,7 @@ const UserScreen = ({getUsers,addUser,updateUser,deleteUser,getEmployees,employe
                     <td>{user.name} {user.lastname}</td>
                     <td>{user.email}</td>
                     <td>
-                      <LinkContainer to={`/users/edit/${user._id}`}>
+                      <LinkContainer to={`/users/edit/${user.coduser}`}>
                         <Button variant='warning' className='btn-sm'>
                           <i className='fas fa-edit'></i>
                         </Button>

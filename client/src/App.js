@@ -22,6 +22,7 @@ import SaleScreen from "./components/sales/SaleScreen";
 import Alert from "./components/layout/Alert";
 import EditProduct from "./components/products/EditProduct";
 import EditEmployee from "./components/employees/EditEmployee";
+import EditUser from "./components/users/EditUser";
 
 if(localStorage.token){
   setAuthToken(localStorage.token);
@@ -49,6 +50,7 @@ function App() {
             <PrivateRoute exact path="/employees/edit/:id" component={EditEmployee}/>
             <PrivateRoute exact path="/settings" component={SettingsScreen}/>
             <PrivateRoute exact path="/users" component={UserScreen}/>
+            <PrivateRoute exact path="/users/edit/:id" component={EditUser}/>
             <PrivateRoute exact path="/orders" component={OrderScreen}/>
             <PrivateRoute exact path="/sales" component={SaleScreen}/>
           </Container>

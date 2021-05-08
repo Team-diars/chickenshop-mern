@@ -16,13 +16,17 @@ export function user(state = initialState, action){
         loading:false
     }
     case EDIT_USER:
-      if (state.user._id === payload.id){
+      console.log("STATE",state.user)
+      console.log("PAYLOAD",payload.id)
+      if (state.user.coduser === payload.id){
+        console.log("EDIT USER >> TRUE")
         const {users:{password}} = payload;
         return {
           ...state,
           user: [...state.users, {password}]
         }
       }else{
+        console.log("EDIT USER >> FALSE")
         return user
     }
     case REMOVE_USER: 

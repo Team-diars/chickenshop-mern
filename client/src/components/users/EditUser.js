@@ -5,9 +5,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import {getUserByID,updateUser} from '../../actions/user'
 import { Link } from 'react-router-dom';
-const EditUser = ({history,getUserByID,user:{user,loading},match}) => {
+const EditUser = ({history,getUserByID,updateUser,user:{user,loading},match}) => {
+  console.log(user);
   const [ formData, setFormData ] = useState({
-    _id: null,
+    _id: "",
+    name: "",
+    lastname: "",
+    dni: "",
     password: "",
   });
   const getUser = (id) =>{
@@ -19,8 +23,11 @@ const EditUser = ({history,getUserByID,user:{user,loading},match}) => {
   useEffect(() => {
     if(!loading && user){
       setFormData({
-        _id: user._id || "",
-        password: user.name || "",
+        _id: match.params.id || "",
+        name: user.name || "",
+        lastname: user.lastname || "",
+        dni: user.dni || "",
+        password: user.password || "",
       });
     }
   },[user,loading]);
@@ -44,25 +51,20 @@ const EditUser = ({history,getUserByID,user:{user,loading},match}) => {
           <>
             <ModalBody>
               <div className="form-group">
-                <label>User name</label>
-                <br/>
-                <Form.Control name="name" value={formData.name} type="text" onChange={ (e) => onChange(e)}/>
-                <label>Password</label>
-                <br/>
-                <Form.Control type="number" step="any" name="price" value={formData.price} onChange={(e) => onChange(e)}/>
-                <label>Product category</label>
+                <label>Employee</label>
                 <br/>
                 <Form.Control as="select" 
-                              size="sm" 
-                              name="category"
-                              value={formData.category}
-                              onChange={ (e) => onChange(e)}
-                              custom 
-                              >
-                <option value="">-- Select a category --</option>
-                <option value="dishes">Dishes</option>
-                <option value="drinks">Drinks</option>
+                            size="sm" 
+                            name="role"
+                            onChange={(e) => onChange(e)}
+                            custom 
+                            disabled
+                            >
+                <option>{formData.name} {formData.lastname} | {formData.dni}</option>
               </Form.Control>
+                <label>Password</label>
+                <br/>
+                <Form.Control type="password" name="password" value={formData.password} onChange={ (e) => onChange(e)}/>
             </div>
           </ModalBody>
           <ModalFooter>
@@ -70,11 +72,11 @@ const EditUser = ({history,getUserByID,user:{user,loading},match}) => {
                 type="submit"
                 variant='warning'
                 className='btn'
-                onClick={() => updateProduct(match.params.id,formData,history)}
+                onClick={() => updateUser(match.params.id,formData,history)}
                 >
                   Update
             </Button>
-            <Link to="/products" className="btn btn-danger">
+            <Link to="/users" className="btn btn-danger">
               Cancel
             </Link>
           </ModalFooter>
@@ -84,10 +86,10 @@ const EditUser = ({history,getUserByID,user:{user,loading},match}) => {
   )
 }
 const mapStateToProps = state => ({
-  product: state.product,
+  user: state.user,
 })
 EditUser.propTypes = {
-  getProductByID: PropTypes.func.isRequired,
-  updateProduct: PropTypes.func.isRequired,
+  getUserByID: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
 }
 export default connect(mapStateToProps,{getUserByID,updateUser})(EditUser)
