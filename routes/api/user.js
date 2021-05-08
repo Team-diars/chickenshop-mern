@@ -133,6 +133,20 @@ router.post('/reset-password/:code',[
   }
 })
 
+//* @route  GET api/user/:id
+//* @des    Get User By ID
+//* @access Private
+router.get("/:id", [auth], async (req, res) => {
+  try {
+    const {id} = req.params;
+    const user = await Employee.find({ coduser:id, status: 1 }).exec();
+    return res.json(user[0]);
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
+});
+
+
 //* @route  GET api/user
 //* @des    Get all Users
 //* @access Private

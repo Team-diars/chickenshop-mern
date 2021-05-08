@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { setAlert } from './alert';
-import {GET_EMPLOYEES,EMPLOYEE_ERROR, GET_EMPLOYEE, ADD_EMPLOYEE, EDIT_EMPLOYEE, REMOVE_EMPLOYEE} from './types'
+import {GET_EMPLOYEES,EMPLOYEE_ERROR, GET_EMPLOYEE, ADD_EMPLOYEE, EDIT_EMPLOYEE, REMOVE_EMPLOYEE, CLEAR_EMPLOYEE} from './types'
 //* Get employees
 export const getEmployees = () => async dispatch =>{
+  dispatch({ type: CLEAR_EMPLOYEE });
   try {
     const res = await axios.get('/api/employee');
     dispatch({

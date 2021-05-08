@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Col, Form, ModalBody, ModalFooter, Row, Spinner, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import {getUsers,addUser} from '../../actions/user'
+import {getUsers,addUser,deleteUser,updateUser} from '../../actions/user'
 import {getEmployees} from '../../actions/employee'
 import {Input, Modal} from 'reactstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import PropTypes from 'prop-types';
 
-const UserScreen = ({getUsers,addUser,getEmployees,employee:{employees,loading:loading_emp}, user:{users,loading}}) => {
+const UserScreen = ({getUsers,addUser,updateUser,deleteUser,getEmployees,employee:{employees,loading:loading_emp}, user:{users,loading}}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [ formData, setFormData ] = useState({
     password:"",
@@ -32,6 +32,11 @@ const UserScreen = ({getUsers,addUser,getEmployees,employee:{employees,loading:l
   useEffect(()=>{
     getEmployees();
   },[getEmployees]);
+  const submitUser = () => {
+    addUser({employee,password});
+    setFormData({employee:'',password:''});
+    setIsOpen(!isOpen);
+  }
   console.log('Employees > ',employees);
   return (loading && loading_emp) ?
       <Spinner animation="border" role="status">
@@ -59,26 +64,30 @@ const UserScreen = ({getUsers,addUser,getEmployees,employee:{employees,loading:l
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.name} {user.lastname}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${user._id}/edit`}>
-                      <Button variant='warning' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
+              {
+              users.map((user) => (
+                (user.coduser!==null) &&
+                  <tr key={user._id}>
+                    <td>{user._id}</td>
+                    <td>{user.name} {user.lastname}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      <LinkContainer to={`/users/edit/${user._id}`}>
+                        <Button variant='warning' className='btn-sm'>
+                          <i className='fas fa-edit'></i>
+                        </Button>
+                      </LinkContainer>
+                      <Button
+                        variant='danger'
+                        className='btn-sm'
+                        onClick={() => deleteUser(user.coduser)}
+                      >
+                        <i className='fas fa-trash'></i>
                       </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+              ))
+              }
             </tbody>
           </Table>
         </>
@@ -89,8 +98,10 @@ const UserScreen = ({getUsers,addUser,getEmployees,employee:{employees,loading:l
             <label>Employee</label>
             <br/>
             <Input name="employee" type="select" className="form-control" onChange={(e) => onChange(e)} value={employee}>
+              <option value="">Select an employee</option>
               {
                 employees.map((emp) => (
+                  (emp.coduser===null) &&
                   <option key={emp._id} value={emp._id}>{emp.lastname} {emp.name} | {emp.dni}</option>
                 ))
               }
@@ -103,7 +114,7 @@ const UserScreen = ({getUsers,addUser,getEmployees,employee:{employees,loading:l
           </div>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-primary" 
+          <button className="btn btn-primary" onClick={submitUser}
           >Insert</button>
           <button className="btn btn-danger" 
                   onClick={handleOpen}
@@ -121,5 +132,7 @@ UserScreen.propTypes = {
   addUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
   getEmployees: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  deleteUser:PropTypes.func.isRequired,
 }
-export default connect(mapStateToProps,{getUsers,addUser,getEmployees})(UserScreen);
+export default connect(mapStateToProps,{getUsers,addUser,updateUser,deleteUser,getEmployees})(UserScreen);

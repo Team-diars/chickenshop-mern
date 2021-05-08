@@ -125,20 +125,9 @@ const DeleteUser = async (req, res) => {
     if (!employee) {
       res.status(500).send("There are no employees with this account");
     }
-    await Employee.findOneAndUpdate(
-      {
-        coduser: id,
-      },
-      {
-        coduser: null,
-      },
-      { new: true }
-    );
+    await Employee.findOneAndUpdate({ coduser: id },{ coduser: null },{ new: true });
     await user.delete();
-    return res.json({
-      status: "OK",
-      msg: "User was deleted",
-    });
+    return res.json({status: "User was deleted"});
   } catch (error) {
     res.status(500).send("Server error");
   }

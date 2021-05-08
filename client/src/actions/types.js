@@ -21,6 +21,10 @@ export const GET_PROFILES = 'GET_PROFILES';
 export const ADD_USER = 'ADD_USER';
 export const EDIT_USER = 'EDIT_USER';
 export const REMOVE_USER = 'REMOVE_USER';
+export const GET_USER = 'GET_USER';
+export const USER_ERROR = 'USER_ERROR';
+export const GET_USERS = 'GET_USERS';
+export const CLEAR_USER = 'CLEAR_USER';
 
 //* Auth
 export const AUTH_ERROR = 'AUTH_ERROR';
@@ -49,7 +53,3 @@ export const EMPLOYEE_ERROR = 'EMPLOYEE_ERROR';
 export const ADD_EMPLOYEE = 'ADD_EMPLOYEE';
 export const EDIT_EMPLOYEE = 'EDIT_EMPLOYEE';
 export const REMOVE_EMPLOYEE = 'REMOVE_EMPLOYEE';
-
-//* Users
-export const GET_USERS = 'GET_USERS';
-export const USER_ERROR = 'USER_ERROR';
