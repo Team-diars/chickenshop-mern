@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Col, Form, ModalBody, ModalFooter, Row, Spinner, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import {getUsers,addUser,deleteUser,updateUser} from '../../actions/user'
+import {getUsers,addUser,deleteUser} from '../../actions/user'
 import {getEmployees} from '../../actions/employee'
 import {Input, Modal} from 'reactstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import PropTypes from 'prop-types';
 
-const UserScreen = ({getUsers,addUser,updateUser,deleteUser,getEmployees,employee:{employees,loading:loading_emp}, user:{users,loading}}) => {
+const UserScreen = ({getUsers,addUser,deleteUser,getEmployees,employee:{employees,loading:loading_emp}, user:{users,loading}}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [ formData, setFormData ] = useState({
     password:"",
@@ -19,12 +19,11 @@ const UserScreen = ({getUsers,addUser,updateUser,deleteUser,getEmployees,employe
     password,
   } = formData;
   const handleOpen = () => setIsOpen(!isOpen);
-  const onChange = e => {
-    const { name, value, type } = e.target;
-    setFormData({ 
-      ...formData,
-      [name]:type === "number" ? parseInt(value) : value
-    });
+  
+  const submitUser = () => {
+    addUser({employee,password});
+    setFormData({employee:'',password:''});
+    setIsOpen(!isOpen);
   }
   useEffect(()=>{
     getUsers();
@@ -32,10 +31,12 @@ const UserScreen = ({getUsers,addUser,updateUser,deleteUser,getEmployees,employe
   useEffect(()=>{
     getEmployees();
   },[getEmployees]);
-  const submitUser = () => {
-    addUser({employee,password});
-    setFormData({employee:'',password:''});
-    setIsOpen(!isOpen);
+  const onChange = e => {
+    const { name, value, type } = e.target;
+    setFormData({ 
+      ...formData,
+      [name]:type === "number" ? parseInt(value) : value
+    });
   }
   console.log('Employees > ',employees);
   return (loading && loading_emp) ?
@@ -65,9 +66,8 @@ const UserScreen = ({getUsers,addUser,updateUser,deleteUser,getEmployees,employe
             </thead>
             <tbody>
               {
-              users.map((user) => (
-                (user.coduser!==null) &&
-                  <tr key={user._id}>
+              users.map((user,idx) => (
+                  <tr key={idx}>
                     <td>{user._id}</td>
                     <td>{user.name} {user.lastname}</td>
                     <td>{user.email}</td>
@@ -132,7 +132,6 @@ UserScreen.propTypes = {
   addUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
   getEmployees: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
   deleteUser:PropTypes.func.isRequired,
 }
-export default connect(mapStateToProps,{getUsers,addUser,updateUser,deleteUser,getEmployees})(UserScreen);
+export default connect(mapStateToProps,{getUsers,addUser,deleteUser,getEmployees})(UserScreen);

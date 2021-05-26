@@ -8,7 +8,7 @@ const Employee = require("../models/Employee");
 
 const GetAllUser = async (req, res) => {
   try {
-    const Users = await Employee.find({status:1});
+    const Users = await Employee.find({status:1,coduser:{$ne: null}});
     return res.json(Users);
   } catch (error) {
     console.log(error)
@@ -56,7 +56,7 @@ const RegisterUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt); //* Hashing password
     await user.save();
-    await Employee.findByIdAndUpdate(
+    let employee = await Employee.findByIdAndUpdate(
       employeeId,
       {
         coduser: user._id,
@@ -78,6 +78,7 @@ const RegisterUser = async (req, res) => {
         res.json({ token });
       }
     );
+    return res.json(employee);
   } catch (err) {
     res.status(500).send("Server error" + err);
   }
@@ -122,8 +123,11 @@ const DeleteUser = async (req, res) => {
       res.status(500).send("There are no employees with this account");
     }
     await Employee.findOneAndUpdate({ coduser: id },{ coduser: null },{ new: true });
-    await user.delete();
-    return res.json({status: "User was deleted"});
+    await User.findByIdAndUpdate(id, { status: 0 }, { new: true });
+    // await user.delete();
+    return res.json({
+      status: "User removed successfully",
+    });
   } catch (error) {
     res.status(500).send("Server error");
   }
