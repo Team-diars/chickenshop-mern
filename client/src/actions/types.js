@@ -53,3 +53,9 @@ export const EMPLOYEE_ERROR = 'EMPLOYEE_ERROR';
 export const ADD_EMPLOYEE = 'ADD_EMPLOYEE';
 export const EDIT_EMPLOYEE = 'EDIT_EMPLOYEE';
 export const REMOVE_EMPLOYEE = 'REMOVE_EMPLOYEE';
+
+//*Settings
+export const GET_SETTINGS = 'GET_SETTINGS';
+export const CLEAR_SETTINGS = 'CLEAR_SETTINGS';
+export const SETTINGS_ERROR = 'SETTINGS_ERROR';
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
