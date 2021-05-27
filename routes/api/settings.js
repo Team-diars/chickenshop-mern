@@ -13,7 +13,7 @@ router.get('/',[
 ],async(req,res)=>{
   try {
     const config = await Config.find().exec();
-    return res.json(config);
+    return res.json(config[0]);
   } catch (error) {
     return res.status(500).send("Server error");
   }
@@ -39,7 +39,7 @@ router.post('/',[
     instagram
   } = req.body;
   if (address) newConfig.address = address;
-  if (instagram) newConfig.telephone = telephone;
+  if (telephone) newConfig.telephone = telephone;
   
   newConfig.social_links = {}
   if (facebook) newConfig.social_links.facebook = facebook;
@@ -53,6 +53,7 @@ router.post('/',[
     }
     config = new Config(newConfig);
     await config.save()
+    return res.json(config);
   }catch(e){
     console.error(e.message);
     res.status(500).send('Server Error');
