@@ -23,7 +23,7 @@ import Alert from "./components/layout/Alert";
 import EditProduct from "./components/products/EditProduct";
 import EditEmployee from "./components/employees/EditEmployee";
 import EditUser from "./components/users/EditUser";
-
+import './components/orders/orders.css';
 if(localStorage.token){
   setAuthToken(localStorage.token);
 }
@@ -37,7 +37,7 @@ function App() {
       <Router>
         <Header/>
         <main className="py-3">
-          <Container>
+          <div className="container col-lg-10">
             <Alert />
             <Route exact path="/" component={HomeScreen}/>
             <Route exact path="/login" component={LoginScreenClient}/>
@@ -53,7 +53,7 @@ function App() {
             <PrivateRoute exact path="/users/edit/:id" component={EditUser}/>
             <PrivateRoute exact path="/orders" component={OrderScreen}/>
             <PrivateRoute exact path="/sales" component={SaleScreen}/>
-          </Container>
+          </div>
         </main>
         <Footer/>
       </Router>
