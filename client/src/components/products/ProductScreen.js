@@ -109,6 +109,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
               <option value="">-- Select a category --</option>
               <option value="dishes">Dishes</option>
               <option value="drinks">Drinks</option>
+              <option value="salads">Salads</option>
             </Form.Control>
           </div>
         </ModalBody>
