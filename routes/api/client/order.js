@@ -113,8 +113,8 @@ router.get('/myorders',asyncHandler(async (req, res) => {
 //* @route   GET /api/orders
 //* @access  Private/Admin
 router.get('/',asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name')
-  res.json(orders)
+  const orders = await Order.find({ status: 1 }).sort({date: 1}).exec();
+  return res.json(orders);
 }))
 
 
