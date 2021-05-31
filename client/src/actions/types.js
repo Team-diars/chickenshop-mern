@@ -59,3 +59,12 @@ export const GET_SETTINGS = 'GET_SETTINGS';
 export const CLEAR_SETTINGS = 'CLEAR_SETTINGS';
 export const SETTINGS_ERROR = 'SETTINGS_ERROR';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+
+//*Tickets
+export const GET_TICKETS = 'GET_TICKETS';
+export const GET_TICKET = 'GET_TICKET';
+export const CLEAR_TICKET = 'CLEAR_TICKET';
+export const TICKET_ERROR = 'TICKET_ERROR';
+export const ADD_TICKET = 'ADD_TICKET';
+export const EDIT_TICKET = 'EDIT_TICKET';
+export const REMOVE_TICKET = 'REMOVE_TICKET';
