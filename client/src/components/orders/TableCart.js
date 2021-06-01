@@ -8,15 +8,12 @@ const TableCart = ({cart,num_table,addTicket}) => {
   
   const saveTicket = () => {
     const data = cart.map(item => {
-      console.log("item > ",item)
-      // return {_id:item.dish_id, quantity:item.dish_quantity} || 
-      //       {_id:item.drink_id, quantity:item.drink_quantity} ||
-      //       {_id:item.salad_id, quantity:item.salad_quantity}
+      return item
     })
-    console.log(data);
-    // addTicket({
-    //   num_table,
-    // })
+    addTicket({
+      num_table,
+      product: data
+    })
   }
   return (
     <div>
@@ -25,6 +22,7 @@ const TableCart = ({cart,num_table,addTicket}) => {
           <tr>
             <th>Item</th>
             <th>Quantity</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -33,13 +31,18 @@ const TableCart = ({cart,num_table,addTicket}) => {
               <tr key={idx}>
                 <th>{dish.dish_name ?? dish.drink_name ?? dish.salad_name}</th>
                 <th>{dish.dish_quantity ?? dish.drink_quantity ?? dish.salad_quantity}</th>
+                <th>
+                  <Button className='btn-danger btn-sm'>
+                    <i className="far fa-trash-alt"></i>
+                  </Button>
+                </th>
               </tr>
             ))
           }
         </tbody>
       </Table>
       <Button type="submit" className='btn-secondary add-button' onClick={saveTicket}>
-        Add Order <i class="fas fa-cart-plus"></i>
+        Add Order <i className="fas fa-cart-plus"></i>
       </Button>
     </div>
   )

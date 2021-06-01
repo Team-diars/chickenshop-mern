@@ -3,11 +3,11 @@ import {Form, Col, Row, Table, Button } from 'react-bootstrap'
 import {getProducts} from '../../actions/product'
 import { connect } from 'react-redux';
 import TableCart from './TableCart'
+import MainTable from './MainTable';
 
 const OrderScreen = ({getProducts, product:{products,loading}}) => {
-  console.log(products)
   const [cart, setCart] = useState([]);
-  const [num_table, setNumTable] = useState(0);
+  const [num_table, setNumTable] = useState("");
   const [formDataDishes, setFormDataDishes] = useState({
     dish_name:'',
     dish_quantity:0,
@@ -23,16 +23,15 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
     salad_quantity:0,
     salad_id:null
   })
-  const {dish_id,dish_name,dish_quantity} = formDataDishes;
-  const {drink_id,drink_name,drink_quantity} = formDataDrinks;
-  const {salad_id, salad_name,salad_quantity} = formDataSalads;
+  const {dish_name,dish_quantity} = formDataDishes;
+  const {drink_name,drink_quantity} = formDataDrinks;
+  const {salad_name,salad_quantity} = formDataSalads;
 
   const onChange = (e) => {
-    const { name, value, type } = e.target;
-    setNumTable({
-      ...num_table,
-      [name]: type === "number" ? parseInt(value) : value
-    });
+    const { value, type } = e.target;
+    setNumTable(
+      type === "number" ? parseInt(value) : value
+    );
   }
 
   const onChangeDishes = (e) => {
@@ -141,8 +140,8 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
         <div className="col-md-6 form-wrapper">
           <div className="p-0 col-12 col-md-5">
             <label>Table number</label>
-            <Form.Control name="num_table" 
-                        type="number"
+            <Form.Control type="number"
+                        name="num_table" 
                         value={num_table} 
                         onChange={ e => onChange(e)}
                         />
@@ -240,6 +239,9 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
         <div className="col-md-6" >
           <TableCart cart={cart} num_table={num_table}/>
         </div>
+      </div>
+      <div className="mt-2 col-md-12">
+        <MainTable/>
       </div>
     </>
   )
