@@ -1,4 +1,4 @@
-import {GET_TICKETS,GET_TICKET,ADD_TICKET, TICKET_ERROR, CLEAR_TICKETS, REMOVE_TICKET, EDIT_TICKET} from '../actions/types';
+import {GET_TICKETS,GET_TICKET,ADD_TICKET, TICKET_ERROR, CLEAR_TICKET, REMOVE_TICKET, EDIT_TICKET} from '../actions/types';
 const initialState = {
   tickets: [],
   ticket: null,
@@ -33,7 +33,7 @@ export function ticket(state = initialState, action){
         const {tickets:{_id,category,name,price}} = payload;
         return {
           ...state,
-          ticket: [...state.products, {_id,category,name,price}]
+          ticket: [...state.tickets, {_id,category,name,price}]
         }
       }else{
         return ticket
@@ -41,10 +41,10 @@ export function ticket(state = initialState, action){
     case REMOVE_TICKET: 
       return {
         ...state,
-        tickets: state.products.filter(product => product._id !== payload),
+        tickets: state.tickets.filter(ticket => ticket._id !== payload),
         loading: false
       }
-    case CLEAR_TICKETS: 
+    case CLEAR_TICKET: 
       return {
       ...state,
       tickets: [],

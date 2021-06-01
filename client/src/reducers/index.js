@@ -4,6 +4,7 @@ import {auth} from './auth';
 import {product} from './product';
 import {employee} from './employee';
 import {user} from './user';
+import {ticket} from './ticket';
 import {settings} from './settings';
 export default combineReducers({
   alert,
@@ -11,5 +12,6 @@ export default combineReducers({
   product,
   employee,
   user,
-  settings
+  settings,
+  ticket
 });
