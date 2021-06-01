@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const auth = require('../../middleware/auth');
 const User = require('../../models/User');
+const Employee = require('../../models/Employee');
 const Product = require('../../models/Product');
 const Sale = require('../../models/Sale');
 
@@ -33,34 +34,42 @@ router.post('/',[auth,
     check('num_table','Table number must be greater than 0 or less than 20').isInt({min:1,max:20})
   ],
   [
-    check('product','Ticket must have products').not().isEmpty(),
-    check('product','Must be an array').isArray(),
+    // check('product','Ticket must have products').not().isEmpty(),
+    // check('product','Must be an array').isArray(),
   ],
 ], async(req,res)=>{
   const errors = validationResult(req);
   if(!errors.isEmpty()) return res.status(400).json({errors: errors.array()});
   let DISCOUNT = 0.18;
   let subtotal = 0;
-  let numbers;
+  let amount_per_item;
   let prices;
   let { 
-    product,
-    num_table
+    num_table,
+    product
   } = req.body;
   let tableExists = await Sale.exists({num_table,status:1});
   if (tableExists) return res.status(500).json({status: `Table ${num_table} is being attended, choose another table`});
   try{
-    numbers = product.map(async(item)=>{
-      let {price} = await Product.findById(item);
-      return price;
-    })
-    prices = await Promise.all(numbers);
+    amount_per_item = product.map(async(item,idx)=>{
+      let {price} = await Product.findOne({name:item?.dish_name || 
+                                              item?.drink_name || 
+                                              item?.salad_name,
+                                        status:1});
+      let amount = price * item?.dish_quantity || item?.drink_quantity || item?.salad_quantity;
+      return amount;
+    });
+    prices = await Promise.all(amount_per_item);
     subtotal = prices.reduce((total,num)=>{
       return total + num;
-    },0)
-    const {name} = await User.findById(req.user.id);
+    },0);
+    const {name,lastname} = await Employee.findOne({"_id":req.user.id});
     let total = subtotal - (subtotal*DISCOUNT);
-    const newTicket = new Sale({product,num_table,subtotal,total,cashier:name});
+    const ids = product.map(item => item?.dish_id || 
+                                    item?.drink_id || 
+                                    item?.salad_id);
+    
+    const newTicket = new Sale({product:ids,num_table,subtotal,total,cashier:`${name} ${lastname}`});
     await newTicket.save();
     return res.json({status:'Ticked saved successfully'});
   }catch(e){
