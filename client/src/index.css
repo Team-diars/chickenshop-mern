@@ -1,7 +1,9 @@
 body{
   background-color: #f9f6f1;
 }
-
+label{
+  margin:0;
+}
 main{
   min-height: 80vh;
 }
