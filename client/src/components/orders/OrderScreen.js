@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Form, Col, Row, Table, Button } from 'react-bootstrap'
+import {Form, Button } from 'react-bootstrap'
 import {getProducts} from '../../actions/product'
 import { connect } from 'react-redux';
 import TableCart from './TableCart'
@@ -95,13 +95,13 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
     }
     setCart([...cart, {
       drink_id: product._id,
-      drink_name,
-      drink_quantity
+      drink_name: drink_name,
+      drink_quantity: drink_quantity
     }])
-    setFormDataDishes({
+    setFormDataDrinks({
       drink_id: null,
       drink_name:'',
-      drink_quantity:0
+      drink_quantity:0,
     })
   }
 
@@ -193,8 +193,8 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
                     ))
                   }
                 </Form.Control>
-                <Form.Control name="drink_quantity" 
-                              type="number"
+                <Form.Control type="number"
+                              name="drink_quantity"
                               value={drink_quantity}
                               onChange={ e => onChangeDrinks(e) }
                               />

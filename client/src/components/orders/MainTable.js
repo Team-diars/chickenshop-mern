@@ -21,15 +21,15 @@ const MainTable = ({getTickets,ticket:{tickets,loading}}) => {
       </thead>
       <tbody>
         {
-          tickets.map((ticket) => (
-            <tr>
+          tickets.map((ticket,idx) => (
+            <tr key={idx}>
               <td>{ticket.cashier}</td>
               <td>{ticket.num_table}</td>
               <td>{ticket.subtotal}</td>
               <td>{ticket.total}</td>
               <td>
                 <Button className='btn-warning btn-sm'>
-                  <i class="fas fa-edit"></i>
+                  <i className="fas fa-edit"></i>
                 </Button>
                 <Button className='btn-danger btn-sm'>
                   <i className="far fa-trash-alt"></i>
