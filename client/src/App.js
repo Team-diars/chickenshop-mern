@@ -24,6 +24,7 @@ import EditProduct from "./components/products/EditProduct";
 import EditEmployee from "./components/employees/EditEmployee";
 import EditUser from "./components/users/EditUser";
 import './components/orders/orders.css';
+import './components/sales/sales.css';
 if(localStorage.token){
   setAuthToken(localStorage.token);
 }
