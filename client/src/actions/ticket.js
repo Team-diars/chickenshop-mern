@@ -28,6 +28,26 @@ export const addTicket = (formData) => async dispatch => {
     })
   }
 }
+
+//* Delete ticket
+export const deleteTicket = (id) => async dispatch =>{
+  if (window.confirm('Are you sure you want to delete this ticket?')) {
+    try {
+      await axios.delete(`/api/ticket/delete/${id}`);
+      dispatch({
+        type: REMOVE_TICKET,
+        payload: id
+      })
+      dispatch(setAlert('Ticket Removed','danger'));
+    } catch (err) {
+      dispatch({
+        type: TICKET_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      })
+    }
+  }
+}
+
 //* Get tickets
 export const getTickets = () => async dispatch =>{
   dispatch({ type: CLEAR_TICKET });
