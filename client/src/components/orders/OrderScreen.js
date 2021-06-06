@@ -10,17 +10,17 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
   const [num_table, setNumTable] = useState("");
   const [formDataDishes, setFormDataDishes] = useState({
     dish_name:'',
-    dish_quantity:0,
+    dish_quantity:'',
     dish_id:null
   });
   const [formDataDrinks, setFormDataDrinks] = useState({
     drink_name:'',
-    drink_quantity:0,
+    drink_quantity:'',
     drink_id:null
   })
   const [formDataSalads, setFormDataSalads] = useState({
     salad_name:'',
-    salad_quantity:0,
+    salad_quantity:'',
     salad_id:null
   })
   const {dish_name,dish_quantity} = formDataDishes;
@@ -77,7 +77,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
     setFormDataDishes({
       dish_id: null,
       dish_name:'',
-      dish_quantity:0
+      dish_quantity:''
     })
   }
 
@@ -101,7 +101,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
     setFormDataDrinks({
       drink_id: null,
       drink_name:'',
-      drink_quantity:0,
+      drink_quantity:'',
     })
   }
 
@@ -124,7 +124,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
     setFormDataSalads({
       salad_id: null,
       salad_name:'',
-      salad_quantity:0
+      salad_quantity:''
     })
   }
 

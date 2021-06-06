@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Table } from 'react-bootstrap'
-import {getTickets} from '../../actions/ticket'
+import {getTickets,deleteTicket} from '../../actions/ticket'
 import {connect} from 'react-redux';
-const MainTable = ({getTickets,ticket:{tickets,loading}}) => {
+const MainTable = ({getTickets,deleteTicket,ticket:{tickets,loading}}) => {
   console.log(tickets);
   useEffect(() => {
     getTickets();
@@ -32,7 +32,7 @@ const MainTable = ({getTickets,ticket:{tickets,loading}}) => {
                   <Button className='btn-warning btn-sm'>
                     <i className="fas fa-edit"></i>
                   </Button>
-                  <Button className='btn-danger btn-sm'>
+                  <Button className='btn-danger btn-sm' onClick={e => deleteTicket(ticket._id)}>
                     <i className="far fa-trash-alt"></i>
                   </Button>
                 </td>
@@ -47,10 +47,11 @@ const MainTable = ({getTickets,ticket:{tickets,loading}}) => {
 
 MainTable.propTypes = {
   getTickets: PropTypes.func.isRequired,
+  deleteTicket: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   ticket: state.ticket
 })
 
-export default connect(mapStateToProps,{getTickets})(MainTable)
+export default connect(mapStateToProps,{getTickets,deleteTicket})(MainTable)

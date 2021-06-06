@@ -17,6 +17,10 @@ const TableCart = ({cart,num_table,setCart,setNumTable,addTicket}) => {
     setCart([]);
     setNumTable("");
   }
+  const removeItem = ({name}) => {
+    console.log('removing');
+    return setCart(cart.filter(dish => dish.dish_name !== name ?? dish.drink_name !== name ?? dish.salad_name !== name))
+  }
   return (
     <>
       <div className="tablecar-wrapper">
@@ -35,7 +39,7 @@ const TableCart = ({cart,num_table,setCart,setNumTable,addTicket}) => {
                   <th>{dish.dish_name ?? dish.drink_name ?? dish.salad_name}</th>
                   <th>{dish.dish_quantity ?? dish.drink_quantity ?? dish.salad_quantity}</th>
                   <th>
-                    <Button className='btn-danger btn-sm'>
+                    <Button className='btn-danger btn-sm' onClick={e => removeItem({name:dish.dish_name})}>
                       <i className="far fa-trash-alt"></i>
                     </Button>
                   </th>
