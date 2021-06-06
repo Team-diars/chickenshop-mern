@@ -16,7 +16,7 @@ const Sale = require('../../models/Sale');
 //* @access Private
 router.get('/',[auth],async(req,res)=>{
   try {
-    const tickets = await Sale.find({ status: 1 , hasPaid:false}).exec();
+    const tickets = await Sale.find({ status: 1 , hasPaid:false}).sort({date: 1}).exec();
     return res.json(tickets);
   } catch (error) {
     res.status(500).send("Server error");
@@ -49,7 +49,7 @@ router.post('/',[auth,
     product
   } = req.body;
   let tableExists = await Sale.exists({num_table,status:1});
-  if (tableExists) return res.status(500).json({status: `Table ${num_table} is being attended, choose another table`});
+  if (tableExists) return res.status(500).json({errors: [{"msg":`Table ${num_table} is being attended, choose another table`}]});
   try{
     amount_per_item = product.map(async(item,idx)=>{
       let {price} = await Product.findOne({name:item?.dish_name || 
