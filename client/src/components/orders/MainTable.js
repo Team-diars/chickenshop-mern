@@ -9,37 +9,39 @@ const MainTable = ({getTickets,ticket:{tickets,loading}}) => {
     getTickets();
   },[getTickets])
   return (
-    <Table bordered striped hover responsive size="sm">
-      <thead>
-        <tr>
-          <th>Cashier</th>
-          <th>Table</th>
-          <th>Subtotal</th>
-          <th>Total</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          tickets.map((ticket,idx) => (
-            <tr key={idx}>
-              <td>{ticket.cashier}</td>
-              <td>{ticket.num_table}</td>
-              <td>{ticket.subtotal}</td>
-              <td>{ticket.total}</td>
-              <td>
-                <Button className='btn-warning btn-sm'>
-                  <i className="fas fa-edit"></i>
-                </Button>
-                <Button className='btn-danger btn-sm'>
-                  <i className="far fa-trash-alt"></i>
-                </Button>
-              </td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </Table>
+    <div className="maintable-wrapper">
+      <Table bordered striped hover responsive size="sm">
+        <thead>
+          <tr>
+            <th>Cashier</th>
+            <th>Table</th>
+            <th>Subtotal</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            tickets.map((ticket,idx) => (
+              <tr key={idx}>
+                <td>{ticket.cashier}</td>
+                <td>{ticket.num_table}</td>
+                <td>{ticket.subtotal}</td>
+                <td>{ticket.total}</td>
+                <td>
+                  <Button className='btn-warning btn-sm'>
+                    <i className="fas fa-edit"></i>
+                  </Button>
+                  <Button className='btn-danger btn-sm'>
+                    <i className="far fa-trash-alt"></i>
+                  </Button>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </Table>
+    </div>
   )
 }
 

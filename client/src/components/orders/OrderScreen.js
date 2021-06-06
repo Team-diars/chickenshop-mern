@@ -62,12 +62,12 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
     const item = cart.find(item => item.dish_name === dish_name);
     const product = products.find(item => (item.name === dish_name && item.status))
     if(item) {
-      setFormDataDishes({
+      item.dish_quantity += dish_quantity
+      return setFormDataDishes({
         dish_id: product._id,
         dish_name:'',
         dish_quantity:0
-      })
-      return item.dish_quantity += dish_quantity;
+      });
     }
     setCart([...cart, {
       dish_id: product._id,
@@ -166,6 +166,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
                 <Form.Control name="dish_quantity" 
                               value={dish_quantity} 
                               type="number"
+                              placeholder="Quantity"
                               onChange={ e => onChangeDishes(e)}
                               />
               </div>
@@ -196,6 +197,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
                 <Form.Control type="number"
                               name="drink_quantity"
                               value={drink_quantity}
+                              placeholder="Quantity"
                               onChange={ e => onChangeDrinks(e) }
                               />
               </div>
@@ -225,6 +227,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
                 </Form.Control>
                 <Form.Control type="number" 
                               name="salad_quantity" 
+                              placeholder="Quantity"
                               value={salad_quantity}
                               onChange={ e => onChangeSalads(e)}/>
               </div>
@@ -237,7 +240,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
           </div>
         </div>
         <div className="col-md-6" >
-          <TableCart cart={cart} num_table={num_table}/>
+          <TableCart cart={cart} setNumTable={setNumTable} setCart={setCart} num_table={num_table}/>
         </div>
       </div>
       <div className="mt-2 col-md-12">

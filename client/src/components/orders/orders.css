@@ -11,6 +11,42 @@ label {
 .input-wrapper select { 
   margin-right: 0.5rem;
 }
+
+.maintable-wrapper{
+  max-height: 280px;
+  height:280px;
+  margin-bottom: 0.5rem;
+  overflow:auto;
+  background: #cdcdcd;
+}
+
+
+.tablecar-wrapper{
+  max-height: 220px;
+  height:220px;
+  margin-bottom: 0.5rem;
+  overflow:auto;
+  background: #cdcdcd;
+}
+
+/* width */
+.tablecar-wrapper::-webkit-scrollbar, .maintable-wrapper::-webkit-scrollbar{
+  width: 8px;
+}
+/* Track */
+.tablecar-wrapper::-webkit-scrollbar-track,.maintable-wrapper::-webkit-scrollbar-track{
+  background: #f1f1f1;
+}
+/* Handle */
+.tablecar-wrapper::-webkit-scrollbar-thumb,.maintable-wrapper::-webkit-scrollbar-thumb{
+  background: #888;
+}
+/* Handle on hover */
+.tablecar-wrapper::-webkit-scrollbar-thumb:hover,.maintable-wrapper::-webkit-scrollbar-thumb:hover{
+  background: #555;
+}
+
+
 @media (min-width: 1300px){
   
 }
