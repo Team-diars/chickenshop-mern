@@ -107,7 +107,7 @@ router.put('/update/:id',[auth,
 //* @route  DELETE api/ticket/
 //* @des    Deleting a ticket
 //* @access Private
-router.delete('/:id',[auth],async(req,res)=>{
+router.delete('/delete/:id',[auth],async(req,res)=>{
   try {
     const { id } = req.params;
     const exists = await Sale.exists({ _id: id, status: 1 })
@@ -123,4 +123,5 @@ router.delete('/:id',[auth],async(req,res)=>{
     return res.status(500).send("Server error");
   }
 })
+
 module.exports = router;
