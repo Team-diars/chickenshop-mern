@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Form, Table } from 'react-bootstrap'
 import {Modal, ModalHeader, ModalBody} from 'reactstrap'
+import {getProducts} from '../../actions/product'
 import {getTickets} from '../../actions/ticket'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 
-const SaleScreen = ({getTickets,ticket:{tickets,loading}}) => {
+const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading},ticket:{tickets,loading}}) => {
   const [formData, setFormData] = useState({
     num_table:"",
     product:[],
@@ -13,7 +14,10 @@ const SaleScreen = ({getTickets,ticket:{tickets,loading}}) => {
     total:""
   });
   const {num_table,product,subtotal,total} = formData;
-  console.log("tickets > ",tickets);
+  // console.log("tickets > ",tickets);
+  console.log("products > ",product);
+  const productsName = products.filter((p,idx) => p._id === product[idx])
+  console.log('filtered: ',productsName);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(!isOpen);
   const closeBtn = <button className="close" onClick={handleOpen}>&times;</button>;
@@ -30,6 +34,9 @@ const SaleScreen = ({getTickets,ticket:{tickets,loading}}) => {
   useEffect(() => {
     getTickets();
   },[getTickets])
+  useEffect(() => {
+    getProducts();
+  },[getProducts])
   return (
     <>
       <div className="m-0 col-lg-12">
@@ -70,7 +77,7 @@ const SaleScreen = ({getTickets,ticket:{tickets,loading}}) => {
             <label>Products</label>
             <div className="products-wrapper w-100">
             {
-              product.map((p,idx) => (
+              productsName.map((p,idx) => (
                 <Button  key={idx} className="button-badge d-flex justify-content-center w-100" variant="secondary" disabled>
                   {p.name} <Badge className="badge" variant="light">{p.quantity}</Badge>
                   <span className="sr-only">unread messages</span>
@@ -151,9 +158,11 @@ const SaleScreen = ({getTickets,ticket:{tickets,loading}}) => {
 }
 SaleScreen.propTypes = {
   getTickets: PropTypes.func.isRequired,
+  getProducts: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
-  ticket: state.ticket
+  ticket: state.ticket,
+  product: state.product
 })
-export default connect(mapStateToProps,{getTickets})(SaleScreen)
+export default connect(mapStateToProps,{getTickets,getProducts})(SaleScreen)
