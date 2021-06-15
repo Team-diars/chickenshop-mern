@@ -5,6 +5,7 @@ import {getProducts} from '../../actions/product'
 import {getTickets} from '../../actions/ticket'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
+import { plugin } from 'mongoose'
 
 const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading},ticket:{tickets,loading}}) => {
   const [formData, setFormData] = useState({
@@ -15,8 +16,12 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
   });
   const {num_table,product,subtotal,total} = formData;
   // console.log("tickets > ",tickets);
-  console.log("products > ",product);
-  const productsName = products.filter((p,idx) => p._id === product[idx])
+  console.log("cart: ",product);
+  console.log("payload products: ",products);
+
+  const productsName = products.map((p,idx) => {
+    return p;
+  });
   console.log('filtered: ',productsName);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(!isOpen);
@@ -77,9 +82,9 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
             <label>Products</label>
             <div className="products-wrapper w-100">
             {
-              productsName.map((p,idx) => (
+              (product.length > 0) && productsName.map((p,idx) => (
                 <Button  key={idx} className="button-badge d-flex justify-content-center w-100" variant="secondary" disabled>
-                  {p.name} <Badge className="badge" variant="light">{p.quantity}</Badge>
+                  {p.name} <Badge className="badge" variant="light"></Badge>
                   <span className="sr-only">unread messages</span>
                 </Button>
               ))
