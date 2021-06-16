@@ -53,6 +53,7 @@ export const getTickets = () => async dispatch =>{
   dispatch({ type: CLEAR_TICKET });
   try {
     const res = await axios.get('/api/ticket');
+    // console.log(res.data);
     dispatch({
       type: GET_TICKETS,
       payload: res.data

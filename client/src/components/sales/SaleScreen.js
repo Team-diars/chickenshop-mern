@@ -15,6 +15,7 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
   });
   const {num_table,product,subtotal,total} = formData;
   //console.log("cart: ",product);
+  console.log("tickets: ",tickets);
   //console.log("payload products: ",products);
   
   const productsName = product.map(async(id) => {
@@ -136,7 +137,24 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
                 </tr>
               </thead>
               <tbody>
-              
+              {
+                tickets.map((ticket,idx) => (
+                  (!ticket.hasPaid) && <tr key={idx}>
+                    <td>{ticket.num_table}</td>
+                    <td>{ticket.subtotal}</td>
+                    <td>{ticket.total}</td>
+                    <td>
+                      <Button className='btn-success btn-sm' 
+                              onClick={() => addTicket({num_table:ticket.num_table,
+                                                  subtotal:ticket.subtotal,
+                                                  total:ticket.total,
+                                                  product:ticket.product})}>
+                        <i className="fas fa-check"></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              }
               </tbody>
             </Table>
           </div>
