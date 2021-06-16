@@ -41,7 +41,7 @@ function App() {
           <div className="container col-lg-10">
             <Alert />
             <Route exact path="/" component={HomeScreen}/>
-            <Route exact path="/login" component={LoginScreenClient}/>
+            {/* <Route exact path="/login" component={LoginScreenClient}/> */}
             <Route exact path="/auth" component={LoginScreenEmployee}/>
             <Route exact path="/register" component={RegisterScreen}/>
             <PrivateRoute exact path="/profile" component={DashboardScreen}/>

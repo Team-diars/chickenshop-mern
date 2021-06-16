@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Form, Table } from 'react-bootstrap'
 import {Modal, ModalHeader, ModalBody} from 'reactstrap'
-import {getProducts} from '../../actions/product'
+import {getProducts,getProductByID} from '../../actions/product'
 import {getTickets} from '../../actions/ticket'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
-import { plugin } from 'mongoose'
 
 const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading},ticket:{tickets,loading}}) => {
   const [formData, setFormData] = useState({
@@ -15,19 +14,18 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
     total:""
   });
   const {num_table,product,subtotal,total} = formData;
-  // console.log("tickets > ",tickets);
-  console.log("cart: ",product);
-  console.log("payload products: ",products);
-
-  const productsName = products.map((p,idx) => {
-    return p;
+  //console.log("cart: ",product);
+  //console.log("payload products: ",products);
+  
+  const productsName = product.map(async(id) => {
+    return await getProductByID(id);
   });
-  console.log('filtered: ',productsName);
+  // console.log('filtered: ',productsName);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(!isOpen);
   const closeBtn = <button className="close" onClick={handleOpen}>&times;</button>;
   const addTicket = ({product,num_table,subtotal,total}) => {
-    console.log({product,num_table,subtotal,total});
+    //console.log({product,num_table,subtotal,total});
     setIsOpen(!isOpen);
     setFormData({
       product,
@@ -36,6 +34,7 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
       total
     })
   }
+  
   useEffect(() => {
     getTickets();
   },[getTickets])
@@ -109,12 +108,16 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Hector Herrera</td>
-                <td>15</td>
-                <td>450</td>
-                <td>06/01/2021</td>
-              </tr>
+              {
+                tickets.map(sale => (
+                  (sale.hasPaid) && <tr>
+                    <td>{sale.cashier}</td>
+                    <td>{sale.num_table}</td>
+                    <td>{sale.total}</td>
+                    <td>{sale.date}</td>
+                  </tr>
+                ))
+              }
             </tbody>
           </Table>
         </div>
@@ -133,24 +136,7 @@ const SaleScreen = ({getTickets,getProducts,product:{products,loading:p_loading}
                 </tr>
               </thead>
               <tbody>
-              {
-                  tickets.map((ticket,idx) => (
-                    <tr key={idx}>
-                      <td>{ticket.num_table}</td>
-                      <td>{ticket.subtotal}</td>
-                      <td>{ticket.total}</td>
-                      <td>
-                        <Button className='btn-success btn-sm' 
-                                onClick={() => addTicket({num_table:ticket.num_table,
-                                                    subtotal:ticket.subtotal,
-                                                    total:ticket.total,
-                                                    product:ticket.product})}>
-                          <i className="fas fa-check"></i>
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                }
+              
               </tbody>
             </Table>
           </div>

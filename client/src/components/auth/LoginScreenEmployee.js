@@ -26,11 +26,11 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
     <FormContainer>
       <Row className="d-flex justify-content-between">
         <h1 style={{margin:0}}>Sign In</h1>
-        <Link to={'/login'} className="d-flex align-items-center justify-content-center" style={{textDecoration:'none'}}>
+        {/* <Link to={'/login'} className="d-flex align-items-center justify-content-center" style={{textDecoration:'none'}}>
           <Button type='button' variant='warning'>
             Client <i className='fas fa-user'></i>
           </Button>
-        </Link>
+        </Link> */}
       </Row>
       <Form onSubmit={e => onSubmit(e)}>
         <Form.Group controlId='email'>
