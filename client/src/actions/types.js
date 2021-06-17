@@ -68,3 +68,7 @@ export const TICKET_ERROR = 'TICKET_ERROR';
 export const ADD_TICKET = 'ADD_TICKET';
 export const EDIT_TICKET = 'EDIT_TICKET';
 export const REMOVE_TICKET = 'REMOVE_TICKET';
+
+//* Sales
+export const ADD_SALE = 'ADD_SALE';
+export const SALE_ERROR = 'SALE_ERROR';
