@@ -36,13 +36,13 @@ const TableCart = ({cart,num_table,setCart,setNumTable,addTicket}) => {
             {
               cart.map((dish,idx) => (
                 <tr key={idx}>
-                  <th>{dish.dish_name ?? dish.drink_name ?? dish.salad_name}</th>
-                  <th>{dish.dish_quantity ?? dish.drink_quantity ?? dish.salad_quantity}</th>
-                  <th>
+                  <td>{dish.dish_name ?? dish.drink_name ?? dish.salad_name}</td>
+                  <td>{dish.dish_quantity ?? dish.drink_quantity ?? dish.salad_quantity}</td>
+                  <td>
                     <Button className='btn-danger btn-sm' onClick={e => removeItem({name:dish.dish_name})}>
                       <i className="far fa-trash-alt"></i>
                     </Button>
-                  </th>
+                  </td>
                 </tr>
               ))
             }

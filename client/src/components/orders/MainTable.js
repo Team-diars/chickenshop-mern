@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Table } from 'react-bootstrap'
 import {getTickets,deleteTicket} from '../../actions/ticket'
 import {connect} from 'react-redux';
@@ -23,15 +24,17 @@ const MainTable = ({getTickets,deleteTicket,ticket:{tickets,loading}}) => {
         <tbody>
           {
             tickets.map((ticket,idx) => (
-              <tr key={idx}>
+              (!ticket.hasPaid) && <tr key={idx}>
                 <td>{ticket.cashier}</td>
                 <td>{ticket.num_table}</td>
                 <td>{ticket.subtotal}</td>
                 <td>{ticket.total}</td>
                 <td>
-                  <Button className='btn-warning btn-sm'>
-                    <i className="fas fa-edit"></i>
-                  </Button>
+                  <LinkContainer to={`/orders/edit/${ticket._id}`}>
+                    <Button className='btn-warning btn-sm'>
+                      <i className="fas fa-edit"></i>
+                    </Button>
+                  </LinkContainer>
                   <Button className='btn-danger btn-sm' onClick={e => deleteTicket(ticket._id)}>
                     <i className="far fa-trash-alt"></i>
                   </Button>
