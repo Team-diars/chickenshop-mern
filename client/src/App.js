@@ -25,6 +25,7 @@ import EditEmployee from "./components/employees/EditEmployee";
 import EditUser from "./components/users/EditUser";
 import './components/orders/orders.css';
 import './components/sales/sales.css';
+import EditOrder from "./components/orders/EditOrder";
 if(localStorage.token){
   setAuthToken(localStorage.token);
 }
@@ -41,7 +42,6 @@ function App() {
           <div className="container col-lg-10">
             <Alert />
             <Route exact path="/" component={HomeScreen}/>
-            {/* <Route exact path="/login" component={LoginScreenClient}/> */}
             <Route exact path="/auth" component={LoginScreenEmployee}/>
             <Route exact path="/register" component={RegisterScreen}/>
             <PrivateRoute exact path="/profile" component={DashboardScreen}/>
@@ -53,6 +53,7 @@ function App() {
             <PrivateRoute exact path="/users" component={UserScreen}/>
             <PrivateRoute exact path="/users/edit/:id" component={EditUser}/>
             <PrivateRoute exact path="/orders" component={OrderScreen}/>
+            <PrivateRoute exact path="/orders/edit/:id" component={EditOrder}/>
             <PrivateRoute exact path="/sales" component={SaleScreen}/>
           </div>
         </main>
