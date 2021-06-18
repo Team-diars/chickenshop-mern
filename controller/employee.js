@@ -2,7 +2,7 @@ const Employee = require("../models/Employee");
 
 const getEmployees = async (req, res) => {
   try {
-    const employees = await Employee.find({ status: 1 }).sort({date: 1}).exec();
+    const employees = await Employee.find({ status: 1 }).sort({date: -1}).exec();
     return res.json(employees);
   } catch (error) {
     return res.status(500).send("Server error");
