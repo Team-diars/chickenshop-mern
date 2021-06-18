@@ -23,6 +23,13 @@ label{
   overflow-y: auto;
   background-color: #cdcdcd;
 }
+.table-wrapper{
+  height: 450px;
+  max-height: 450px;
+  overflow-y: auto;
+  background-color: #cdcdcd;
+}
+
 /* width */
 .products-wrapper::-webkit-scrollbar, .ticket-table::-webkit-scrollbar{
   width: 8px;

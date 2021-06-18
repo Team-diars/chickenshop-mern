@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Form, Table } from 'react-bootstrap'
 import {Modal, ModalHeader, ModalBody} from 'reactstrap'
-import {getProducts,getProductByID} from '../../actions/product'
+import {getProducts} from '../../actions/product'
 import {getTickets} from '../../actions/ticket'
-import {addSale} from '../../actions/sale'
+import {addSale,getSales} from '../../actions/sale'
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 
-const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_loading},ticket:{tickets,loading}}) => {
+const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loading},product:{products,loading:p_loading},ticket:{tickets,loading}}) => {
   const [formData, setFormData] = useState({
     num_table:"",
     product:[],
@@ -15,14 +15,13 @@ const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_
     total:""
   });
   const {num_table,product,subtotal,total} = formData;
-  //console.log("cart: ",product);
-  console.log("tickets: ",tickets);
-  //console.log("payload products: ",products);
-  
-  const productsName = product.map(async(id) => {
-    return await getProductByID(id);
+  const getProductByID = (id) => {
+    return (!p_loading) && products.find(p => p._id === id);
+  }
+  const productsName = product.map((id) => {
+    return getProductByID(id)
   });
-  // console.log('filtered: ',productsName);
+  console.log('filtered: ',productsName);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(!isOpen);
   const closeBtn = <button className="close" onClick={handleOpen}>&times;</button>;
@@ -38,7 +37,7 @@ const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_
   }
   
   const registerSale = () => {
-    console.log("table: ",num_table)
+    //console.log("table: ",num_table)
     addSale({num_table:parseInt(num_table)});
     setFormData({
       num_table:"",
@@ -48,6 +47,9 @@ const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_
     })
   }
 
+  useEffect(() => {
+    getSales();
+  },[getSales])
   useEffect(() => {
     getTickets();
   },[getTickets])
@@ -94,8 +96,7 @@ const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_
             <label>Products</label>
             <div className="products-wrapper w-100">
             {
-              (product.length > 0) && productsName.map((p,idx) => (
-                <Button  key={idx} className="button-badge d-flex justify-content-center w-100" variant="secondary" disabled>
+              (!p_loading && productsName.length > 0) && productsName.map((p,idx) => (<Button key={idx} className="button-badge d-flex justify-content-center w-100" variant="secondary" disabled>
                   {p.name} <Badge className="badge" variant="light"></Badge>
                   <span className="sr-only">unread messages</span>
                 </Button>
@@ -111,28 +112,30 @@ const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_
           </div>
         </div>
         <div className="col-md-6 ">
-          <Table bordered striped hover responsive>
-            <thead>
-              <tr>
-                <th>Cashier</th>
-                <th>Table</th>
-                <th>Total</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                tickets.map((sale,idx) => (
-                  (sale.hasPaid) && <tr key={idx}>
-                    <td>{sale.cashier}</td>
-                    <td>{sale.num_table}</td>
-                    <td>{sale.total}</td>
-                    <td>{sale.date}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </Table>
+          <div className="table-wrapper">
+            <Table bordered striped hover responsive>
+              <thead>
+                <tr>
+                  <th>Cashier</th>
+                  <th>Table</th>
+                  <th>Total</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  sales.map((sale,idx) => (
+                    <tr key={idx}>
+                      <td>{sale.cashier}</td>
+                      <td>{sale.num_table}</td>
+                      <td>{sale.total}</td>
+                      <td>{sale.date}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </Table>
+          </div>
         </div>
       </div>
       <Modal isOpen={isOpen}>
@@ -151,7 +154,7 @@ const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_
               <tbody>
               {
                 tickets.map((ticket,idx) => (
-                  (!ticket.hasPaid) && <tr key={idx}>
+                  <tr key={idx}>
                     <td>{ticket.num_table}</td>
                     <td>{ticket.subtotal}</td>
                     <td>{ticket.total}</td>
@@ -179,6 +182,7 @@ const SaleScreen = ({getTickets,getProducts,addSale,product:{products,loading:p_
 }
 SaleScreen.propTypes = {
   getTickets: PropTypes.func.isRequired,
+  getSales: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   addSale: PropTypes.func.isRequired,
 }
@@ -188,4 +192,4 @@ const mapStateToProps = state => ({
   product: state.product,
   sale: state.sale,
 })
-export default connect(mapStateToProps,{addSale,getTickets,getProducts})(SaleScreen)
+export default connect(mapStateToProps,{addSale,getTickets,getSales,getProducts})(SaleScreen)
