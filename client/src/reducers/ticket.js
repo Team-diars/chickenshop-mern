@@ -30,10 +30,10 @@ export function ticket(state = initialState, action){
       };
     case EDIT_TICKET:
       if (state.ticket._id === payload.id){
-        const {tickets:{_id,category,name,price}} = payload;
+        const {tickets:{product}} = payload;
         return {
           ...state,
-          ticket: [...state.tickets, {_id,category,name,price}]
+          ticket: [...state.tickets, {product}]
         }
       }else{
         return ticket

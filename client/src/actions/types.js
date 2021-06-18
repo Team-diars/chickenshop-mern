@@ -72,3 +72,5 @@ export const REMOVE_TICKET = 'REMOVE_TICKET';
 //* Sales
 export const ADD_SALE = 'ADD_SALE';
 export const SALE_ERROR = 'SALE_ERROR';
+export const CLEAR_SALE = 'CLEAR_SALE';
+export const GET_SALES = 'GET_SALES';

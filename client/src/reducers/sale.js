@@ -1,4 +1,4 @@
-import {ADD_SALE,SALE_ERROR} from '../actions/types';
+import {ADD_SALE,CLEAR_SALE,GET_SALES,SALE_ERROR} from '../actions/types';
 const initialState = {
   sales: [],
   sale: null,
@@ -15,12 +15,24 @@ export function sale(state = initialState, action){
         sales: [payload,...state.sales],
         loading:false
       }
+    case GET_SALES:
+        return {
+          ...state,
+          sales: payload,
+          loading: false
+        };
     case SALE_ERROR:
       return {
         ...state,
         error: payload,
         loading: false
       }
+    case CLEAR_SALE: 
+      return {
+      ...state,
+      sales: [],
+      loading: false
+    }
     default: 
       return state;
   }
