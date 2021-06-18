@@ -16,12 +16,26 @@ const Sale = require('../../models/Sale');
 //* @access Private
 router.get('/',[auth],async(req,res)=>{
   try {
-    const tickets = await Sale.find({hasPaid:false,status:1}).sort({date: 1}).exec();
+    const tickets = await Sale.find({hasPaid:false,status:1}).sort({date: -1}).exec();
     return res.json(tickets);
   } catch (error) {
     res.status(500).send("Server error");
   }
 })
+
+//* @route  GET api/ticket/
+//* @des    Getting ticket by ID
+//* @access Private
+router.get('/:id',[auth],async(req,res)=>{
+  try {
+    const {id} = req.params;
+    const ticket = await Sale.find({_id:id,status:1}).exec();
+    return res.json(ticket[0]);
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
+})
+
 
 //* @route  POST api/ticket/
 //* @desc    Register ticket
@@ -78,10 +92,10 @@ router.post('/',[auth,
   }
 })
 
-//* @route  PUT api/ticket/update/:id
+//* @route  PUT api/ticket/edit/:id
 //* @des    Updating Ticket
 //* @access Private
-router.put('/update/:id',[auth,
+router.put('/edit/:id',[auth,
   check('product','Ticket must have products').not().isEmpty(),
   check('product','Must be an array').isArray(),
 ],async(req,res)=>{

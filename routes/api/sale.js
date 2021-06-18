@@ -10,7 +10,7 @@ const auth = require('../../middleware/auth');
 //* @access Private
 router.get('/',[auth],async(req,res)=>{
   try {
-    const sales = await Sale.find({ hasPaid: true }).exec(); //* Retrieve all tickets that has been paid
+    const sales = await Sale.find({ hasPaid: true }).sort({date: -1}).exec(); //* Retrieve all tickets that has been paid
     return res.json(sales);
   } catch (error) {
     res.status(500).send("Server error");

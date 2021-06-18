@@ -30,7 +30,7 @@ router.get('/search/:category',async(req,res)=>{
 //* @access Private
 router.get("/", [auth], async (req, res) => {
   try {
-    const products = await Product.find({ status: 1 }).sort({date: 1}).exec();
+    const products = await Product.find({ status: 1 }).sort({date: -1}).exec();
     return res.json(products);
   } catch (error) {
     res.status(500).send("Server error");
