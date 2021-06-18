@@ -13,7 +13,7 @@ const EditOrder = ({getTicketByID,getProducts,ticket:{ticket,loading:t_loading},
   const getProductByID = (id) => {
     return (!p_loading) && products.find(p => p._id === id);
   }
-  const productsName = (!t_loading) && ticket.product.map((id) => {
+  const productsName = (!t_loading && ticket) && ticket.product.map((id) => {
     return getProductByID(id) || false
   });
   

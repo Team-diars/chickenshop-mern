@@ -31,19 +31,31 @@ label{
 }
 
 /* width */
-.products-wrapper::-webkit-scrollbar, .ticket-table::-webkit-scrollbar{
+.products-wrapper::-webkit-scrollbar, 
+.ticket-table::-webkit-scrollbar,
+.table-wrapper::-webkit-scrollbar
+{
   width: 8px;
 }
 /* Track */
-.products-wrapper::-webkit-scrollbar-track,.ticket-table::-webkit-scrollbar-track{
+.products-wrapper::-webkit-scrollbar-track,
+.ticket-table::-webkit-scrollbar-track,
+.table-wrapper::-webkit-scrollbar-track
+{
   background: #f1f1f1;
 }
 /* Handle */
-.products-wrapper::-webkit-scrollbar-thumb,.ticket-table::-webkit-scrollbar-thumb{
+.products-wrapper::-webkit-scrollbar-thumb,
+.ticket-table::-webkit-scrollbar-thumb,
+.table-wrapper::-webkit-scrollbar-thumb
+{
   background: #888;
 }
 /* Handle on hover */
-.products-wrapper::-webkit-scrollbar-thumb:hover,.ticket-table::-webkit-scrollbar-thumb:hover{
+.products-wrapper::-webkit-scrollbar-thumb:hover,
+.ticket-table::-webkit-scrollbar-thumb:hover,
+.table-wrapper::-webkit-scrollbar-thumb:hover
+{
   background: #555;
 }
 
