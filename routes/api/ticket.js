@@ -16,7 +16,7 @@ const Sale = require('../../models/Sale');
 //* @access Private
 router.get('/',[auth],async(req,res)=>{
   try {
-    const tickets = await Sale.find().sort({date: 1}).exec();
+    const tickets = await Sale.find({hasPaid:false,status:1}).sort({date: 1}).exec();
     return res.json(tickets);
   } catch (error) {
     res.status(500).send("Server error");
