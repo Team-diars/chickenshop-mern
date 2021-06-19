@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Col, Form, Image, ModalBody, ModalFooter, Row, Spinner, Table } from 'react-bootstrap';
+import { Button, Col, Form, Image, ModalFooter, Row, Spinner, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {getProducts,addProduct,deleteProduct} from '../../actions/product'
-import {Modal} from 'reactstrap'
-import ModalHeader from 'react-bootstrap/esm/ModalHeader';
+import {Modal, ModalHeader, ModalBody} from 'reactstrap'
+//import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import PropTypes from 'prop-types';
 import axios from 'axios'
 
@@ -63,7 +63,6 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
     }
   }
   const imagePicked = (image) && <img src={`/images/${image}`} alt={image} className="image-picked" />
-  
   return (
       <>
         <Row className='align-items-center'>
@@ -155,8 +154,8 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
               <option value="drinks">Drinks</option>
               <option value="salads">Salads</option>
             </Form.Control>
-            <div className="bg-preview-image">
-              <p className="bg-text" style={{display:(uploading) && "none"}}>No preview image was set</p>
+            <div className="bg-preview-image" style={{background: (image) ? "#181818" : "#eee"}}>
+              <p className="bg-text" style={{display:(uploading || image) && "none"}}>No preview image was set</p>
               {
                 (!uploading) ? imagePicked : <Spinner animation="border" role="status">
                                               <span className="sr-only">Loading...</span>

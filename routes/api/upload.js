@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express')
 const multer = require('multer')
 const router = express.Router()
+const auth = require("../../middleware/auth");
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -34,7 +35,10 @@ const upload = multer({
   },
 })
 
-router.post('/', upload.single('image'), (req, res) => {
+//* @route  POST api/upload
+//* @des    Handle image process
+//* @access Private
+router.post('/', upload.single('image'),[auth], (req, res) => {
   try{
     res.send(`/${req.file.filename}`)
   }catch(e){
