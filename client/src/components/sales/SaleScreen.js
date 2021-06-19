@@ -16,9 +16,13 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
   });
   const {num_table,product,subtotal,total} = formData;
   const getProductByID = (id) => {
-    return (!p_loading) && products.find(p => p._id === id);
+    return products.find(p => {
+      console.log(p._id);
+      return p._id === id
+    });
   }
   const productsName = product.map((id) => {
+    // console.log(id);
     return getProductByID(id)
   });
   console.log('filtered: ',productsName);
@@ -95,13 +99,13 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
           <div className="p-0 col-12 col-md-12 mb-2">
             <label>Products</label>
             <div className="products-wrapper w-100">
-            {
-              (!p_loading && productsName.length > 0) && productsName.map((p,idx) => (<Button key={idx} className="button-badge d-flex justify-content-center w-100" variant="secondary" disabled>
+            {/* {
+              (!p_loading && productsName) && productsName.map((p,idx) => (<Button key={idx} className="button-badge d-flex justify-content-center w-100" variant="secondary" disabled>
                   {p.name} <Badge className="badge" variant="light"></Badge>
                   <span className="sr-only">unread messages</span>
                 </Button>
               ))
-            }
+            } */}
             </div>
           </div>
           <div className="p-0 col-12 col-md-12">
@@ -128,7 +132,7 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
                     <tr key={idx}>
                       <td>{sale.cashier}</td>
                       <td>{sale.num_table}</td>
-                      <td>{sale.total}</td>
+                      <td>S/.{sale.total.toFixed(2)}</td>
                       <td>{sale.date}</td>
                     </tr>
                   ))
@@ -156,8 +160,8 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
                 tickets.map((ticket,idx) => (
                   <tr key={idx}>
                     <td>{ticket.num_table}</td>
-                    <td>{ticket.subtotal}</td>
-                    <td>{ticket.total}</td>
+                    <td>S/.{ticket.subtotal.toFixed(2)}</td>
+                    <td>S/.{ticket.total.toFixed(2)}</td>
                     <td>
                       <Button className='btn-success btn-sm' 
                               onClick={() => addTicket({num_table:ticket.num_table,
