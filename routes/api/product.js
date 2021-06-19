@@ -33,6 +33,7 @@ router.get("/", [auth], async (req, res) => {
     const products = await Product.find({ status: 1 }).sort({date: -1}).exec();
     return res.json(products);
   } catch (error) {
+    console.log(error);
     res.status(500).send("Server error");
   }
 });
@@ -74,7 +75,7 @@ router.post(
         errors: errors.array(),
       });
     }
-    const { category, name, price } = req.body;
+    const { category, image, name, price } = req.body;
 
     //* Validate if product exists
     let product = await Product.findOne({ name });
@@ -85,12 +86,12 @@ router.post(
     }
     const exists = await Product.exists({ name: name, status: 0 });
     if (exists) {
-      const product = await Product.findOneAndUpdate({ name },{ category:category.toLowerCase(), price, status: 1 });
+      const product = await Product.findOneAndUpdate({ name },{ category:category.toLowerCase(), price,image, status: 1 });
       return res.json(product);
     }
-    const newProduct = new Product({ category:category.toLowerCase(), name:name.trim(), price });
+    const newProduct = new Product({ category:category.toLowerCase(), name:name.trim(), price, image });
     await newProduct.save();
-    return res.json(newProduct);
+    return res.json(newProduct);  
   }
 );
 

@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import HomeScreen from "./components/landing/HomeScreen";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
-import LoginScreenClient from "./components/auth/LoginScreenClient";
 import LoginScreenEmployee from "./components/auth/LoginScreenEmployee";
 import RegisterScreen from "./components/auth/RegisterScreen";
 import ProductScreen from "./components/products/ProductScreen";
@@ -25,6 +23,7 @@ import EditEmployee from "./components/employees/EditEmployee";
 import EditUser from "./components/users/EditUser";
 import './components/orders/orders.css';
 import './components/sales/sales.css';
+import './components/products/products.css';
 import EditOrder from "./components/orders/EditOrder";
 if(localStorage.token){
   setAuthToken(localStorage.token);

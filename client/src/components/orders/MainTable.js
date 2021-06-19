@@ -30,11 +30,11 @@ const MainTable = ({getTickets,deleteTicket,ticket:{tickets,loading}}) => {
                 <td>{ticket.subtotal}</td>
                 <td>{ticket.total}</td>
                 <td>
-                  <LinkContainer to={`/orders/edit/${ticket._id}`}>
+                  {/* <LinkContainer to={`/orders/edit/${ticket._id}`}>
                     <Button className='btn-warning btn-sm'>
                       <i className="fas fa-edit"></i>
                     </Button>
-                  </LinkContainer>
+                  </LinkContainer> */}
                   <Button className='btn-danger btn-sm' onClick={e => deleteTicket(ticket._id)}>
                     <i className="far fa-trash-alt"></i>
                   </Button>

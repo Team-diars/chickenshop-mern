@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Col, Form, ModalBody, ModalFooter, Row, Spinner, Table } from 'react-bootstrap';
+import { Button, Col, Form, Image, ModalBody, ModalFooter, Row, Spinner, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {getProducts,addProduct,deleteProduct} from '../../actions/product'
 import {Modal} from 'reactstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import PropTypes from 'prop-types';
+import axios from 'axios'
+
 const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,loading}}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [uploading, setUploading] = useState(false)
+  const [image,setImage] = useState('');
   const [ formData, setFormData ] = useState({
     name:'',
     category: '',
     price: 0,
+    image:''
   });
   const {
     name,
     category,
     price,
+    // image,
   } = formData;
-  const handleOpen = () => setIsOpen(!isOpen);
+  //Set Image empty when closing popup
+  const handleOpen = () => {
+    (!isOpen) && setImage('');
+    setIsOpen(!isOpen);
+  }
   const submitProduct = () => {
-    addProduct({ name:name.trim(),category,price });
-    setFormData({name:'',category:'',price:0})
+    addProduct({ name:name.trim(),category,price,image });
+    setFormData({name:'',category:'',price:0,image:''})
+    setImage('')
     setIsOpen(!isOpen);
   }
   useEffect(()=>{
@@ -30,6 +41,29 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
   const onChange = e => setFormData({ ...formData,
                                       [e.target.name]:e.target.value
                                     });
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+      const { data } = await axios.post('/api/upload', formData, config)
+      console.log('image > ',data);
+      setImage(data)
+      setUploading(false)
+    } catch (error) {
+      console.error(error.response)
+      setUploading(false)
+    }
+  }
+  const imagePicked = (image) && <img src={`/images/${image}`} alt={image} className="image-picked" />
+  
   return (
       <>
         <Row className='align-items-center'>
@@ -42,49 +76,55 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
             </Button>
           </Col>
         </Row>
-      <div className="d-flex justify-content-center align-items-center">
+      <div className="">
       {
         (loading) ? 
           <Spinner animation="border" role="status">
                   <span className="sr-only"></span>
           </Spinner> :
-          <Table striped bordered hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>PRICE</th>
-              <th>CATEGORY</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-          {
-            products.map((product,idx) => (
-              <tr key={idx}>
-                <td>{product._id}</td>
-                <td>{product.name}</td>
-                <td>S/. {product.price}</td>
-                <td>{product.category}</td>
-                <td>
-                  <LinkContainer to={`/products/edit/${product._id}`}>
-                    <Button variant='warning' className='btn-sm'>
-                      <i className='fas fa-edit'></i>
-                    </Button>
-                  </LinkContainer>
-                  <Button
-                    variant='danger'
-                    className='btn-sm'
-                    onClick={e => deleteProduct(product._id)}
-                  >
-                    <i className='fas fa-trash'></i>
-                  </Button>
-                </td>
+          <div className="product-table-wrapper">
+            <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>IMAGE</th>
+                <th>PRICE</th>
+                <th>CATEGORY</th>
+                <th>Actions</th>
               </tr>
-            ))
-          }
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+            {
+              products.map((product,idx) => (
+                <tr key={idx}>
+                  <td>{product._id}</td>
+                  <td>{product.name}</td>
+                  <td>
+                    <Image src={`/images/${product.image}`} alt={product.name} className="product-image" />
+                  </td>
+                  <td>S/. {product.price}</td>
+                  <td>{product.category}</td>
+                  <td>
+                    <LinkContainer to={`/products/edit/${product._id}`}>
+                      <Button variant='warning' className='btn-sm'>
+                        <i className='fas fa-edit'></i>
+                      </Button>
+                    </LinkContainer>
+                    <Button
+                      variant='danger'
+                      className='btn-sm'
+                      onClick={e => deleteProduct(product._id)}
+                    >
+                      <i className='fas fa-trash'></i>
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            }
+            </tbody>
+          </Table>
+          </div>
       }
       </div>
       <Modal isOpen={isOpen}>
@@ -93,10 +133,14 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
           <div className="form-group">
             <label>Product name</label>
             <br/>
-            <Form.Control name="name" value={name}  type="text" onChange={(e) => onChange(e)}/>
+            <Form.Control name="name" value={name} type="text" onChange={(e) => onChange(e)} autoComplete="off"/>
             <label>Product price</label>
             <br/>
-            <Form.Control type="number" step="any" name="price" value={price} onChange={(e) => onChange(e)}/>
+            <Form.Control type="number" step="any" name="price" value={price} onChange={(e) => onChange(e)} autoComplete="off"/>
+            <label>Product Image</label>
+            <br/>
+            <Form.File type="file" label={image} custom name="image" className="form-control image-input" accept="image/*" onChange={uploadFileHandler}/>
+
             <label>Product category</label>
             <br/>
             <Form.Control as="select" 
@@ -111,6 +155,14 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
               <option value="drinks">Drinks</option>
               <option value="salads">Salads</option>
             </Form.Control>
+            <div className="bg-preview-image">
+              <p className="bg-text" style={{display:(uploading) && "none"}}>No preview image was set</p>
+              {
+                (!uploading) ? imagePicked : <Spinner animation="border" role="status">
+                                              <span className="sr-only">Loading...</span>
+                                            </Spinner>
+              }
+            </div>
           </div>
         </ModalBody>
         <ModalFooter>

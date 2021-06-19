@@ -15,6 +15,7 @@ app.use('/api/category',require('./routes/api/category'));
 app.use('/api/contact',require('./routes/api/contact'));
 app.use('/api/user',require('./routes/api/user'));
 app.use('/api/sale',require('./routes/api/sale'));
+app.use('/api/upload',require('./routes/api/upload'));
 app.use('/api/ticket',require('./routes/api/ticket'));
 app.use('/api/product',require('./routes/api/product'));
 app.use('/api/employee',require('./routes/api/employee'));
