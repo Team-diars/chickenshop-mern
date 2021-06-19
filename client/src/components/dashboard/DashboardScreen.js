@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Col, Container, Image, Row, Spinner } from 'react-bootstrap';
+import { Col,  Image, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { loadUser } from '../../actions/auth';
 
@@ -8,7 +8,7 @@ const DashboardScreen = ({loadUser, auth:{user,loading}}) => {
     loadUser();
   },[loadUser])
   return (
-    <div class="parent-dashboard container p-5" style={{background:'#90d1d8', borderRadius:'8px', border:"2px dashed #181818"}}>
+    <div className="parent-dashboard container p-5" style={{background:'#90d1d8', borderRadius:'8px', border:"2px dashed #181818"}}>
       <h1>Profile</h1>
       <div className="d-flex col-md-12 profile-wrapper p-0">
       {

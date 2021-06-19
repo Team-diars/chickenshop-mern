@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { connect } from "react-redux";
 import {logout,loadUser} from '../../actions/auth'
-import { Spinner } from 'react-bootstrap';
 const Header = ({loadUser,auth: {user,isAuthenticated, loading},logout}) => {
   console.log('userInfo > ',user)
   const GuestNavbar = (

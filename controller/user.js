@@ -45,8 +45,9 @@ const RegisterUser = async (req, res) => {
     }
     const avatar = gravatar.url(email, {
       s: "200",
-      r: "pd",
-      d: "mm",
+      //r: "pd",
+      //d: "mm",
+      //f:"y"
     });
     user = new User({
       avatar,
