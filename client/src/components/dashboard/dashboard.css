@@ -15,6 +15,9 @@
 .info-user-wrapper{
   border-left: 1px solid #eee;
 }
+.info-user-wrapper p{
+  font-weight: 600;
+}
 .info-user{
   font-size: 18px;
 }

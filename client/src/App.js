@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import HomeScreen from "./components/landing/HomeScreen";
+import HomeScreen from "./website/HomeScreen";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import LoginScreenEmployee from "./components/auth/LoginScreenEmployee";
@@ -25,6 +25,9 @@ import './components/orders/orders.css';
 import './components/sales/sales.css';
 import './components/products/products.css';
 import './components/dashboard/dashboard.css';
+import './website/css/style.css';
+import './website/css/responsive.css';
+import './website/css/owl.carousel.min.css';
 import EditOrder from "./components/orders/EditOrder";
 if(localStorage.token){
   setAuthToken(localStorage.token);
@@ -38,8 +41,8 @@ function App() {
     <Provider store={store}>
       <Router>
         <Header/>
-        <main className="py-3">
-          <div className="container col-lg-10">
+        <main className="pt-3">
+          <div className="wrapper" >
             <Alert />
             <Route exact path="/" component={HomeScreen}/>
             <Route exact path="/auth" component={LoginScreenEmployee}/>
@@ -57,7 +60,7 @@ function App() {
             <PrivateRoute exact path="/sales" component={SaleScreen}/>
           </div>
         </main>
-        <Footer/>
+        {/* <Footer/> */}
       </Router>
     </Provider>
   )

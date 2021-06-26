@@ -6,14 +6,14 @@ import FormContainer from './FormContainer'
 const LoginScreenClient = ({ location, history }) => {
   return (
     <FormContainer>
-      <Row className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between">
         <h1 style={{margin:0}}>Sign In</h1>
         <Link to={'/auth'} className="d-flex align-items-center justify-content-center" style={{textDecoration:'none'}}>
           <Button type='button' variant='primary'>
             Employee <i className='fas fa-user'></i>
           </Button>
         </Link>
-      </Row>
+      </div>
       <Form>
         <Form.Group controlId='email'>
           <Form.Label>Email Address</Form.Label>

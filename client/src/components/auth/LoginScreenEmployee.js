@@ -23,41 +23,38 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
     return <Redirect to="/profile"/>
   }
   return (
-    <FormContainer>
-      <Row className="d-flex justify-content-between">
-        <h1 style={{margin:0}}>Sign In</h1>
-        {/* <Link to={'/login'} className="d-flex align-items-center justify-content-center" style={{textDecoration:'none'}}>
-          <Button type='button' variant='warning'>
-            Client <i className='fas fa-user'></i>
+    <div className="d-flex justify-content-center align-items-center" style={{height:"100vh"}}>
+      <div className="col-md-6 col-12" style={{border:"2px dashed #181818", padding:"2rem", borderRadius:"8px",background:"#e2e2e2"}}>
+        <div className="d-flex justify-content-between">
+          <h1 style={{margin:0}}>Sign In</h1>
+        </div>
+        <Form onSubmit={e => onSubmit(e)}>
+          <Form.Group controlId='email'>
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              type='email'
+              placeholder='Enter email'
+              name="email"
+              value={email} onChange={e => onChange(e)} required
+            ></Form.Control>
+          </Form.Group>
+
+          <Form.Group controlId='password'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type='password'
+              placeholder='Enter password'
+              name="password"
+              value={password} onChange={e => onChange(e)} required
+            ></Form.Control>
+          </Form.Group>
+
+          <Button type='submit' variant='primary'>
+            Sign In
           </Button>
-        </Link> */}
-      </Row>
-      <Form onSubmit={e => onSubmit(e)}>
-        <Form.Group controlId='email'>
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type='email'
-            placeholder='Enter email'
-            name="email"
-            value={email} onChange={e => onChange(e)} required
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId='password'>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Enter password'
-            name="password"
-            value={password} onChange={e => onChange(e)} required
-          ></Form.Control>
-        </Form.Group>
-
-        <Button type='submit' variant='primary'>
-          Sign In
-        </Button>
-      </Form>
-    </FormContainer>
+        </Form>
+      </div>
+    </div>
   )
 }
 const mapStateToProps = state => ({
