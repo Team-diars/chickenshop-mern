@@ -28,7 +28,7 @@ router.get('/search/:category',async(req,res)=>{
 //* @route  GET api/product
 //* @des    Get all products
 //* @access Private
-router.get("/", [auth], async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const products = await Product.find({ status: 1 }).sort({date: -1}).exec();
     return res.json(products);

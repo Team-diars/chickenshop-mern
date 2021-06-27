@@ -43,7 +43,7 @@ const UserScreen = ({getUsers,addUser,deleteUser,getEmployees,employee:{employee
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>
       </Spinner> :
-      <>
+      <div className="container">
       <Row className='align-items-center'>
         <Col>
           <h1>Users</h1>
@@ -121,7 +121,7 @@ const UserScreen = ({getUsers,addUser,deleteUser,getEmployees,employee:{employee
           >Cancel</button>
         </ModalFooter>
       </Modal>
-    </>
+    </div>
   
 }
 const mapStateToProps = state => ({

@@ -43,7 +43,9 @@ function App() {
         <Header/>
         <main className="pt-3">
           <div className="wrapper" >
-            <Alert />
+            <div className="container">
+              <Alert />
+            </div>
             <Route exact path="/" component={HomeScreen}/>
             <Route exact path="/auth" component={LoginScreenEmployee}/>
             <Route exact path="/register" component={RegisterScreen}/>

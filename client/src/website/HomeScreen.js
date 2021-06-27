@@ -1,10 +1,64 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux';
 import {HeaderWebsite} from '../components/layout/HeaderWebsite'
+import { Spinner } from 'react-bootstrap';
+import {getProducts} from '../actions/product'
+import {getSettings} from '../actions/settings';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
-const HomeScreen = () => {
+const HomeScreen = ({getSettings,getProducts,settings:{settings:_settings,loading}, product:{products,loading:p_loading}}) => {
+  const [ formData, setFormData ] = useState({
+    address:'',
+    telephone: '',
+    email: '',
+    facebook: '',
+    instagram:''
+  });
+  const {address,telephone,email} = formData;
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+  useEffect(() => {
+    getSettings();
+  },[getSettings])
+  
+  useEffect(() => {
+    if(!loading && _settings){
+      setFormData({
+        _id: _settings._id || "",
+        address: _settings.address || "",
+        telephone: _settings.telephone || "",
+        email: _settings.email || "",
+        facebook: _settings.social_links.facebook || "",
+        instagram: _settings.social_links.instagram || ""
+      })
+    }
+  },[_settings,loading]);
+  useEffect(()=>{
+    getProducts();
+  },[getProducts])
   return (
     <div id="content">
-      <HeaderWebsite/>
+      
+      <HeaderWebsite address={address} telephone={telephone} email={email}/>
+      
       <div className="slider_section">
         <div className="container">
           <div className="row">
@@ -69,99 +123,27 @@ const HomeScreen = () => {
             <div className="container">
               <div className="row">
                 <div className="col-md-12">
-                  <div className="owl-carousel owl-theme">
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs1.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Homemade</h3>
-                        <h4><span className="theme_color">$</span>10</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs2.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Noodles</h3>
-                        <h4><span className="theme_color">$</span>20</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs3.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Egg</h3>
-                        <h4><span className="theme_color">$</span>30</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs4.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Sushi Dizzy</h3>
-                        <h4><span className="theme_color">$</span>40</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs5.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>The Coffee break</h3>
-                        <h4><span className="theme_color">$</span>50</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs1.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Homemade</h3>
-                        <h4><span className="theme_color">$</span>10</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs2.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Noodles</h3>
-                        <h4><span className="theme_color">$</span>20</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs3.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Egg</h3>
-                        <h4><span className="theme_color">$</span>30</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs4.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>Sushi Dizzy</h3>
-                        <h4><span className="theme_color">$</span>40</h4>
-                      </div>
-                    </div>
-                    <div className="item">
-                      <div className="product_blog_img">
-                        <img src="/images-website/rs5.png" alt="#" />
-                      </div>
-                      <div className="product_blog_cont">
-                        <h3>The Coffee break</h3>
-                        <h4><span className="theme_color">$</span>50</h4>
-                      </div>
-                    </div>
-
-                  </div>
+                  <Carousel responsive={responsive}>
+                    {
+                      (p_loading) ? 
+                      <Spinner animation="border" role="status">
+                              <span className="sr-only"></span>
+                      </Spinner> :
+                      (
+                        products.map((item,idx) => (
+                          <div className="item" key={idx}>
+                            <div className="product_blog_img">
+                              <img className="img-product" src={`/images/${item.image}`} alt="#" />
+                            </div>
+                            <div className="product_blog_cont">
+                              <h3>{item.name}</h3>
+                              <h4><span className="theme_color">S/ </span>{item.price}</h4>
+                            </div>
+                          </div>
+                        ))
+                      )
+                    }
+                  </Carousel>
                 </div>
               </div>
             </div>
@@ -285,69 +267,69 @@ const HomeScreen = () => {
         </div>
       </div>
       <footer>
-        <div class="footer">
-          <div class="container-fluid">
-            <div class="row">
-              <div class=" col-md-12">
-                <h2>Request A<strong class="white"> Call Back</strong></h2>
+        <div className="footer">
+          <div className="container-fluid">
+            <div className="row">
+              <div className=" col-md-12">
+                <h2>Request A<strong className="white"> Call Back</strong></h2>
               </div>
-              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
 
-                <form class="main_form">
-                  <div class="row">
+                <form className="main_form">
+                  <div className="row">
 
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                      <input class="form-control" placeholder="Name" type="text" name="Name"/>
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <input className="form-control" placeholder="Name" type="text" name="Name"/>
                     </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                      <input class="form-control" placeholder="Email" type="text" name="Email"/>
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <input className="form-control" placeholder="Email" type="text" name="Email"/>
                     </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                      <input class="form-control" placeholder="Phone" type="text" name="Phone"/>
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <input className="form-control" placeholder="Phone" type="text" name="Phone"/>
                     </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                      <textarea class="textarea" placeholder="Message" type="text" name="Message"></textarea>
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <textarea className="textarea" placeholder="Message" type="text" name="Message"></textarea>
                     </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                      <button class="send">Send</button>
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <button className="send">Send</button>
                     </div>
                   </div>
                 </form>
               </div>
-              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                <div class="img-box">
+              <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div className="img-box">
                   <figure><img src="/images-website/img.jpg" alt="img" /></figure>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="footer_logo">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="footer_logo">
                   <a href="/">Harike</a>
                 </div>
               </div>
-              <div class="col-md-12">
-                <ul class="lik">
-                  <li class="active"> <a href="index.html">Home</a></li>
+              <div className="col-md-12">
+                <ul className="lik">
+                  <li className="active"> <a href="index.html">Home</a></li>
                   <li> <a href="about.html">About</a></li>
                   <li> <a href="recipe.html">Recipe</a></li>
                   <li> <a href="blog.html">Blog</a></li>
                   <li> <a href="contact.html">Contact us</a></li>
                 </ul>
               </div>
-              <div class="col-md-12">
-                <div class="new">
+              <div className="col-md-12">
+                <div className="new">
                   <h3>Newsletter</h3>
-                  <form class="newtetter">
-                    <input class="tetter" placeholder="Your email" type="text" name="Your email"/>
-                    <button class="submit">Subscribe</button>
+                  <form className="newtetter">
+                    <input className="tetter" placeholder="Your email" type="text" name="Your email"/>
+                    <button className="submit">Subscribe</button>
                   </form>
                 </div>
               </div>
             </div>
           </div>
-          <div class="copyright">
-            <div class="container">
+          <div className="copyright">
+            <div className="container">
               <p>© 2021 All Rights Reserved. Harike</p>
             </div>
           </div>
@@ -357,4 +339,9 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen
+const mapStateToProps = state => ({
+  settings: state.settings,
+  product: state.product,
+})
+
+export default connect(mapStateToProps, {getSettings,getProducts})(HomeScreen)

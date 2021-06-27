@@ -132,7 +132,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
     getProducts();
   },[getProducts])
   return (
-    <>
+    <div className="container">
       <div className="m-0 col-lg-12">
         <h1>Orders</h1>
       </div>
@@ -246,7 +246,7 @@ const OrderScreen = ({getProducts, product:{products,loading}}) => {
       <div className="mt-2 col-md-12">
         <MainTable/>
       </div>
-    </>
+    </div>
   )
 }
 

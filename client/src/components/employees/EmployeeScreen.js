@@ -38,7 +38,7 @@ const EmployeeScreen = ({getEmployees,addEmployee,deleteEmployee, employee:{empl
     [e.target.name]:e.target.value
   });
   return (
-      <>
+      <div className="container">
       <Row className='align-items-center'>
         <Col>
           <h1>Employees</h1>
@@ -139,7 +139,7 @@ const EmployeeScreen = ({getEmployees,addEmployee,deleteEmployee, employee:{empl
             >Cancel</button>
           </ModalFooter>
       </Modal>
-    </>
+    </div>
   )
 }
 const mapStateToProps = state => ({

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Button, Form, Table } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap';
 import {Modal, ModalHeader, ModalBody} from 'reactstrap'
 import {getProducts} from '../../actions/product'
 import {getTickets} from '../../actions/ticket'
@@ -14,6 +15,10 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
     subtotal:"",
     total:""
   });
+  const [formDataSales, setFormDataSales] = useState({
+    sales: [],
+  }) 
+  const {sales:sales_loaded} = formDataSales;
   const {num_table,product,subtotal,total} = formData;
   const getProductByID = (id) => {
     return products.find(p => {
@@ -50,7 +55,7 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
       total:""
     })
   }
-
+  
   useEffect(() => {
     getSales();
   },[getSales])
@@ -60,8 +65,15 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
   useEffect(() => {
     getProducts();
   },[getProducts])
+  useEffect(() => {
+    if(!s_loading && sales){
+      setFormDataSales({
+        sales:sales
+      })
+    }
+  },[sales,s_loading]);
   return (
-    <>
+    <div className="container">
       <div className="m-0 col-lg-12">
         <h1>Sales</h1>
       </div>
@@ -128,11 +140,15 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
               </thead>
               <tbody>
                 {
-                  sales.map((sale,idx) => (
+                  (s_loading && !sales_loaded) ? 
+                  <Spinner animation="border" role="status">
+                    <span className="sr-only"></span>
+                  </Spinner> :
+                  sales_loaded.map((sale,idx) => (
                     <tr key={idx}>
                       <td>{sale.cashier}</td>
                       <td>{sale.num_table}</td>
-                      <td>S/.{sale.total.toFixed(2)}</td>
+                      <td>S/.{sale.total}</td>
                       <td>{sale.date}</td>
                     </tr>
                   ))
@@ -160,8 +176,8 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
                 tickets.map((ticket,idx) => (
                   <tr key={idx}>
                     <td>{ticket.num_table}</td>
-                    <td>S/.{ticket.subtotal.toFixed(2)}</td>
-                    <td>S/.{ticket.total.toFixed(2)}</td>
+                    <td>S/.{ticket.subtotal}</td>
+                    <td>S/.{ticket.total}</td>
                     <td>
                       <Button className='btn-success btn-sm' 
                               onClick={() => addTicket({num_table:ticket.num_table,
@@ -181,7 +197,7 @@ const SaleScreen = ({getTickets,getSales,getProducts,addSale,sale:{sales,s_loadi
         </ModalBody>
         
       </Modal>
-    </>
+    </div>
   )
 }
 SaleScreen.propTypes = {

@@ -8,9 +8,7 @@ const Config = require("../../models/Settings");
 //* @route  GET api/settings
 //* @desc   Get Settings Info
 //* @access Private
-router.get('/',[
-  auth
-],async(req,res)=>{
+router.get('/',async(req,res)=>{
   try {
     const config = await Config.find().exec();
     return res.json(config[0]);
@@ -36,8 +34,10 @@ router.post('/',[
     address,
     telephone,
     facebook,
+    email,
     instagram
   } = req.body;
+  if (email) newConfig.email = email;
   if (address) newConfig.address = address;
   if (telephone) newConfig.telephone = telephone;
   

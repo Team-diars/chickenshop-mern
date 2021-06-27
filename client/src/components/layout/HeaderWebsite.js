@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const HeaderWebsite = () => {
+export const HeaderWebsite = ({address,telephone,email}) => {
   return (
     <header className="header-website">
     <div className="container-fluid">
@@ -17,15 +17,15 @@ export const HeaderWebsite = () => {
                       <div className="right_header_info">
                           <ul>
                               <li className="dinone">Contact Us : <img style={{marginRight: "15px",marginLeft: "15px"}} src="/images-website/phone_icon.png" alt="#"/>
-                              <a href="#">987-654-3210</a>
+                              <a href="#">{telephone}</a>
                               </li>
                               <li className="dinone">
                                 <img style={{marginRight: "15px"}} src="/images-website/mail_icon.png" alt="#"/>
-                                <a href="#">demo@gmail.com</a>
+                                <a href="#">{email}</a>
                               </li>
                               <li className="dinone">
                                 <img style={{marginRight: "15px",height: "21px", position: "relative", top: "-2px"}} src="/images-website/location_icon.png" alt="#"/>
-                                <a href="#">104 New york , USA</a>
+                                <a href="#">{address}</a>
                               </li>
                               <li className="button_user">
                                 <a className="button active" href="/auth">Login</a>

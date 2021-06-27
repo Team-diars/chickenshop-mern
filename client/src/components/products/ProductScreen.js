@@ -64,7 +64,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
   }
   const imagePicked = (image) && <img src={`/images/${image}`} alt={image} className="image-picked" />
   return (
-      <>
+      <div className="container">
         <Row className='align-items-center'>
           <Col>
             <h1>Products</h1>
@@ -127,7 +127,9 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
       }
       </div>
       <Modal isOpen={isOpen}>
-        <ModalHeader>Add Product</ModalHeader>
+        <ModalHeader>
+          <h3>Add Product</h3>
+        </ModalHeader>
         <ModalBody>
           <div className="form-group">
             <label>Product name</label>
@@ -173,7 +175,7 @@ const ProductScreen = ({addProduct,getProducts,deleteProduct, product:{products,
           >Cancel</button>
         </ModalFooter>
       </Modal>
-    </>
+    </div>
   )
 }
 const mapStateToProps = state => ({

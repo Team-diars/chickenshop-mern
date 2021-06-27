@@ -10,12 +10,14 @@ const SettingsScreen = ({updateSettings,getSettings,settings:{settings:_settings
   const [ formData, setFormData ] = useState({
     address:'',
     telephone: '',
+    email: '',
     facebook: '',
     instagram:''
   });
   const {
     address,
     telephone,
+    email,
     facebook,
     instagram
   } = formData;
@@ -29,6 +31,7 @@ const SettingsScreen = ({updateSettings,getSettings,settings:{settings:_settings
         _id: _settings._id || "",
         address: _settings.address || "",
         telephone: _settings.telephone || "",
+        email: _settings.email || "",
         facebook: _settings.social_links.facebook || "",
         instagram: _settings.social_links.instagram || ""
       })
@@ -37,14 +40,14 @@ const SettingsScreen = ({updateSettings,getSettings,settings:{settings:_settings
   const onChange = e => setFormData({...formData,[e.target.name]:e.target.value});
   const onSubmitSettings = (e) => {
     e.preventDefault();
-    updateSettings({ address,telephone,facebook,instagram });
+    updateSettings({ address,email,telephone,facebook,instagram });
     // setFormData({name:'',address:'',telephone:"",facebook:""})
   }
   return (
     <FormContainer>
-      <Row className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between">
         <h1>Settings</h1>
-      </Row>
+      </div>
       <Form>
         <Form.Group controlId='address'>
           <Form.Label>Address</Form.Label>
@@ -66,6 +69,16 @@ const SettingsScreen = ({updateSettings,getSettings,settings:{settings:_settings
             value={telephone}
           ></Form.Control>
         </Form.Group>
+        <Form.Group controlId='email'>
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter shop email'
+            name='email'
+            onChange={ (e) => onChange(e) }
+            value={email}
+          ></Form.Control>
+        </Form.Group>
         <div className="my-2">
           <button onClick={() => toggleSocialInputs(!displaySocialInputs)} type="button" className="btn btn-light">
             Add Social Network Links
@@ -75,13 +88,13 @@ const SettingsScreen = ({updateSettings,getSettings,settings:{settings:_settings
         {
           displaySocialInputs && 
           <>
-            <div className="form-group social-input">
-              <i className="fab fa-facebook fa-2x"></i>
+            <div className="form-group social-input d-flex">
+              <i className="fab fa-facebook fa-2x mr-2"></i>
               <input type="text" placeholder="Facebook URL" name="facebook" value={facebook} onChange={ (e) => onChange(e)}/>
             </div>
 
-            <div className="form-group social-input">
-              <i className="fab fa-instagram fa-2x"></i>
+            <div className="form-group social-input d-flex">
+              <i className="fab fa-instagram fa-2x mr-2"></i>
               <input type="text" placeholder="Instagram URL" name="instagram" value={instagram} onChange={ (e) => onChange(e)}/>
             </div>
           </>
