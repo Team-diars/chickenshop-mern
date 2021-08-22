@@ -12,6 +12,7 @@ router.get('/',async(req,res)=>{
   try {
     const config = await Config.find().exec();
     return res.json(config[0]);
+    // return;
   } catch (error) {
     return res.status(500).send("Server error");
   }

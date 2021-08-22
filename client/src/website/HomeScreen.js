@@ -46,8 +46,8 @@ const HomeScreen = ({getSettings,getProducts,settings:{settings:_settings,loadin
         address: _settings.address || "",
         telephone: _settings.telephone || "",
         email: _settings.email || "",
-        facebook: _settings.social_links.facebook || "",
-        instagram: _settings.social_links.instagram || ""
+        facebook: _settings?.social_links?.facebook || "",
+        instagram: _settings?.social_links?.instagram || ""
       })
     }
   },[_settings,loading]);
