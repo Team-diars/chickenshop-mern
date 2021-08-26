@@ -10,7 +10,7 @@ const auth = require('../../middleware/auth');
 //* @access Private
 router.get('/',[auth],async(req,res)=>{
   try {
-    const sales = await Sale.find({ hasPaid: true }).exec(); //* Retrieve all tickets that has been paid
+    const sales = await Sale.find({ hasPaid: true }).sort({date: -1}).exec(); //* Retrieve all tickets that has been paid
     return res.json(sales);
   } catch (error) {
     res.status(500).send("Server error");
@@ -32,13 +32,12 @@ router.post('/',[auth,
   if(!errors.isEmpty()) return res.status(400).json({errors: errors.array()});
   const {num_table} = req.body;
   const tableData = await Sale.find({num_table,status:1}).exec();
+  console.log("nodejs: ",tableData);
   if (!tableData) {
     return res.status(500).json({status: `Table ${num_table} does not exist`});
   }else{
     await Sale.findByIdAndUpdate(tableData,{hasPaid:true,status:0},{new:true}); //* new:true is for not getting as a response the previous record
-    return res.json({
-      status: "Sale registered",
-    });
+    return res.json();
   }
 })
 

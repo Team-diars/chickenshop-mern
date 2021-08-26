@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ContactSchema = new mongoose.Schema({
-  email: {
+  subject: {
     type:String,
     require:true
   },

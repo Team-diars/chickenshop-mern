@@ -1,20 +1,22 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
+import React from "react";
+import { Helmet } from "react-helmet";
 
 const Meta = ({ title, description, keywords }) => {
   return (
     <Helmet>
+      <meta charset="utf-8" />
       <title>{title}</title>
-      <meta name='description' content={description} />
-      <meta name='keyword' content={keywords} />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="description" content={description} />
+      <meta name="keyword" content={keywords} />
     </Helmet>
-  )
-}
+  );
+};
 
 Meta.defaultProps = {
-  title: 'Welcome To Shop',
-  description: 'We sell the best products for cheap',
-  keywords: 'food, buy fried chicken, sodas',
-}
+  title: "Harike",
+  description: "Los mejores pollos!",
+  keywords: "pollo a la brasa, parrillas",
+};
 
-export default Meta
+export default Meta;

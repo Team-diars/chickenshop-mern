@@ -14,7 +14,11 @@ const UserSchema = new mongoose.Schema({
   recovery_code: {
     type: String,
     default: null
-  }
+  },
+  status:{
+    type:Number,
+    default: 1,
+  },
 });
 
 module.exports = mongoose.model("user", UserSchema);

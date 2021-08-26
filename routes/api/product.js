@@ -28,10 +28,24 @@ router.get('/search/:category',async(req,res)=>{
 //* @route  GET api/product
 //* @des    Get all products
 //* @access Private
-router.get("/", [auth], async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const products = await Product.find({ status: 1 }).exec();
+    const products = await Product.find({ status: 1 }).sort({date: -1}).exec();
     return res.json(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+});
+
+//* @route  GET api/product/:id
+//* @des    Get product by ID
+//* @access Private
+router.get("/:id", [auth], async (req, res) => {
+  try {
+    const {id} = req.params;
+    const product = await Product.find({ _id:id, status: 1 }).exec();
+    return res.json(product[0]);
   } catch (error) {
     res.status(500).send("Server error");
   }
@@ -51,7 +65,7 @@ router.post(
     ],
     [
       check("price", "Price is required").not().isEmpty(),
-      check("price", "Price must be number").not().isString(),
+      // check("price", "Price must be number").not().isString(),
     ],
   ],
   async (req, res) => {
@@ -61,7 +75,7 @@ router.post(
         errors: errors.array(),
       });
     }
-    const { category, name, price } = req.body;
+    const { category, image, name, price } = req.body;
 
     //* Validate if product exists
     let product = await Product.findOne({ name });
@@ -72,19 +86,16 @@ router.post(
     }
     const exists = await Product.exists({ name: name, status: 0 });
     if (exists) {
-      console.log(true);
-      await Product.findOneAndUpdate({ name, category, price },{ name, status: 1 });
-      return res.json({ status: "Product created successfully" });
+      const product = await Product.findOneAndUpdate({ name },{ category:category.toLowerCase(), price,image, status: 1 });
+      return res.json(product);
     }
-    const newProduct = new Product({ category:category.toLowerCase(), name, price });
+    const newProduct = new Product({ category:category.toLowerCase(), name:name.trim(), price, image });
     await newProduct.save();
-    return res.json({
-      status: "Product created successfully",
-    });
+    return res.json(newProduct);  
   }
 );
 
-//* @route  PUT api/product/delete/:id
+//* @route  DELETE api/product/delete/:id
 //* @des    Updating state
 //* @access Private
 router.delete("/delete/:id", [auth], async (req, res) => {
@@ -111,20 +122,47 @@ router.put(
   "/edit/:id",
   [
     auth,
-    [
-      check("category", "Category is required").not().isEmpty(),
-    ],
-    [
-      check("name", "Name is required").not().isEmpty(),
-      check("name", "Name must be text").not().isNumeric(),
-    ],
-    [
-      check("price", "Price is required").not().isEmpty(),
-      check("price", "Price must be number").not().isString(),
-    ],
-    fieldValidation,
+    [check("category", "Category is required").not().isEmpty()],
+    [check("name", "Name is required").not().isEmpty(),
+    check("name", "Name must be text").not().isNumeric()],
+    [check("price", "Price is required").not().isEmpty(),check("price", "Price must be number").not().isString()],
+    // fieldValidation,
   ],
-  editProduct
+  async(req,res) => {
+    try{
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array()
+        }); //* mapped() returns object
+      }
+      const { id } = req.params;
+      const { category, name, price } = req.body;
+      const exists = await Product.exists({ _id: id, status: 1 });
+      if (!exists) return res.status(500).send("Product doesn't exist");
+      const duplicatedProduct = await Product.exists({ name: name, status: 0 });
+      const isSameProduct = await Product.exists({_id:id,name});
+      const isThereAnyProduct = await Product.exists({ name, status: 1 });
+      if (duplicatedProduct) {
+        await Product.findByIdAndRemove(id);
+        const productUpdated = await Product.findOneAndUpdate({ name, status:0 },{ name:name.trim(),category:category.toLowerCase(), status: 1 });
+        return res.json(productUpdated);
+      }else{
+        if(isThereAnyProduct && !isSameProduct){
+          return res.status(500).json({
+            errors: [{msg:`There is an product with the same name registered`}]
+          });
+        }
+      }
+      const productUpdated = await Product.findByIdAndUpdate(id,
+                                            { category:category.toLowerCase(), name:name.trim(), price },
+                                            { new: true });
+      return res.json(productUpdated);
+    }catch(error){
+      if (error.code === 11000) return res.status(500).send("Product duplicated");
+      return res.status(500).send("Server error");
+    }
+  }
 );
 
 module.exports = router;

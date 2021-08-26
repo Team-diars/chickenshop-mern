@@ -4,6 +4,10 @@ const SettingsSchema = new mongoose.Schema({
     type:String,
     require:true
   },
+  email: {
+    type:String,
+    require:true
+  },
   telephone: {
     type:String,
     require:true
