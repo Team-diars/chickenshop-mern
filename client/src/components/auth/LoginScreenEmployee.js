@@ -1,64 +1,87 @@
-import {connect} from 'react-redux';
-import React from 'react'
-import { useState } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
-import { Link, Redirect } from 'react-router-dom'
-import { auth } from '../../actions/auth'
-import FormContainer from './FormContainer'
-
+import { connect } from "react-redux";
+import React from "react";
+import { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { auth } from "../../actions/auth";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  FormErrorMessage,
+  FormHelperText,
+  Button,
+  Text,
+  Flex,
+  Box,
+} from "@chakra-ui/react";
 const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
-  const [formData,setFormData] = useState({
-    email: '',
-    password: '',
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
   });
-  const {email,password} = formData;
-  const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-  const onSubmit = async(e) => {
+  const { email, password } = formData;
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onSubmit = async (e) => {
     e.preventDefault();
-    auth(email,password);
-  }
+    auth(email, password);
+  };
   //* Redirect if logged in
   //* Login.js
-  if(isAuthenticated){
-    return <Redirect to="/profile"/>
+  if (isAuthenticated) {
+    return <Redirect to="/profile" />;
   }
   return (
-    <div className="d-flex justify-content-center align-items-center" style={{height:"100vh"}}>
-      <div className="col-md-6 col-12" style={{border:"2px dashed #181818", padding:"2rem", borderRadius:"8px",background:"#e2e2e2"}}>
-        <div className="d-flex justify-content-between">
-          <h1 style={{margin:0}}>Sign In</h1>
-        </div>
-        <Form onSubmit={e => onSubmit(e)}>
-          <Form.Group controlId='email'>
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type='email'
-              placeholder='Enter email'
+    <Flex align="center" justifyContent="center">
+      <Box width="md" height="auto" p={4} borderWidth="1px" borderRadius="md">
+        <Text
+          my={2}
+          fontSize="2xl"
+          textAlign="center"
+          fontWeight="bold"
+          lineHeight="short"
+        >
+          Sign In
+        </Text>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <FormControl mt={3}>
+            <FormLabel>Email Address</FormLabel>
+            <Input
+              type="email"
+              placeholder="Enter email"
               name="email"
-              value={email} onChange={e => onChange(e)} required
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group controlId='password'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Enter password'
+              value={email}
+              onChange={(e) => onChange(e)}
+              required
+            ></Input>
+          </FormControl>
+          <FormControl mt={3}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              placeholder="Enter password"
               name="password"
-              value={password} onChange={e => onChange(e)} required
-            ></Form.Control>
-          </Form.Group>
-
-          <Button type='submit' variant='primary'>
+              value={password}
+              onChange={(e) => onChange(e)}
+              required
+            ></Input>
+          </FormControl>
+          <Button
+            mt={4}
+            colorScheme="blue"
+            size="md"
+            type="submit"
+            variant="solid"
+          >
             Sign In
           </Button>
-        </Form>
-      </div>
-    </div>
-  )
-}
-const mapStateToProps = state => ({
+        </form>
+      </Box>
+    </Flex>
+  );
+};
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-})
+});
 
-export default connect(mapStateToProps,{auth})(LoginScreenEmployee)
+export default connect(mapStateToProps, { auth })(LoginScreenEmployee);

@@ -1,60 +1,68 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Table } from 'react-bootstrap'
-import {getTickets,deleteTicket} from '../../actions/ticket'
-import {connect} from 'react-redux';
-const MainTable = ({getTickets,deleteTicket,ticket:{tickets,loading}}) => {
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { LinkContainer } from "react-router-bootstrap";
+import { getTickets, deleteTicket } from "../../actions/ticket";
+import { connect } from "react-redux";
+import { Box, Button, Table, Tbody, Th, Thead, Tr, Td } from "@chakra-ui/react";
+
+const MainTable = ({
+  getTickets,
+  deleteTicket,
+  ticket: { tickets, loading },
+}) => {
   console.log(tickets);
   useEffect(() => {
     getTickets();
-  },[getTickets])
+  }, [getTickets]);
   return (
-    <div className="maintable-wrapper">
-      <Table bordered striped hover responsive size="sm">
-        <thead>
-          <tr>
-            <th>Cashier</th>
-            <th>Table</th>
-            <th>Subtotal</th>
-            <th>Total</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            tickets.map((ticket,idx) => (
-              (!ticket.hasPaid) && <tr key={idx}>
-                <td>{ticket.cashier}</td>
-                <td>{ticket.num_table}</td>
-                <td>{ticket.subtotal}</td>
-                <td>{ticket.total}</td>
-                <td>
-                  {/* <LinkContainer to={`/orders/edit/${ticket._id}`}>
+    <Box>
+      <Table variant="striped" size="lg">
+        <Thead>
+          <Tr>
+            <Th>Cashier</Th>
+            <Th>Table</Th>
+            <Th>Subtotal</Th>
+            <Th>Total</Th>
+            <Th></Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {tickets.map(
+            (ticket, idx) =>
+              !ticket.hasPaid && (
+                <Tr key={idx}>
+                  <Td>{ticket.cashier}</Td>
+                  <Td>{ticket.num_table}</Td>
+                  <Td>{ticket.subtotal}</Td>
+                  <Td>{ticket.total}</Td>
+                  <Td>
+                    {/* <LinkContainer to={`/orders/edit/${ticket._id}`}>
                     <Button className='btn-warning btn-sm'>
                       <i className="fas fa-edit"></i>
                     </Button>
                   </LinkContainer> */}
-                  <Button className='btn-danger btn-sm' onClick={e => deleteTicket(ticket._id)}>
-                    <i className="far fa-trash-alt"></i>
-                  </Button>
-                </td>
-              </tr>
-            ))
-          }
-        </tbody>
+                    <Button onClick={(e) => deleteTicket(ticket._id)}>
+                      <i className="far fa-trash-alt"></i>
+                    </Button>
+                  </Td>
+                </Tr>
+              )
+          )}
+        </Tbody>
       </Table>
-    </div>
-  )
-}
+    </Box>
+  );
+};
 
 MainTable.propTypes = {
   getTickets: PropTypes.func.isRequired,
   deleteTicket: PropTypes.func.isRequired,
-}
+};
 
-const mapStateToProps = state => ({
-  ticket: state.ticket
-})
+const mapStateToProps = (state) => ({
+  ticket: state.ticket,
+});
 
-export default connect(mapStateToProps,{getTickets,deleteTicket})(MainTable)
+export default connect(mapStateToProps, { getTickets, deleteTicket })(
+  MainTable
+);

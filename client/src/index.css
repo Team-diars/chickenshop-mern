@@ -1,15 +1,15 @@
-body{
+body {
   background-color: #f9f6f1;
 }
-label{
-  margin:0;
+label {
+  margin: 0;
 }
-main{
+main {
   min-height: 80vh;
 }
-h3{
+h3 {
   padding: 1rem 0;
 }
-.rating span{
-  margin:0.1rem;
+.rating span {
+  margin: 0.1rem;
 }
