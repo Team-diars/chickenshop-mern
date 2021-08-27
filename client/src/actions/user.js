@@ -23,13 +23,13 @@ export const getUsers = () => async dispatch =>{
 export const getUserByID = (id) => async dispatch =>{
   try {
     const res = await axios.get(`/api/user/${id}`);
-    console.log(res);
+    
     dispatch({
       type: GET_USER,
       payload: res.data
     })
   } catch (err) {
-    console.log(err.response)
+    
     const errors = err.response.data.errors;
     if(errors){
       errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
@@ -76,7 +76,7 @@ export const updateUser = (id,formData,history) => async (dispatch) => {
       }
     }
     const res = await axios.put(`/api/user/edit/${id}`,formData,config)
-    console.log("RES >>", res.data);
+    
     dispatch({
       type:EDIT_USER,
       payload: {id, users: res.data}
@@ -84,7 +84,7 @@ export const updateUser = (id,formData,history) => async (dispatch) => {
     history.push('/users');
     dispatch(setAlert('User Updated','success'));
   } catch (err) {
-    console.log(err.response);
+    
     // const errors = err.response.data.errors;
     // if(errors){
     //   errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
@@ -107,7 +107,7 @@ export const deleteUser = (id) => async dispatch =>{
       })
       dispatch(setAlert('User Removed','danger'));
     } catch (err) {
-      console.log(err.response);
+      
       const errors = err.response.data.errors;
       if(errors){
         errors.forEach(error => dispatch(setAlert(error.msg,'danger')));

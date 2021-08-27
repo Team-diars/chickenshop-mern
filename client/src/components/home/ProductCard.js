@@ -3,14 +3,11 @@ import {
   Circle,
   Box,
   Image,
-  Badge,
   useColorModeValue,
   Icon,
   chakra,
   Tooltip,
-  GridItem,
 } from "@chakra-ui/react";
-import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 
 function Rating({ rating, numReviews }) {

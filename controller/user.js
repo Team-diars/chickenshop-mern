@@ -11,7 +11,7 @@ const GetAllUser = async (req, res) => {
     const Users = await Employee.find({status:1,coduser:{$ne: null}});
     return res.json(Users);
   } catch (error) {
-    console.log(error)
+    
     return res.status(500).send("Server error");
   }
 };

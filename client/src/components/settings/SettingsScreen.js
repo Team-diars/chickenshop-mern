@@ -23,7 +23,7 @@ const SettingsScreen = ({
   getSettings,
   settings: { settings: _settings, loading },
 }) => {
-  console.log("data > ", _settings);
+  
   const [formData, setFormData] = useState({
     address: "",
     telephone: "",

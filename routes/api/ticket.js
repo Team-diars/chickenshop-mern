@@ -70,7 +70,7 @@ router.post(
     let amount_per_item;
     let prices;
     let { num_table, product } = req.body;
-    console.log("Product:", product);
+    
     let tableExists = await Sale.exists({ num_table, status: 1 });
     if (tableExists)
       return res.status(500).json({
@@ -82,7 +82,7 @@ router.post(
       });
     try {
       amount_per_item = product.map(async (item, idx) => {
-        console.log("ITEM:", item, item?.dish_name);
+        
         let { price } = await Product.findOne({
           name: item?.dish_name || item?.drink_name || item?.salad_name,
           status: 1,
@@ -99,7 +99,7 @@ router.post(
       }, 0);
       const { name, lastname } = await Employee.findOne({ _id: req.user.id });
       let total = subtotal - subtotal * DISCOUNT;
-      console.log(product);
+      
       const ids = product.map(
         (item) => item?.dish_id || item?.drink_id || item?.salad_id
       );
@@ -114,7 +114,7 @@ router.post(
       await newTicket.save();
       return res.json({ status: "Ticked saved successfully" });
     } catch (e) {
-      console.log(e.message);
+      
       res.status(500).send(e.message);
     }
   }
@@ -158,7 +158,7 @@ router.delete("/delete/:id", [auth], async (req, res) => {
   try {
     const { id } = req.params;
     const exists = await Sale.exists({ _id: id, status: 1 });
-    console.log("id".red, exists);
+    
     if (!exists) {
       return res.status(500).send("Ticket not found");
     }

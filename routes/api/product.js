@@ -15,7 +15,7 @@ require("colors");
 router.get('/search/:category',async(req,res)=>{
   try{
     let {category} = req.params;
-    console.log(category);
+    
     const products = await Product.find({category}).exec();
     if (!products) return res.status(500).send('Category does not exist')
     res.json(products);
@@ -33,7 +33,6 @@ router.get("/", async (req, res) => {
     const products = await Product.find({ status: 1 }).sort({date: -1}).exec();
     return res.json(products);
   } catch (error) {
-    console.log(error);
     res.status(500).send("Server error");
   }
 });
@@ -102,7 +101,7 @@ router.delete("/delete/:id", [auth], async (req, res) => {
   try {
     const { id } = req.params;
     const exists = await Product.find({ _id: id, status: 1 });
-    console.log("id".red, exists);
+    
     if (exists.length === 0 || !exists) {
       return res.status(500).send("Product not found");
     }

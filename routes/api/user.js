@@ -89,7 +89,7 @@ router.post('/reset-password',[
       });
       return res.json({status:"Code has been sent to the email provided"})
     } catch (err) {
-      console.log(e.message)
+      
       res.status(500).send(e.message)
     }
   }else{
@@ -129,7 +129,7 @@ router.post('/reset-password/:code',[
     await User.findOneAndUpdate({recovery_code:code},{recovery_code:null,password:password_updated},{new:true}); //* new:true is for not getting as a response the previous record
     return res.json({status:"Password updated successfully"})
   } catch (e) {
-    console.log(e.message)
+    
     res.status(500).send(e.message)
   }
 })
@@ -155,7 +155,7 @@ router.get("/:id", [auth], async (req, res) => {
     }
     return res.json(user);
   } catch (error) {
-    console.log(error)
+    
     res.status(500).send(error);
   }
 });
@@ -198,11 +198,11 @@ router.put("/edit/:id",[auth],
       const user = await User.findById(id);
       if (!user) return res.status(500).send("User doesn't exist");
       
-      console.log({new_password,pass:user.password})
-      console.log(new_password == user.password);
+      
+      
       if(new_password === user.password){
         const userUpdated = await User.findByIdAndUpdate(id,{});
-        console.log(userUpdated);
+        
         return res.json(userUpdated);
       }else{
         const salt = await bcrypt.genSalt(10);
@@ -217,7 +217,7 @@ router.put("/edit/:id",[auth],
         return res.json(userUpdated);
       }
     } catch (error) {
-      console.log(error)
+      
       res.status(500).send("Server error");
     }
 })

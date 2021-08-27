@@ -24,7 +24,7 @@ router.post('/',[
     throw new Error('No order items')
     return;
   } else {
-    console.log(req.user._id,'ID');
+    
     const order = new Order({
       orderItems,
       cod_user_client: req.user._id,

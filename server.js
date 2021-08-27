@@ -1,8 +1,13 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const cors = require('cors');
 const app = express();
 const path = require("path");
-const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+// const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+app.use(cors());
+
 //* Connecting to Database
 connectDB();
 
@@ -21,7 +26,9 @@ app.use('/api/product',require('./routes/api/product'));
 app.use('/api/employee',require('./routes/api/employee'));
 app.use('/api/settings',require('./routes/api/settings'));
 app.use('/api/client',require('./routes/api/client/auth'))
-app.use('/api/order',require('./routes/api/client/order'))
+//app.use('/api/order',require('./routes/api/client/order'))
+app.use('/api/menu',require('./routes/api/menu'))
+app.use('/api/order',require('./routes/api/order'))
 
 if (process.env.NODE_ENV === "production") {
   //* Set static folder
@@ -31,11 +38,18 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 //* Handling 404 error
-app.use(notFound);
-
+// app.use(notFound);
 //* Handling custom errors
-app.use(errorHandler);
+// app.use(errorHandler);
+
+//Socket
+// io.on('connection', (socket) => {
+//   console.log('connected!!');
+//   socket.on('event://send-order', (msg) => {
+//     //const payload = JSON.parse(msg);
+//     console.log('payload - backend: ',msg)
+//   })
+// })
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server started on port : ${PORT}`));
+http.listen(PORT, () => console.log(`Server started on port : ${PORT}`));

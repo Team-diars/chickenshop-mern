@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Box, Button, Table, Tbody, Th, Thead, Tr, Td } from "@chakra-ui/react";
 
 const TableCart = ({ cart, num_table, setCart, setNumTable, addTicket }) => {
-  console.log("Rendering");
+  
   const saveTicket = () => {
     const data = cart.map((item) => {
       return item;
@@ -18,7 +18,7 @@ const TableCart = ({ cart, num_table, setCart, setNumTable, addTicket }) => {
     setNumTable("");
   };
   const removeItem = ({ name }) => {
-    console.log("removing");
+    
     return setCart(
       cart.filter(
         (dish) =>

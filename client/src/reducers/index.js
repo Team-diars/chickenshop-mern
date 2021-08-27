@@ -7,6 +7,7 @@ import {user} from './user';
 import {ticket} from './ticket';
 import {sale} from './sale';
 import {settings} from './settings';
+import {order} from './orders';
 export default combineReducers({
   alert,
   auth,
@@ -15,5 +16,6 @@ export default combineReducers({
   user,
   settings,
   ticket,
-  sale
+  sale,
+  order
 });

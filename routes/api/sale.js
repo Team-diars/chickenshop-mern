@@ -32,7 +32,7 @@ router.post('/',[auth,
   if(!errors.isEmpty()) return res.status(400).json({errors: errors.array()});
   const {num_table} = req.body;
   const tableData = await Sale.find({num_table,status:1}).exec();
-  console.log("nodejs: ",tableData);
+  
   if (!tableData) {
     return res.status(500).json({status: `Table ${num_table} does not exist`});
   }else{

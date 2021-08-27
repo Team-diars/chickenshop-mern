@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEvent, useState } from "react";
+import { useState } from "react";
 import {
   Stack,
   FormControl,
@@ -10,7 +10,6 @@ import {
   Container,
   Flex,
 } from "@chakra-ui/react";
-import { CheckIcon } from "@chakra-ui/icons";
 
 export default function Simple() {
   const [email, setEmail] = useState("");

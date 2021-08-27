@@ -13,7 +13,7 @@ const EditUser = ({
   user: { user, loading },
   match,
 }) => {
-  console.log(user);
+  
   const [formData, setFormData] = useState({
     _id: "",
     name: "",

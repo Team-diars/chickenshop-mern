@@ -62,7 +62,7 @@ const EditProduct = ({
         },
       };
       const { data } = await axios.post("/api/upload", formData, config);
-      console.log("image > ", data);
+      
       setImage(data);
       setUploading(false);
     } catch (error) {

@@ -42,7 +42,7 @@ router.post('/', upload.single('image'),[auth], (req, res) => {
   try{
     res.send(`/${req.file.filename}`)
   }catch(e){
-    console.log(e);
+    
   }
 })
 

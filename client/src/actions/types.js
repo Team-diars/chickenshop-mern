@@ -74,3 +74,8 @@ export const ADD_SALE = 'ADD_SALE';
 export const SALE_ERROR = 'SALE_ERROR';
 export const CLEAR_SALE = 'CLEAR_SALE';
 export const GET_SALES = 'GET_SALES';
+
+//* Orders
+export const ADD_ORDER = 'ADD_ORDER';
+export const CLEAR_ORDER = 'CLEAR_ORDER';
+export const ORDER_ERROR = 'ORDER_ERROR';

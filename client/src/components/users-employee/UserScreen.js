@@ -7,7 +7,7 @@ const UserScreen = ({getUsers, user:{users,loading}}) => {
   useEffect(()=>{
     getUsers();
   },[getUsers])
-  console.log(users)
+  
   return (loading) ?
       <Spinner animation="border" role="status">
         <span className="sr-only">Loading...</span>

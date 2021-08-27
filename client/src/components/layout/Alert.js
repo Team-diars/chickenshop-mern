@@ -19,7 +19,7 @@ const Alerts = ({ alerts }) =>
     </Alert>
     // <div key={alert.id} className={`alert alert-${alert.alertType}`}>
     // {
-    //   console.log(alert)
+    //   
     // }
     //   {alert.msg}
     // </div>

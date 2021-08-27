@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 const EditOrder = ({getTicketByID,getProducts,ticket:{ticket,loading:t_loading},product:{products,loading:p_loading},match}) => {
   const updateTicket = () => {
-    console.log("Updated!!");
+    
   }
   
   const getProductByID = (id) => {
@@ -17,7 +17,7 @@ const EditOrder = ({getTicketByID,getProducts,ticket:{ticket,loading:t_loading},
     return getProductByID(id) || false
   });
   
-  console.log('filtered: ',productsName);
+  
 
   const getTicket = (id) => {
     getTicketByID(id);

@@ -1,12 +1,9 @@
 import { Link as ReachLink } from "react-router-dom";
 import {
   Box,
-  chakra,
-  Container,
   Stack,
   Text,
   useColorModeValue,
-  VisuallyHidden,
   Flex,
   IconButton,
   Button,
@@ -25,7 +22,6 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 export default function HeaderHome(props) {
   const { isOpen, onToggle } = useDisclosure();

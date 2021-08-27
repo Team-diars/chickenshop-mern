@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Form, ModalBody, ModalFooter, Spinner } from "react-bootstrap";
+import { ModalBody, ModalFooter, Spinner } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getEmployeeByID, updateEmployee } from "../../actions/employee";
 import { Link } from "react-router-dom";
-import { Input, Select, Button, FormLabel, Text, Box } from "@chakra-ui/react";
+import { Input, Select, Button, FormLabel } from "@chakra-ui/react";
 function EditEmployee({
   history,
   getEmployeeByID,

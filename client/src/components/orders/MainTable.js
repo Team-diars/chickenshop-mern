@@ -10,7 +10,7 @@ const MainTable = ({
   deleteTicket,
   ticket: { tickets, loading },
 }) => {
-  console.log(tickets);
+  
   useEffect(() => {
     getTickets();
   }, [getTickets]);

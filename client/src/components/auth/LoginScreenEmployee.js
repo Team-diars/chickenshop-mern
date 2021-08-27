@@ -1,14 +1,12 @@
 import { connect } from "react-redux";
 import React from "react";
 import { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { auth } from "../../actions/auth";
 import {
   FormControl,
   FormLabel,
   Input,
-  FormErrorMessage,
-  FormHelperText,
   Button,
   Text,
   Flex,

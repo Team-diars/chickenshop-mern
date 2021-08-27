@@ -67,7 +67,7 @@ const EmployeeScreen = ({
   useEffect(() => {
     getEmployees();
   }, [getEmployees]);
-  console.log(isOpen);
+  
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   return (

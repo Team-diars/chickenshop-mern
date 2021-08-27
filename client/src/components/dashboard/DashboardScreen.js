@@ -4,11 +4,8 @@ import { connect } from "react-redux";
 import { loadUser } from "../../actions/auth";
 import {
   Box,
-  Image,
   Flex,
-  Badge,
   Text,
-  Center,
   Wrap,
   WrapItem,
   Avatar,

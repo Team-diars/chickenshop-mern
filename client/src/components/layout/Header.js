@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link as ReachLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout, loadUser } from "../../actions/auth";
@@ -7,7 +7,6 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   IconButton,
   Button,
@@ -15,8 +14,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
-  useBreakpointValue,
   useDisclosure,
   useColorModeValue,
   Text,
@@ -148,6 +145,23 @@ const Header = ({
             to="/profile"
           >
             Profile
+          </Button>
+          <Button
+            as={ReachLink}
+            px={2}
+            py={1}
+            rounded={"sm"}
+            bg="blackAlpha.100"
+            _hover={{
+              textDecoration: "none",
+              bg: useColorModeValue("gray.100", "gray.500"),
+            }}
+            fontWeight="normal"
+            fontSize="lg"
+            key="profile"
+            to="/menu"
+          >
+            Menu
           </Button>
           <Menu>
             <MenuButton

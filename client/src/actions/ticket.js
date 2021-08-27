@@ -17,7 +17,7 @@ export const addTicket = (formData) => async dispatch => {
     });
     dispatch(setAlert('Ticket Added','success'));
   } catch (err) {
-    console.log(err.response);
+    
     const errors = err.response.data.errors;
     if(errors){
       errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
@@ -97,7 +97,7 @@ export const getTickets = () => async dispatch =>{
   dispatch({ type: CLEAR_TICKET });
   try {
     const res = await axios.get('/api/ticket');
-    // console.log(res.data);
+    // 
     dispatch({
       type: GET_TICKETS,
       payload: res.data

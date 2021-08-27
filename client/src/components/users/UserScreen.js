@@ -66,7 +66,7 @@ const UserScreen = ({
       [name]: type === "number" ? parseInt(value) : value,
     });
   };
-  console.log("Employees > ", employees);
+  
   return loading && loading_emp ? (
     <Spinner animation="border" role="status">
       <span className="sr-only">Loading...</span>

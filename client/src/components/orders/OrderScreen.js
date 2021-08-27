@@ -102,7 +102,7 @@ const OrderScreen = ({ getProducts, product: { products, loading } }) => {
     const product = products.find(
       (item) => item.name === drink_name && item.status
     );
-    console.log(product._id);
+    
     if (item) {
       setFormDataDishes({
         drink_id: product._id,

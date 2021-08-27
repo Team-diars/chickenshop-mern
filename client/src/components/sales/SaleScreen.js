@@ -54,15 +54,15 @@ const SaleScreen = ({
   const { num_table, product, subtotal, total } = formData;
   const getProductByID = (id) => {
     return products.find((p) => {
-      console.log(p._id);
+      
       return p._id === id;
     });
   };
   const productsName = product.map((id) => {
-    // console.log(id);
+    // 
     return getProductByID(id);
   });
-  console.log("filtered: ", productsName);
+  
   // const [isOpen, setIsOpen] = useState(false);
   // const handleOpen = () => setIsOpen(!isOpen);
   // const closeBtn = (
@@ -71,7 +71,7 @@ const SaleScreen = ({
   //   </button>
   // );
   const addTicket = ({ product, num_table, subtotal, total }) => {
-    //console.log({product,num_table,subtotal,total});
+    //
     // setIsOpen(!isOpen);
     onClose();
     setFormData({
@@ -83,7 +83,7 @@ const SaleScreen = ({
   };
 
   const registerSale = () => {
-    //console.log("table: ",num_table)
+    //
     addSale({ num_table: parseInt(num_table) });
     setFormData({
       num_table: "",

@@ -16,7 +16,7 @@ export const addSale = (num_table) => async dispatch => {
     });
     dispatch(setAlert('Sale Added','success'));
   } catch (err) {
-    console.log("MyError: ",err.response);
+    
     // const errors = err.response.data.errors;
     // if(errors){
     //   errors.forEach(error => dispatch(setAlert(error.msg,'danger')));

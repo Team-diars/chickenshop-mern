@@ -4,7 +4,7 @@ const initialState = [];
 //* action = type,payload(data)
 export function alert(state = initialState, action){
   const { type, payload } = action;
-  console.log('payload: ',payload)
+  
   switch(type){
     case SET_ALERT:
       console.table([...state, payload]);
