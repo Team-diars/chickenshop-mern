@@ -27,7 +27,7 @@ import {
 //     py={1}
 //     rounded={"md"}
 //     _hover={{
-//       textDecoration: "none",
+//       textDecoration: "none",controlId
 //       bg: useColorModeValue("gray.200", "gray.700"),
 //     }}
 //     href={children.url}
@@ -162,6 +162,23 @@ const Header = ({
             to="/menu"
           >
             Menu
+          </Button>
+          <Button
+            as={ReachLink}
+            px={2}
+            py={1}
+            rounded={"sm"}
+            bg="blackAlpha.100"
+            _hover={{
+              textDecoration: "none",
+              bg: useColorModeValue("gray.100", "gray.500"),
+            }}
+            fontWeight="normal"
+            fontSize="lg"
+            key="profile"
+            to="/orders"
+          >
+            Orders
           </Button>
           <Menu>
             <MenuButton

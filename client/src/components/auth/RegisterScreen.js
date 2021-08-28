@@ -10,7 +10,7 @@ const RegisterScreen = ({ location, history }) => {
         <h1 style={{margin:0}}>Sign Up</h1>
       </Row>
       <Form>
-        <Form.Group controlId='email'>
+        <Form.Group>
           <Form.Label>Full Name</Form.Label>
           <Form.Control
             type='text'

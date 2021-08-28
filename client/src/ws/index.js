@@ -8,17 +8,20 @@ export const WebSocketContext = createContext(null);
 export default function({children}){
   let socket;
   let ws;
+  const CONNECTION_PORT = `http://localhost:5000/`;
   const dispatch = useDispatch();
   const sendOrder = (payload) => {
-    socket.emit("event://send-order", JSON.stringify(payload));
-    dispatch(addOrder(payload));
+    socket.emit("send-order", JSON.stringify(payload), (data) =>{
+      // console.log(data)
+    });
+    // dispatch(addOrder(payload));
   }
   if(!socket){
-    socket = io.connect('http://localhost:5000/api/order');
-    socket.on("event://send-order", (data) => {
+    socket = io(CONNECTION_PORT, {transports: ['websocket']});
+    socket.on("send-order", (data) => {
       // const payload = JSON.parse(data);
       // dispatch(addOrder(payload));
-      console.log('SENT ORDER!!!!')
+      // console.log("DATA: ",data)
     })
     ws = {
       socket: socket,

@@ -15,7 +15,7 @@ const LoginScreenClient = ({ location, history }) => {
         </Link>
       </div>
       <Form>
-        <Form.Group controlId='email'>
+        <Form.Group>
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type='email'
@@ -23,7 +23,7 @@ const LoginScreenClient = ({ location, history }) => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlId='password'>
+        <Form.Group>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type='password'

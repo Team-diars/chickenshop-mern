@@ -1,13 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
 import { addOrder } from '../../actions/order'
 import { WebSocketContext } from '../../ws'
+import io from 'socket.io-client';
+
+let socket;
+const CONNECTION_PORT = `http://localhost:5000/`;
 export const MenuScreen = () => {
   const data = useSelector(state => state.order)  
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
-  console.log("WS: ",ws);
+  // console.log("WS: ",ws);
+  // useEffect(() => {
+  //   socket = io(CONNECTION_PORT, {transports: ['websocket']});
+  // },[CONNECTION_PORT])
   const sendPayload = () => {
     const payload = {
       products: [
@@ -23,6 +30,10 @@ export const MenuScreen = () => {
         }
       ]
     };
+    // socket.emit('send-order', payload, (data) => {
+    //   console.log(data)  
+    // })
+    
     // dispatch(addOrder(payload))
     ws.sendOrder(payload);
   }

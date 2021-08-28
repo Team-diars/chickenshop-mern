@@ -8,7 +8,7 @@ const OrderSchema = new Schema({
     price: Number,
     category: String,
     qty: Number,
-    creams: Array
+    creams: [String]
   }],
   status: {
     type: Number,

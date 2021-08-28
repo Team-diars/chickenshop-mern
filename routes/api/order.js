@@ -4,8 +4,6 @@ const cors = require('cors');
 const router = express.Router();
 const Order = require('../../models/Order');
 
-app.use(cors());
-
 // @route  GET api/order
 // @des    Get Live Orders
 // @access Public

@@ -186,8 +186,8 @@ const HomeScreen = ({
           gridTemplateColumns="repeat(5, 220px)"
           gridGap={6}
         >
-          {products.map((item, i) => (
-            <ProductAddToCart product={item} />
+          {products.map((item, idx) => (
+            <ProductAddToCart key={idx} product={item} />
           ))}
         </Box>
       </Container>

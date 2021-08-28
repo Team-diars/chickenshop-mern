@@ -3,8 +3,8 @@ const connectDB = require("./config/db");
 const cors = require('cors');
 const app = express();
 const path = require("path");
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+// const http = require('http').createServer(app);
+const socket = require('socket.io');
 // const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 app.use(cors());
 
@@ -42,14 +42,21 @@ if (process.env.NODE_ENV === "production") {
 //* Handling custom errors
 // app.use(errorHandler);
 
-//Socket
-// io.on('connection', (socket) => {
-//   console.log('connected!!');
-//   socket.on('event://send-order', (msg) => {
-//     //const payload = JSON.parse(msg);
-//     console.log('payload - backend: ',msg)
-//   })
-// })
 
 const PORT = process.env.PORT || 5000;
-http.listen(PORT, () => console.log(`Server started on port : ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server started on port : ${PORT}`));
+
+//Socket
+io = socket(server);
+io.on('connection', (socket) => {
+  // console.log(socket.id);
+  socket.on('send-order', (msg, callback) => {
+    const payload = JSON.parse(JSON.stringify(msg));
+    //console.log('payload - backend: ',payload)
+    callback(payload)
+    socket.broadcast.emit('send-order',payload);
+  })  
+  io.on('disconnect', () => {
+    console.log('disconnected!');
+  })
+})
