@@ -19,13 +19,11 @@ export const MenuScreen = () => {
     const payload = {
       products: [
         {
-          "name": "alitas",
-          "price": 5.5,
-          "category": "Food",
-          "qty": 5,
+          "name": "helado 1LT",
+          "price": 12,
+          "category": "Icecream",
+          "qty": 2,
           "creams": [
-            "mayonesa",
-            "tartara"
           ]
         }
       ]
@@ -33,13 +31,14 @@ export const MenuScreen = () => {
     // socket.emit('send-order', payload, (data) => {
     //   console.log(data)  
     // })
-    
     // dispatch(addOrder(payload))
+    
+    // This will handle adding the order
     ws.sendOrder(payload);
   }
   return (
     <Button onClick={sendPayload}>
-      Send
+      Send Order
     </Button>
   )
 }

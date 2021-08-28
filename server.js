@@ -5,7 +5,7 @@ const app = express();
 const path = require("path");
 // const http = require('http').createServer(app);
 const socket = require('socket.io');
-// const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 app.use(cors());
 
 //* Connecting to Database
@@ -38,9 +38,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 //* Handling 404 error
-// app.use(notFound);
+app.use(notFound);
 //* Handling custom errors
-// app.use(errorHandler);
+app.use(errorHandler);
 
 
 const PORT = process.env.PORT || 5000;
@@ -49,10 +49,10 @@ const server = app.listen(PORT, () => console.log(`Server started on port : ${PO
 //Socket
 io = socket(server);
 io.on('connection', (socket) => {
-  // console.log(socket.id);
   socket.on('send-order', (msg, callback) => {
     const payload = JSON.parse(JSON.stringify(msg));
-    //console.log('payload - backend: ',payload)
+    
+    //redirects to client components who are being connected to sockets
     callback(payload)
     socket.broadcast.emit('send-order',payload);
   })  
