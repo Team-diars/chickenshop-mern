@@ -1,4 +1,4 @@
-import {ADD_ORDER,ORDER_ERROR} from '../actions/types'
+import {ADD_ORDER,GET_FIRST_ORDER,ORDER_ERROR,GET_ORDERS, CLEAR_ORDER} from '../actions/types'
 const initialState = {
   orders: [],
   product: null,
@@ -20,6 +20,24 @@ export function order(state = initialState, action){
         error: action.payload,
         loading:true
       };
+    case GET_ORDERS:
+      return {
+        ...state,
+        orders: action.payload,
+        loading:false,
+      }
+    case GET_FIRST_ORDER: 
+      return {
+        ...state,
+        order: action.payload,
+        loading:false
+      }
+    case CLEAR_ORDER: 
+      return {
+      ...state,
+      orders: [],
+      loading: true
+    }
     default:
       return state;
   }

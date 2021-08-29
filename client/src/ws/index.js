@@ -15,7 +15,7 @@ export default function({children}){
       //Here we're going to return the payload in order to show the receipt or order that they sent
       // console.log(payload_from_server)
     });
-    dispatch(addOrder(payload));
+    // dispatch(addOrder(payload));
   }
   if(!socket){
     socket = io(CONNECTION_PORT, {transports: ['websocket']});

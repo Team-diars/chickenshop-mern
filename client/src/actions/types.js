@@ -79,3 +79,5 @@ export const GET_SALES = 'GET_SALES';
 export const ADD_ORDER = 'ADD_ORDER';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
 export const ORDER_ERROR = 'ORDER_ERROR';
+export const GET_FIRST_ORDER = 'GET_FIRST_ORDER';
+export const GET_ORDERS = 'GET_ORDERS';

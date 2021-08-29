@@ -49,13 +49,16 @@ const server = app.listen(PORT, () => console.log(`Server started on port : ${PO
 //Socket
 io = socket(server);
 io.on('connection', (socket) => {
+  console.log('connected server!')
   socket.on('send-order', (msg, callback) => {
     const payload = JSON.parse(JSON.stringify(msg));
-    
     //redirects to client components who are being connected to sockets
     callback(payload)
     socket.broadcast.emit('send-order',payload);
   })  
+  // socket.on('send-order', (msg, callback) => {
+
+  // })
   io.on('disconnect', () => {
     console.log('disconnected!');
   })
