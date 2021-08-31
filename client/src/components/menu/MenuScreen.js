@@ -12,28 +12,17 @@ export const MenuScreen = () => {
   console.log("data: ",data)
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
-  // console.log("WS: ",ws);
-  // useEffect(() => {
-  //   socket = io(CONNECTION_PORT, {transports: ['websocket']});
-  // },[CONNECTION_PORT])
   const sendPayload = () => {
-    const payload = {
-      products: [
+    const payload =  [
         {
-          "name": "torta helada",
-          "price": 12,
+          "name": "torta helada test@@@@",
+          "price": 5,
           "category": "dessert",
-          "qty": 5,
+          "qty": 1,
           "creams": [
           ]
         }
-      ],
-    };
-    // socket.emit('send-order', payload, (data) => {
-    //   console.log(data)  
-    // })
-    
-    dispatch(addOrder(payload))
+      ];
     // This will handle adding the order
     ws.sendOrder(payload);
   }

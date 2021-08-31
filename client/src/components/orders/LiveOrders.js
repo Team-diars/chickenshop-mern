@@ -1,49 +1,68 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client';
-import {Button} from '@chakra-ui/react'
+import {Box, Button, Grid} from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getFirstOrder, getOrders } from '../../actions/order';
+import styled from 'styled-components';
+
 let socket;
 const CONNECTION_PORT = `http://localhost:5000/`;
 export const LiveOrders = () => {
   const [order, setOrder] = useState([]);
-  const [first, setFirst] = useState(null);
-  const dispatch = useDispatch();
-  const {orders, loading} = useSelector(state => state.order);
-  console.log("remaining_orders: ",{orders, loading})
+  const [isAttended, setIsAttended] = useState(false);
+  const socketClientRef = useRef();
+
   useEffect(() => {
     socket = io(CONNECTION_PORT, {transports: ['websocket']});
-    if(!loading && orders) {
-      console.log('not loading!')
-      setOrder([...order, orders]);
-    }
-    socket.on('send-order',(data) => {
-      setOrder([...order,...orders, JSON.parse(data)])
+    socket.on('load-remaining-orders',(data) => {
+      setOrder(o => [...o, ...JSON.parse(JSON.stringify(data))])
+      console.log('retreving data: ',order)
     })
     return () => {
-      socket.disconnect()
+      //  socket.disconnect();
+      // socket.off('load-remaining-orders',(data) => {
+      //   setOrder([...order, ...JSON.parse(JSON.stringify(data))])
+      // })
+      socket.removeAllListeners();
     };
-  },[orders])
-
+  },[])
   useEffect(() => {
-    const _getOrders = () => dispatch(getOrders());
-    _getOrders();
-  },[dispatch])
+    socket.on('send-order',(payload) => {
+      setOrder([...order, JSON.parse(JSON.stringify(payload))])
+    })
+    return () => {
+      console.log('clean up')
+    };
+  },[order])
 
-  console.log("Orders: ",order)
-  // console.log("First: ",firstOrder.order)
+  const handleState = (id) => {
+    socket.emit('attend',id, (databack) => {
+      console.log("databack: ",databack)
+    });
+  }
   return (
     <div>
       <h1>Live Orders</h1>
-      {
-        (loading) ? <h1>Loading...</h1> : 
-        order.map((item,idx) => (
-          <pre>
-            {idx}: {JSON.stringify(item, null, 2)}
-          </pre>
-        ))
-      }
-      <Button>Atender</Button>
+      <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+        {
+          (!order) ? <h1>Loading..</h1> : order.map((item,idx) => (
+          <Box bg="tomato" w="100%">
+            {JSON.stringify(item, null,1)}
+            {
+              (item.status === 1) ?
+                <Button colorScheme="teal" onClick={() => handleState(item._id)}>Attend</Button>
+              : (item.status === 2) ? <Button>Attending</Button> : <Button>Attend</Button> 
+            }
+            
+          </Box>
+          ))
+        }
+      </Grid>      
+      {/* <Button>Atender</Button> */}
     </div>
   )
 }
+
+const CardWrapper = styled.div`
+  
+`;
