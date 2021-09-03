@@ -1,33 +1,20 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { addTicket } from "../../actions/ticket";
 import { connect } from "react-redux";
-import { Box, Button, Table, Tbody, Th, Thead, Tr, Td } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Table,
+  Tbody,
+  Th,
+  Thead,
+  Tr,
+  Td,
+  Input,
+} from "@chakra-ui/react";
+import { updateProductCart, deleteProductCart } from "../../actions/cart";
 
-const TableCart = ({ cart, num_table, setCart, setNumTable, addTicket }) => {
-  
-  const saveTicket = () => {
-    const data = cart.map((item) => {
-      return item;
-    });
-    addTicket({
-      num_table,
-      product: data,
-    });
-    setCart([]);
-    setNumTable("");
-  };
-  const removeItem = ({ name }) => {
-    
-    return setCart(
-      cart.filter(
-        (dish) =>
-          dish.dish_name !== name ??
-          dish.drink_name !== name ??
-          dish.salad_name !== name
-      )
-    );
-  };
+const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
+  console.log("TableCart:", cart);
   return (
     <>
       <Box marginBottom="4">
@@ -42,14 +29,20 @@ const TableCart = ({ cart, num_table, setCart, setNumTable, addTicket }) => {
           <Tbody>
             {cart.map((dish, idx) => (
               <Tr key={idx}>
-                <Td>{dish.dish_name ?? dish.drink_name ?? dish.salad_name}</Td>
+                <Td>{dish.name}</Td>
                 <Td>
-                  {dish.dish_quantity ??
-                    dish.drink_quantity ??
-                    dish.salad_quantity}
+                  <Input
+                    type="number"
+                    name="product_quantity"
+                    placeholder="Quantity"
+                    value={dish.quantity}
+                    onChange={(e) =>
+                      updateProductCart(e.target.value, dish._id)
+                    }
+                  />
                 </Td>
                 <Td>
-                  <Button onClick={(e) => removeItem({ name: dish.dish_name })}>
+                  <Button onClick={() => deleteProductCart({ id: dish._id })}>
                     <i className="far fa-trash-alt"></i>
                   </Button>
                 </Td>
@@ -58,19 +51,12 @@ const TableCart = ({ cart, num_table, setCart, setNumTable, addTicket }) => {
           </Tbody>
         </Table>
       </Box>
-      <Button type="submit" onClick={saveTicket}>
-        Add Order <i className="fas fa-cart-plus"></i>
-      </Button>
     </>
   );
 };
 
-TableCart.propTypes = {
-  addTicket: PropTypes.func.isRequired,
+const mapDispatchToProps = {
+  updateProductCart: (quantity, id) => updateProductCart(quantity, id),
+  deleteProductCart: (id) => deleteProductCart(id),
 };
-
-const mapStateToProps = (state) => ({
-  ticket: state.ticket,
-});
-
-export default connect(mapStateToProps, { addTicket })(TableCart);
+export default connect(null, mapDispatchToProps)(TableCart);

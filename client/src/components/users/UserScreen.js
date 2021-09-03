@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { FormGroup, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getUsers, addUser, deleteUser } from "../../actions/user";
 import { getEmployees } from "../../actions/employee";
@@ -66,7 +66,7 @@ const UserScreen = ({
       [name]: type === "number" ? parseInt(value) : value,
     });
   };
-  
+
   return loading && loading_emp ? (
     <Spinner animation="border" role="status">
       <span className="sr-only">Loading...</span>

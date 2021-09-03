@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import { getProducts } from "../../actions/product";
 import { connect } from "react-redux";
+import { getProducts } from "../../actions/product";
+import { getCart } from "../../actions/cart";
 import TableCart from "./TableCart";
 import MainTable from "./MainTable";
 import {
@@ -12,13 +12,18 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  InputRightElement,
   Select,
   Text,
   Button,
 } from "@chakra-ui/react";
 
-const OrderScreen = ({ getProducts, product: { products, loading } }) => {
+const OrderScreen = ({
+  getProducts,
+  getCart,
+  cart: { cartlist },
+  product: { products, loading },
+}) => {
+  console.log("CartList:", cartlist);
   const [cart, setCart] = useState([]);
   const [num_table, setNumTable] = useState("");
   const [formDataDishes, setFormDataDishes] = useState({
@@ -102,7 +107,7 @@ const OrderScreen = ({ getProducts, product: { products, loading } }) => {
     const product = products.find(
       (item) => item.name === drink_name && item.status
     );
-    
+
     if (item) {
       setFormDataDishes({
         drink_id: product._id,
@@ -153,7 +158,7 @@ const OrderScreen = ({ getProducts, product: { products, loading } }) => {
       salad_quantity: "",
     });
   };
-
+  console.log("CART:", cart);
   useEffect(() => {
     getProducts();
   }, [getProducts]);
@@ -297,6 +302,7 @@ const OrderScreen = ({ getProducts, product: { products, loading } }) => {
 
 const mapStateToProps = (state) => ({
   product: state.product,
+  cart: state.cart,
 });
 
-export default connect(mapStateToProps, { getProducts })(OrderScreen);
+export default connect(mapStateToProps, { getProducts, getCart })(OrderScreen);

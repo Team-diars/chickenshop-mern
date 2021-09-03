@@ -10,12 +10,11 @@ import {
   Stack,
   Icon,
   useColorModeValue,
-  useDisclosure,
+  // useDisclosure,
   Container,
   createIcon,
   Heading,
   Divider,
-  SimpleGrid,
 } from "@chakra-ui/react";
 
 import { GiChickenOven } from "react-icons/gi";
@@ -39,27 +38,27 @@ const HomeScreen = ({
     facebook: "",
     instagram: "",
   });
-  const { isOpen, onToggle } = useDisclosure();
-  const { address, telephone, email } = formData;
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
+  // const { isOpen, onToggle } = useDisclosure();
+  // const { address, telephone, email } = formData;
+  // const responsive = {
+  //   superLargeDesktop: {
+  //     // the naming can be any, depends on you.
+  //     breakpoint: { max: 4000, min: 3000 },
+  //     items: 5,
+  //   },
+  //   desktop: {
+  //     breakpoint: { max: 3000, min: 1024 },
+  //     items: 3,
+  //   },
+  //   tablet: {
+  //     breakpoint: { max: 1024, min: 464 },
+  //     items: 2,
+  //   },
+  //   mobile: {
+  //     breakpoint: { max: 464, min: 0 },
+  //     items: 1,
+  //   },
+  // };
   useEffect(() => {
     getSettings();
   }, [getSettings]);
@@ -140,10 +139,10 @@ const HomeScreen = ({
                 top={"40px"}
               />
               <Text
-                fontSize={"lg"}
+                fontSize={["sm", "lg"]}
                 fontFamily={"Caveat"}
                 position={"absolute"}
-                right={"-155px"}
+                right={["-110px", "-155px"]}
                 bottom={"15px"}
                 transform={"rotate(10deg)"}
                 color="white"
@@ -179,17 +178,11 @@ const HomeScreen = ({
         >
           Nuestros Platos
         </Text>
-        <Box
-          w="full"
-          my="20"
-          display="grid"
-          gridTemplateColumns="repeat(5, 220px)"
-          gridGap={6}
-        >
+        <Flex w="full" flexWrap="wrap" mt="20">
           {products.map((item, idx) => (
             <ProductAddToCart key={idx} product={item} />
           ))}
-        </Box>
+        </Flex>
       </Container>
       <Container maxWidth="container.xl">
         <Stack direction="row" py={6} px={8}>

@@ -158,7 +158,7 @@ const Header = ({
             }}
             fontWeight="normal"
             fontSize="lg"
-            key="profile"
+            key="menu"
             to="/menu"
           >
             Menu
@@ -175,7 +175,7 @@ const Header = ({
             }}
             fontWeight="normal"
             fontSize="lg"
-            key="profile"
+            key="orders"
             to="/orders"
           >
             Orders
@@ -255,7 +255,6 @@ const Header = ({
             Settings
           </Button>
           <Button
-            key="logout"
             px={2}
             py={1}
             rounded={"sm"}
@@ -266,8 +265,9 @@ const Header = ({
             }}
             fontWeight="normal"
             fontSize="lg"
-            onClick={logout}
+            key="logout"
             to="/auth"
+            onClick={logout}
           >
             Logout
           </Button>

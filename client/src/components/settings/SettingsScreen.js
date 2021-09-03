@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getSettings, updateSettings } from "../../actions/settings";
 // import { Button, Container, Form, Row } from 'react-bootstrap'
-import FormContainer from "../auth/FormContainer";
 import {
   Box,
   Button,
@@ -23,7 +22,6 @@ const SettingsScreen = ({
   getSettings,
   settings: { settings: _settings, loading },
 }) => {
-  
   const [formData, setFormData] = useState({
     address: "",
     telephone: "",
@@ -61,7 +59,7 @@ const SettingsScreen = ({
         Settings
       </Text>
       <Box p="4" borderWidth="1px" borderRadius="md">
-        <FormControl controlId="address" marginBottom="3">
+        <FormControl marginBottom="3">
           <FormLabel>Address</FormLabel>
           <Input
             type="text"
@@ -71,7 +69,7 @@ const SettingsScreen = ({
             value={address}
           ></Input>
         </FormControl>
-        <FormControl controlId="telephone" marginBottom="3">
+        <FormControl marginBottom="3">
           <FormLabel>Telephone</FormLabel>
           <Input
             type="text"
@@ -81,7 +79,7 @@ const SettingsScreen = ({
             value={telephone}
           ></Input>
         </FormControl>
-        <FormControl controlId="email" marginBottom="3">
+        <FormControl marginBottom="3">
           <FormLabel>Email</FormLabel>
           <Input
             type="text"
@@ -108,7 +106,7 @@ const SettingsScreen = ({
               <InputGroup>
                 <InputLeftElement
                   pointerEvents="none"
-                  children={<i className="fab fa-facebook fa-2x mr-2"></i>}
+                  children={<i className="mr-2 fab fa-facebook fa-2x"></i>}
                 />
                 <InputLeftAddon pl="10" children="https://facebook.com" />
                 <Input
@@ -125,7 +123,7 @@ const SettingsScreen = ({
               <InputGroup>
                 <InputLeftElement
                   pointerEvents="none"
-                  children={<i className="fab fa-instagram fa-2x mr-2"></i>}
+                  children={<i className="mr-2 fab fa-instagram fa-2x"></i>}
                 />
                 <InputLeftAddon pl="10" children="https://instagram.com" />
                 <Input
