@@ -9,30 +9,20 @@ let socket;
 const CONNECTION_PORT = `http://localhost:5000/`;
 export const MenuScreen = () => {
   const data = useSelector(state => state.order)  
+  console.log("data: ",data)
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
-  // console.log("WS: ",ws);
-  // useEffect(() => {
-  //   socket = io(CONNECTION_PORT, {transports: ['websocket']});
-  // },[CONNECTION_PORT])
   const sendPayload = () => {
-    const payload = {
-      products: [
+    const payload =  [
         {
-          "name": "helado 1LT",
-          "price": 12,
-          "category": "Icecream",
-          "qty": 2,
+          "name": "torta helada test@@@@",
+          "price": 5,
+          "category": "dessert",
+          "qty": 1,
           "creams": [
           ]
         }
-      ]
-    };
-    // socket.emit('send-order', payload, (data) => {
-    //   console.log(data)  
-    // })
-    // dispatch(addOrder(payload))
-    
+      ];
     // This will handle adding the order
     ws.sendOrder(payload);
   }

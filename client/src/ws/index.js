@@ -19,7 +19,7 @@ export default function ({ children }) {
         // console.log(payload_from_server)
       }
     );
-    dispatch(addOrder(payload));
+    // dispatch(addOrder(payload));
   };
   if (!socket) {
     socket = io(CONNECTION_PORT, { transports: ["websocket"] });

@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const cors = require('cors');
 const app = express();
 const path = require("path");
+const Order = require('./models/Order');
 // const http = require('http').createServer(app);
 const socket = require('socket.io');
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
@@ -48,13 +49,27 @@ const server = app.listen(PORT, () => console.log(`Server started on port : ${PO
 
 //Socket
 io = socket(server);
-io.on('connection', (socket) => {
-  socket.on('send-order', (msg, callback) => {
-    const payload = JSON.parse(JSON.stringify(msg));
-    
-    //redirects to client components who are being connected to sockets
-    callback(payload)
-    socket.broadcast.emit('send-order',payload);
+io.on('connection', async(socket) => {
+  console.log('connected server: ', socket.id)
+  const orders = await Order.find({ status: {$ne: 0} }).exec();
+  socket.emit('load-remaining-orders', orders)
+
+  socket.on('attend', async (id) => {
+    await Order.findByIdAndUpdate(id, { status: 2 }, { new: true });
+    socket.emit('load-remaining-orders', orders)
+  })
+
+  socket.on('send-order', async (msg, callback) => {
+    try{
+      const newOrder = new Order({products: JSON.parse(msg)});
+      await newOrder.save();
+      
+      //redirects to client components who are being connected to sockets
+      callback(newOrder)
+      socket.broadcast.emit('send-order',newOrder);
+    }catch(err){
+      console.log(err);
+    }
   })  
   io.on('disconnect', () => {
     console.log('disconnected!');
