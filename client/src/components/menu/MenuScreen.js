@@ -23,6 +23,7 @@ export const MenuScreen = () => {
           ]
         }
       ];
+    console.log('sent!');
     // This will handle adding the order
     ws.sendOrder(payload);
   }

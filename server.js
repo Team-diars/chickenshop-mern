@@ -54,9 +54,11 @@ io.on('connection', async(socket) => {
   const orders = await Order.find({ status: {$ne: 0} }).exec();
   socket.emit('load-remaining-orders', orders)
 
-  socket.on('attend', async (id) => {
-    await Order.findByIdAndUpdate(id, { status: 2 }, { new: true });
-    socket.emit('load-remaining-orders', orders)
+  socket.on('finished', async (msg,callback) => {
+    let pending_orders = await Order.find({ status: 1 }).exec();
+    await Order.findByIdAndUpdate(pending_orders[0]._id, { status: 0 }, { new: true });
+    //socket.emit('load-remaining-orders', pending_orders)
+    callback(pending_orders);
   })
 
   socket.on('send-order', async (msg, callback) => {

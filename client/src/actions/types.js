@@ -81,3 +81,4 @@ export const CLEAR_ORDER = 'CLEAR_ORDER';
 export const ORDER_ERROR = 'ORDER_ERROR';
 export const GET_FIRST_ORDER = 'GET_FIRST_ORDER';
 export const GET_ORDERS = 'GET_ORDERS';
+export const ATTEND_FIRST_ORDER = "ATTEND_FIRST_ORDER";

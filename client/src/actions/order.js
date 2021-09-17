@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert';
-import {ADD_ORDER, GET_FIRST_ORDER, ORDER_ERROR, GET_ORDERS, CLEAR_ORDER} from './types'
+import {ADD_ORDER, GET_FIRST_ORDER, ORDER_ERROR, GET_ORDERS, CLEAR_ORDER, ATTEND_FIRST_ORDER} from './types'
 
 const config = {
   headers: {
@@ -56,6 +56,27 @@ export const getFirstOrder = () => async dispatch => {
   try {
     dispatch({
       type: GET_FIRST_ORDER,
+      payload:res.data
+    })
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if(errors){
+      errors.forEach(error => dispatch(setAlert(error.msg,'danger')));
+    }
+    dispatch({
+      type: ORDER_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
+  }
+}
+
+//* Attend First Order
+export const attendFirstOrder = () => async dispatch => {
+  const res = await axios.delete('/api/order/first',config)
+  // console.log("res: ",res);
+  try {
+    dispatch({
+      type: ATTEND_FIRST_ORDER,
       payload:res.data
     })
   } catch (err) {
