@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Form } from "react-bootstrap";
 import { Spinner } from "react-bootstrap";
 import { getProducts } from "../../actions/product";
 import { getTickets } from "../../actions/ticket";
@@ -25,7 +24,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
-  ModalFooter,
+  // ModalFooter,
   useDisclosure,
   ModalOverlay,
 } from "@chakra-ui/react";
@@ -54,15 +53,14 @@ const SaleScreen = ({
   const { num_table, product, subtotal, total } = formData;
   const getProductByID = (id) => {
     return products.find((p) => {
-      
       return p._id === id;
     });
   };
-  const productsName = product.map((id) => {
-    // 
-    return getProductByID(id);
-  });
-  
+  // const productsName = product.map((id) => {
+  //   //
+  //   return getProductByID(id);
+  // });
+
   // const [isOpen, setIsOpen] = useState(false);
   // const handleOpen = () => setIsOpen(!isOpen);
   // const closeBtn = (

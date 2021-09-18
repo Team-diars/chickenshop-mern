@@ -158,7 +158,7 @@ const Header = ({
             }}
             fontWeight="normal"
             fontSize="lg"
-            key="profile"
+            key="menu"
             to="/menu"
           >
             Menu
@@ -175,7 +175,24 @@ const Header = ({
             }}
             fontWeight="normal"
             fontSize="lg"
-            key="profile"
+            key="liveorders"
+            to="/liveorders"
+          >
+            LiveOrders
+          </Button>
+          <Button
+            as={ReachLink}
+            px={2}
+            py={1}
+            rounded={"sm"}
+            bg="blackAlpha.100"
+            _hover={{
+              textDecoration: "none",
+              bg: useColorModeValue("gray.100", "gray.500"),
+            }}
+            fontWeight="normal"
+            fontSize="lg"
+            key="orders"
             to="/orders"
           >
             Orders
@@ -255,7 +272,6 @@ const Header = ({
             Settings
           </Button>
           <Button
-            key="logout"
             px={2}
             py={1}
             rounded={"sm"}
@@ -266,8 +282,9 @@ const Header = ({
             }}
             fontWeight="normal"
             fontSize="lg"
-            onClick={logout}
+            key="logout"
             to="/auth"
+            onClick={logout}
           >
             Logout
           </Button>

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Flex,
   Circle,
@@ -7,48 +8,50 @@ import {
   Icon,
   chakra,
   Tooltip,
+  Button,
 } from "@chakra-ui/react";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiPlus, FiShoppingCart } from "react-icons/fi";
 
-function Rating({ rating, numReviews }) {
-  return (
-    <Box d="flex" alignItems="center">
-      {Array(5)
-        .fill("")
-        .map((_, i) => {
-          const roundedRating = Math.round(rating * 2) / 2;
-          if (roundedRating - i >= 1) {
-            return (
-              <Box
-                key={i}
-                style={{ marginLeft: "1" }}
-                color={i < rating ? "teal.500" : "gray.300"}
-              />
-            );
-          }
-          if (roundedRating - i === 0.5) {
-            return <Box key={i} style={{ marginLeft: "1" }} />;
-          }
-          return <Box key={i} style={{ marginLeft: "1" }} />;
-        })}
-      <Box as="span" ml="2" color="gray.600" fontSize="sm">
-        {numReviews} review{numReviews > 1 && "s"}
-      </Box>
-    </Box>
-  );
-}
+// function Rating({ rating, numReviews }) {
+//   return (
+//     <Box d="flex" alignItems="center">
+//       {Array(5)
+//         .fill("")
+//         .map((_, i) => {
+//           const roundedRating = Math.round(rating * 2) / 2;
+//           if (roundedRating - i >= 1) {
+//             return (
+//               <Box
+//                 key={i}
+//                 style={{ marginLeft: "1" }}
+//                 color={i < rating ? "teal.500" : "gray.300"}
+//               />
+//             );
+//           }
+//           if (roundedRating - i === 0.5) {
+//             return <Box key={i} style={{ marginLeft: "1" }} />;
+//           }
+//           return <Box key={i} style={{ marginLeft: "1" }} />;
+//         })}
+//       <Box as="span" ml="2" color="gray.600" fontSize="sm">
+//         {numReviews} review{numReviews > 1 && "s"}
+//       </Box>
+//     </Box>
+//   );
+// }
 
-function ProductAddToCart(props) {
+function ProductAddToCart({ product, onAddToCart }) {
   const data = {
-    isNew: props.product.status,
-    imageURL: props.product.image,
-    name: props.product.name,
-    price: props.product.price,
+    isNew: product.status,
+    imageURL: product.image,
+    name: product.name,
+    price: product.price,
     rating: 4.2,
     numReviews: 34,
   };
+
   return (
-    <Box width="full">
+    <Box width="52" mb="16" mx="3">
       <Box
         bg={useColorModeValue("white", "gray.800")}
         maxHeight="320px"
@@ -113,17 +116,19 @@ function ProductAddToCart(props) {
               </Box>
               {data.price.toFixed(2)}
             </Box>
-            <Tooltip
-              label="Add to cart"
-              bg="white"
-              placement={"top"}
-              color={"gray.800"}
-              fontSize={"1em"}
-            >
-              <chakra.a href={"#"} display={"flex"}>
-                <Icon as={FiShoppingCart} h={5} w={5} alignSelf={"center"} />
-              </chakra.a>
-            </Tooltip>
+            {onAddToCart && (
+              <Tooltip
+                label="Add"
+                bg="white"
+                placement={"top"}
+                color={"gray.800"}
+                fontSize={"1em"}
+              >
+                <Button onClick={onAddToCart} display={"flex"}>
+                  <Icon as={FiPlus} h={5} w={5} alignSelf={"center"} />
+                </Button>
+              </Tooltip>
+            )}
             {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
           </Flex>
         </Box>

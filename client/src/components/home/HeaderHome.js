@@ -15,6 +15,7 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
+  HStack,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -69,66 +70,84 @@ export default function HeaderHome(props) {
               <DesktopNav />
             </Flex> */}
         </Flex>
-
-        <Stack
+        <HStack spacing={8} alignItems={"center"}>
+          <HStack as={"nav"} spacing={5} fontSize="lg">
+            {/* <Stack
           flex={{ base: 1, md: 0 }}
           justify={"flex-end"}
           direction={"row"}
           spacing={6}
-        >
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color={useColorModeValue("gray.800", "white")}
-          >
-            Contact Us:
-            <Button
-              as={"a"}
-              fontSize={"sm"}
-              fontWeight={500}
-              color={"black"}
-              variant="link"
-              href={"tel: 51" + props.telephone || "99999"}
+        > */}
+            <Text
+              textAlign={useBreakpointValue({ base: "center", md: "left" })}
+              fontFamily={"heading"}
+              color={useColorModeValue("gray.800", "white")}
+              display={{ base: "none", md: "inline-flex" }}
             >
-              +51 {props.telephone || "99999"}
+              Contact Us:
+              <Button
+                as={"a"}
+                fontSize={"sm"}
+                fontWeight={500}
+                color={"black"}
+                variant="link"
+                href={"tel: 51" + props.telephone || "99999"}
+              >
+                +51 {props.telephone || "99999"}
+              </Button>
+            </Text>
+            <Button
+              as={ReachLink}
+              px={2}
+              py={1}
+              rounded={"sm"}
+              bg="blackAlpha.100"
+              _hover={{
+                textDecoration: "none",
+                bg: useColorModeValue("gray.100", "gray.500"),
+              }}
+              fontWeight="normal"
+              fontSize={"lg"}
+              to={"/menu"}
+            >
+              Carta
             </Button>
-          </Text>
-          <Button
-            as={ReachLink}
-            fontSize={"sm"}
-            fontWeight={400}
-            color={"black"}
-            variant="outline"
-            to={"/register"}
-          >
-            Carta
-          </Button>
-          <Button
-            as={ReachLink}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={400}
-            color={"black"}
-            variant="outline"
-            to={"/register"}
-          >
-            Sign Up
-          </Button>
-          <Button
-            as={ReachLink}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"black"}
-            bg={"yellow.300"}
-            to={"/auth"}
-            _hover={{
-              bg: "yellow.400",
-            }}
-          >
-            Login
-          </Button>
-        </Stack>
+            <Button
+              as={ReachLink}
+              px={2}
+              py={1}
+              rounded={"sm"}
+              bg="blackAlpha.100"
+              _hover={{
+                textDecoration: "none",
+                bg: useColorModeValue("gray.100", "gray.500"),
+              }}
+              fontWeight="normal"
+              fontSize={"lg"}
+              display={{ base: "none", md: "inline-flex" }}
+              to={"/register"}
+            >
+              Sign Up
+            </Button>
+            <Button
+              as={ReachLink}
+              px={2}
+              py={1}
+              rounded={"sm"}
+              bg="blackAlpha.100"
+              _hover={{
+                textDecoration: "none",
+                bg: useColorModeValue("gray.100", "gray.500"),
+              }}
+              fontWeight="normal"
+              fontSize={"lg"}
+              display={{ base: "none", md: "inline-flex" }}
+              to={"/auth"}
+            >
+              Login
+            </Button>
+          </HStack>
+        </HStack>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

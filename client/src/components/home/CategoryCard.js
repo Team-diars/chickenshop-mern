@@ -1,9 +1,4 @@
-import {
-  Flex,
-  Box,
-  Image,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Box, Image, useColorModeValue } from "@chakra-ui/react";
 
 function Rating({ rating, numReviews }) {
   return (
@@ -33,7 +28,7 @@ function Rating({ rating, numReviews }) {
   );
 }
 
-function ProductAddToCart(props) {
+function CategoryCard(props) {
   const data = {
     isNew: props.product.status,
     imageURL: props.product.image,
@@ -43,7 +38,7 @@ function ProductAddToCart(props) {
     numReviews: 34,
   };
   return (
-    <Box width="48">
+    <Box width={[40, 48]}>
       <Box
         as="a"
         display="flex"
@@ -104,4 +99,4 @@ function ProductAddToCart(props) {
   );
 }
 
-export default ProductAddToCart;
+export default CategoryCard;
