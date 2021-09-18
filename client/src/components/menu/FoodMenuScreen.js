@@ -83,7 +83,7 @@ const MenuScreen = ({
           ))}
         </Flex>
       </Box>
-      <Cart cart={cart} />
+      <Cart cart={cart} isAdded={true} />
     </Container>
   );
 };

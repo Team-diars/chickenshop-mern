@@ -43,7 +43,7 @@ import { addOrder } from "../../actions/order";
 let socket;
 const CONNECTION_PORT = `http://localhost:5000/`;
 
-const CartScreen = ({ cart, clearCart, updateProductCart }) => {
+const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
   //   const data = useSelector((state) => state.order);
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
@@ -72,7 +72,9 @@ const CartScreen = ({ cart, clearCart, updateProductCart }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
-
+  // if (isAdded) {
+  //   onOpen();
+  // }
   //   const [cart1, setCart] = useState([]);
 
   //   const [num_table, setNumTable] = useState("");
@@ -109,6 +111,7 @@ const CartScreen = ({ cart, clearCart, updateProductCart }) => {
   //     product: data,
   //   });
   console.log("CART Component:", cart);
+  console.log("isAdded:", isAdded, onOpen);
   //   useEffect(() => {
   //     getCart();
   //   }, [getCart]);
@@ -138,6 +141,11 @@ const CartScreen = ({ cart, clearCart, updateProductCart }) => {
           <DrawerBody>
             <Stack spacing="24px">
               <TableCart cart={cart} />
+              {
+                <Box display="flex" justifyContent="flex-end">
+                  <Text>Total: a</Text>
+                </Box>
+              }
               {cart.length > 0 && (
                 <Box display="flex" justifyContent="space-between">
                   <Button variant="outline" mr={3} onClick={clearCart}>
@@ -191,7 +199,8 @@ const CartScreen = ({ cart, clearCart, updateProductCart }) => {
   );
 };
 // const mapStateToProps = (state) => ({
-//   cart: state.cart,
+//   // cart: state.cart,
+
 // });
 // const mapDispatchToProps = {
 //   getCart,

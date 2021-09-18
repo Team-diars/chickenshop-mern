@@ -9,9 +9,10 @@ import {
 } from "./types";
 //* Add Product
 export const addProductCart = (product) => (dispatch, getState) => {
-  console.log("Agregando al carrito");
+  console.log("Agregando al carrito", product);
   //   if (getState().products.byId[product._id].inventory > 0) {
   //   console.log(product);
+
   let cart = [];
   if (localStorage.getItem("cart")) {
     cart = JSON.parse(localStorage.getItem("cart"));

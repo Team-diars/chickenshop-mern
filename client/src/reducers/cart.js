@@ -22,21 +22,21 @@ export function cart(state = initialState, action) {
         loading: false,
       };
     case ADD_PRODUCT_CART:
+      const inCart = state.cart.find((product) => {
+        if (product._id === payload._id) {
+          product.quantity += payload.quantity;
+          return product;
+        }
+      });
       return {
         ...state,
-        cart: [payload, ...state.cart],
+        cart: inCart ? [...state.cart] : [...state.cart, payload],
         loading: false,
       };
     case REMOVE_PRODUCT_CART:
-      console.log(
-        "remove:",
-        payload,
-        state.cart.filter((product) => product._id !== payload),
-        state.cart
-      );
       return {
         ...state,
-        cart: state.cart.filter((product) => product._id !== payload),
+        cart: state.cart.filter((product) => product._id !== payload.id),
         loading: false,
       };
     case UPDATE_PRODUCT_CART:

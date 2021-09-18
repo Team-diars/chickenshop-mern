@@ -22,7 +22,7 @@ import EditProduct from "./components/products/EditProduct";
 import EditEmployee from "./components/employees/EditEmployee";
 import EditUser from "./components/users/EditUser";
 // import EditOrder from "./components/orders/EditOrder";
-import MenuScreen from "./components/menu/MenuScreen";
+import { MenuScreen } from "./components/menu/MenuScreen";
 import FoodMenuScreen from "./components/menu/FoodMenuScreen";
 import WebSocketProvider from "./ws/index";
 import { LiveOrders } from "./components/orders/LiveOrders";
@@ -46,6 +46,7 @@ function App() {
               </Container>
               <Route exact path="/" component={HomeScreen} />
               <Route exact path="/auth" component={LoginScreenEmployee} />
+              <Route exact path="/menu2" component={MenuScreen} />
               <Route exact path="/menu" component={FoodMenuScreen} />
               <Route exact path="/register" component={RegisterScreen} />
               <PrivateRoute exact path="/profile" component={DashboardScreen} />

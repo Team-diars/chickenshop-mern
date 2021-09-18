@@ -10,7 +10,7 @@ import {
   Tooltip,
   Button,
 } from "@chakra-ui/react";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiPlus, FiShoppingCart } from "react-icons/fi";
 
 // function Rating({ rating, numReviews }) {
 //   return (
@@ -125,7 +125,7 @@ function ProductAddToCart({ product, onAddToCart }) {
                 fontSize={"1em"}
               >
                 <Button onClick={onAddToCart} display={"flex"}>
-                  <Icon as={FiShoppingCart} h={5} w={5} alignSelf={"center"} />
+                  <Icon as={FiPlus} h={5} w={5} alignSelf={"center"} />
                 </Button>
               </Tooltip>
             )}

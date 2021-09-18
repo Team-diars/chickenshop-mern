@@ -175,6 +175,23 @@ const Header = ({
             }}
             fontWeight="normal"
             fontSize="lg"
+            key="liveorders"
+            to="/liveorders"
+          >
+            LiveOrders
+          </Button>
+          <Button
+            as={ReachLink}
+            px={2}
+            py={1}
+            rounded={"sm"}
+            bg="blackAlpha.100"
+            _hover={{
+              textDecoration: "none",
+              bg: useColorModeValue("gray.100", "gray.500"),
+            }}
+            fontWeight="normal"
+            fontSize="lg"
             key="orders"
             to="/orders"
           >
