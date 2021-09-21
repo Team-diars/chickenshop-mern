@@ -59,7 +59,7 @@ io.on('connection', async(socket) => {
       if(orders.length > 0){
         await Order.findByIdAndUpdate(orders[0]._id, { status: 0 }, { new: true });
         // console.log(orders);
-        socket.broadcast.emit('finished', orders)
+        socket.broadcast.emit('finished', await Order.find({ status: {$ne: 0} }).exec())
       }
       // callback(orders);
     }catch(err){

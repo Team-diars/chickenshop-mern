@@ -41,6 +41,7 @@ export const LiveOrders = () => {
 
   useEffect(() => {
     socket = io(CONNECTION_PORT, {transports: ['websocket']});
+    console.log('second effect!!');
     socket.on('finished',(payload) => {
       console.log("payload: ",payload)
       setOrder([...payload])
