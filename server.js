@@ -51,23 +51,30 @@ const server = app.listen(PORT, () => console.log(`Server started on port : ${PO
 io = socket(server);
 io.on('connection', async(socket) => {
   console.log('connected server: ', socket.id)
-  const orders = await Order.find({ status: {$ne: 0} }).exec();
-  socket.emit('load-remaining-orders', orders)
-
-  socket.on('finished', async (msg,callback) => {
-    let pending_orders = await Order.find({ status: 1 }).exec();
-    await Order.findByIdAndUpdate(pending_orders[0]._id, { status: 0 }, { new: true });
-    //socket.emit('load-remaining-orders', pending_orders)
-    callback(pending_orders);
+  socket.on('finished', async () => {
+    try{
+      // let pending_orders = await Order.find({ status: 0 });
+      const orders = await Order.find({ status: {$ne: 0} }).exec();
+      console.log("orders: ",orders);
+      if(orders.length > 0){
+        await Order.findByIdAndUpdate(orders[0]._id, { status: 0 }, { new: true });
+        // console.log(orders);
+        socket.broadcast.emit('finished', orders)
+      }
+      // callback(orders);
+    }catch(err){
+      console.log(err)
+    }
+    
+    
   })
 
   socket.on('send-order', async (msg, callback) => {
     try{
       const newOrder = new Order({products: JSON.parse(msg)});
       await newOrder.save();
-      
       //redirects to client components who are being connected to sockets
-      callback(newOrder)
+      callback(newOrder);
       socket.broadcast.emit('send-order',newOrder);
     }catch(err){
       console.log(err);

@@ -1,15 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
-import { addOrder } from '../../actions/order'
 import { WebSocketContext } from '../../ws'
-import io from 'socket.io-client';
 
 let socket;
 const CONNECTION_PORT = `http://localhost:5000/`;
 export const MenuScreen = () => {
   const data = useSelector(state => state.order)  
-  console.log("data: ",data)
+  // console.log("data: ",data)
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
   const sendPayload = () => {

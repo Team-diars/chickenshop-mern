@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import io from 'socket.io-client';
 import {Box, Button, Grid} from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getFirstOrder, getOrders } from '../../actions/order';
 import styled from 'styled-components';
+import { WebSocketContext } from '../../ws'
 
 let socket;
 const CONNECTION_PORT = `http://localhost:5000/`;
@@ -12,7 +13,7 @@ export const LiveOrders = () => {
   const dispatch = useDispatch();
   const [isAttended, setIsAttended] = useState(false);
   const socketClientRef = useRef();
-
+  const ws = useContext(WebSocketContext);
   // useEffect(() => {
   //   socket = io(CONNECTION_PORT, {transports: ['websocket']});
   //   socket.on('load-remaining-orders',(data) => {
@@ -38,16 +39,22 @@ export const LiveOrders = () => {
     };
   },[order])
 
-  const handleState = (id) => {
-    socket.emit('attend',id, (databack) => {
-      console.log("databack: ",databack)
-    });
-  }
+  useEffect(() => {
+    socket = io(CONNECTION_PORT, {transports: ['websocket']});
+    socket.on('finished',(payload) => {
+      console.log("payload: ",payload)
+      setOrder([...payload])
+    })
+    return () => {
+      socket.disconnect();
+    }
+  },[order])
+
   const removeFirstOrder = () => {
-    socket.emit('finished', (databack) => {
-      console.log("finished: ",databack)
-    });
+    // console.log("finished")
+    ws.finished();
   }
+  console.log("Updating Order: ",order);
   return (
     <div>
       <h1>Live Orders</h1>

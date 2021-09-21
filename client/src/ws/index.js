@@ -21,6 +21,11 @@ export default function ({ children }) {
     );
     // dispatch(addOrder(payload));
   };
+  const finished = () => {
+    socket.emit("finished", (payload) => {
+      JSON.stringify(payload);
+    })
+  }
   if (!socket) {
     socket = io(CONNECTION_PORT, { transports: ["websocket"] });
     socket.on("send-order", (data) => {
@@ -31,6 +36,7 @@ export default function ({ children }) {
     ws = {
       socket: socket,
       sendOrder,
+      finished,
     };
   }
   return (
