@@ -1,15 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { createContext } from "react";
 import io from "socket.io-client";
-import { useDispatch } from "react-redux";
-import { addOrder } from "../actions/order";
 
 export const WebSocketContext = createContext(null);
 export default function ({ children }) {
   let socket;
   let ws;
   const CONNECTION_PORT = `http://localhost:5000/`;
-  const dispatch = useDispatch();
   const sendOrder = (payload) => {
     socket.emit(
       "send-order",
