@@ -13,8 +13,7 @@ export const LiveOrders = () => {
   useEffect(() => {
     socket = io(CONNECTION_PORT, {transports: ['websocket']});
     socket.on('retrieve-remaining-orders',(payload) => {
-      console.log("remaining: ",payload)
-      setOrder([...order, ...JSON.parse(JSON.stringify(payload))])
+      if(payload) setOrder([...order, ...JSON.parse(JSON.stringify(payload))])
     })
     return () => {
       socket.disconnect();
