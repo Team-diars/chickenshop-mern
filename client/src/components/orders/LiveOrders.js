@@ -54,7 +54,7 @@ export const LiveOrders = () => {
       <Grid templateColumns="repeat(4, 1fr)" gap={6}>
         {
           (!order) ? <h1>Loading..</h1> : order.map((item,idx) => (
-          <Box bg="tomato" w="100%">
+          <Box bg="tomato" w="100%" key={idx}>
             {JSON.stringify(item, null,1)}
           </Box>
           ))
