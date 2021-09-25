@@ -31,14 +31,8 @@ const MenuScreen = ({
     getProducts();
   }, [getProducts]);
   return (
-    <Container maxWidth="container.xl">
-      <Text
-        mt="8"
-        textAlign="center"
-        fontSize="3xl"
-        fontWeight="bold"
-        color={"black"}
-      >
+    <Container maxWidth="container.xl" paddingTop="10">
+      <Text textAlign="center" fontSize="3xl" fontWeight="bold" color={"black"}>
         Menu
       </Text>
       <Box>
@@ -73,7 +67,12 @@ const MenuScreen = ({
         <Text mt="8" fontSize="2xl" fontWeight="bold" color={"black"}>
           Salads
         </Text>
-        <Flex w="full" flexWrap="wrap" mt="20">
+        <Flex
+          w="full"
+          justifyContent={["space-between"]}
+          flexWrap="wrap"
+          mt="20"
+        >
           {products.map((item, idx) => (
             <ProductAddToCart
               key={idx}

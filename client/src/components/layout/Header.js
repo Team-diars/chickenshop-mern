@@ -133,13 +133,13 @@ const Header = ({
             as={ReachLink}
             px={2}
             py={1}
-            rounded={"sm"}
+            rounded={"lg"}
             bg="blackAlpha.100"
             _hover={{
               textDecoration: "none",
               bg: useColorModeValue("gray.100", "gray.500"),
             }}
-            fontWeight="normal"
+            fontWeight="semibold"
             fontSize="lg"
             key="profile"
             to="/profile"
@@ -150,13 +150,13 @@ const Header = ({
             as={ReachLink}
             px={2}
             py={1}
-            rounded={"sm"}
+            rounded={"lg"}
             bg="blackAlpha.100"
             _hover={{
               textDecoration: "none",
               bg: useColorModeValue("gray.100", "gray.500"),
             }}
-            fontWeight="normal"
+            fontWeight="semibold"
             fontSize="lg"
             key="menu"
             to="/menu"
@@ -167,13 +167,13 @@ const Header = ({
             as={ReachLink}
             px={2}
             py={1}
-            rounded={"sm"}
+            rounded={"lg"}
             bg="blackAlpha.100"
             _hover={{
               textDecoration: "none",
               bg: useColorModeValue("gray.100", "gray.500"),
             }}
-            fontWeight="normal"
+            fontWeight="semibold"
             fontSize="lg"
             key="liveorders"
             to="/liveorders"
@@ -184,13 +184,13 @@ const Header = ({
             as={ReachLink}
             px={2}
             py={1}
-            rounded={"sm"}
+            rounded={"lg"}
             bg="blackAlpha.100"
             _hover={{
               textDecoration: "none",
               bg: useColorModeValue("gray.100", "gray.500"),
             }}
-            fontWeight="normal"
+            fontWeight="semibold"
             fontSize="lg"
             key="orders"
             to="/orders"
@@ -202,7 +202,7 @@ const Header = ({
               as={Button}
               px={2}
               py={1}
-              rounded={"sm"}
+              rounded={"lg"}
               cursor={"pointer"}
               color="black"
               bg="blackAlpha.100"
@@ -210,7 +210,7 @@ const Header = ({
                 textDecoration: "none",
                 bg: useColorModeValue("gray.100", "gray.500"),
               }}
-              fontWeight="normal"
+              fontWeight="semibold"
               fontSize="lg"
             >
               Sale
@@ -229,7 +229,7 @@ const Header = ({
               as={Button}
               px={2}
               py={1}
-              rounded={"sm"}
+              rounded={"lg"}
               cursor={"pointer"}
               color="black"
               bg="blackAlpha.100"
@@ -237,7 +237,7 @@ const Header = ({
                 textDecoration: "none",
                 bg: useColorModeValue("gray.100", "gray.500"),
               }}
-              fontWeight="normal"
+              fontWeight="semibold"
               fontSize="lg"
             >
               Maintenance
@@ -258,13 +258,13 @@ const Header = ({
             as={ReachLink}
             px={2}
             py={1}
-            rounded={"sm"}
+            rounded={"lg"}
             bg="blackAlpha.100"
             _hover={{
               textDecoration: "none",
               bg: useColorModeValue("gray.100", "gray.200"),
             }}
-            fontWeight="normal"
+            fontWeight="semibold"
             fontSize="lg"
             key="settings"
             to="/settings"
@@ -274,13 +274,13 @@ const Header = ({
           <Button
             px={2}
             py={1}
-            rounded={"sm"}
+            rounded={"lg"}
             bg="blackAlpha.100"
             _hover={{
               textDecoration: "none",
               bg: useColorModeValue("gray.100", "gray.500"),
             }}
-            fontWeight="normal"
+            fontWeight="semibold"
             fontSize="lg"
             key="logout"
             to="/auth"
@@ -361,7 +361,7 @@ const Header = ({
             fontFamily={"heading"}
             fontSize="2xl"
           >
-            Harike
+            Rinconcito Ayacuchano
           </Text>
           {/* <Text fontSize="xl">Harike</Text> */}
         </Flex>

@@ -41,7 +41,7 @@ export const addProductCart = (product) => (dispatch, getState) => {
   //   } catch (err) {
   //     const errors = err.response.data.errors;
   //     if (errors) {
-  //       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+  //       errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
   //     }
   //     dispatch({
   //       type: CART_ERROR,
@@ -78,14 +78,14 @@ export const deleteProductCart = (id) => (dispatch) => {
       type: REMOVE_PRODUCT_CART,
       payload: id,
     });
-    dispatch(setAlert("Product Removed from cart", "danger"));
+    dispatch(setAlert("Product Removed from cart", "error"));
     //   try {
     //     await axios.delete(`/api/product/delete/${id}`);
     //     dispatch({
     //       type: REMOVE_PRODUCT,
     //       payload: id,
     //     });
-    //     dispatch(setAlert("Product Removed", "danger"));
+    //     dispatch(setAlert("Product Removed", "error"));
     //   } catch (err) {
     //     dispatch({
     //       type: PRODUCT_ERROR,
@@ -109,7 +109,7 @@ export const updateProductCart = (quantity, id) => (dispatch) => {
   //       type: REMOVE_PRODUCT,
   //       payload: id,
   //     });
-  //     dispatch(setAlert("Product Removed", "danger"));
+  //     dispatch(setAlert("Product Removed", "error"));
   //   } catch (err) {
   //     dispatch({
   //       type: PRODUCT_ERROR,

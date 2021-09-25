@@ -30,7 +30,9 @@ import {
   Box,
   Flex,
   Image,
+  Icon,
 } from "@chakra-ui/react";
+import { FiEdit, FiEdit2, FiPlus, FiTrash2 } from "react-icons/fi";
 
 const ProductScreen = ({
   addProduct,
@@ -96,7 +98,7 @@ const ProductScreen = ({
     <img src={`/images/${image}`} alt={image} className="image-picked" />
   );
   return (
-    <Container maxWidth="container.xl">
+    <Container maxWidth="container.xl" paddingTop="10">
       <Box
         display="flex"
         justifyContent="space-between"
@@ -106,8 +108,12 @@ const ProductScreen = ({
         <Text fontSize="2xl" fontWeight="semibold">
           Products
         </Text>
-        <Button onClick={onOpen}>
-          <i className="fas fa-plus"></i> Create Product
+        {/* <Button leftIcon={<FiPlus />} colorScheme="blue" variant="solid">
+          Create Product
+        </Button> */}
+        <Button onClick={onOpen} fontSize="lg" colorScheme="blue">
+          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Create
+          Product
         </Button>
       </Box>
       <Box>
@@ -117,7 +123,7 @@ const ProductScreen = ({
           </Spinner>
         ) : (
           <div>
-            <Table variant="simple">
+            <Table variant="simple" size="sm">
               <Thead>
                 <Tr>
                   <Th>ID</Th>
@@ -142,20 +148,19 @@ const ProductScreen = ({
                         />
                       </Box>
                     </Td>
-                    <Td>S/. {product.price}</Td>
+                    <Td>S/ {product.price.toFixed(2)}</Td>
                     <Td>{product.category}</Td>
                     <Td>
                       <LinkContainer to={`/products/edit/${product._id}`}>
-                        <Button variant="warning" className="btn-sm">
-                          <i className="fas fa-edit"></i>
+                        <Button>
+                          <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
                         </Button>
                       </LinkContainer>
                       <Button
-                        variant="danger"
-                        className="btn-sm"
+                        ml="2"
                         onClick={(e) => deleteProduct(product._id)}
                       >
-                        <i className="fas fa-trash"></i>
+                        <Icon as={FiTrash2} h={4} w={4} alignSelf={"center"} />
                       </Button>
                     </Td>
                   </Tr>

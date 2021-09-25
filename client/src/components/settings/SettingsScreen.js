@@ -54,7 +54,7 @@ const SettingsScreen = ({
     // setFormData({name:'',address:'',telephone:"",facebook:""})
   };
   return (
-    <Container>
+    <Container paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
         Settings
       </Text>

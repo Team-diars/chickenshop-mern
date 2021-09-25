@@ -11,6 +11,7 @@ import {
   Text,
   Flex,
   Box,
+  Container,
 } from "@chakra-ui/react";
 const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -30,52 +31,54 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
     return <Redirect to="/profile" />;
   }
   return (
-    <Flex align="center" justifyContent="center">
-      <Box width="md" height="auto" p={4} borderWidth="1px" borderRadius="md">
-        <Text
-          my={2}
-          fontSize="2xl"
-          textAlign="center"
-          fontWeight="bold"
-          lineHeight="short"
-        >
-          Sign In
-        </Text>
-        <form onSubmit={(e) => onSubmit(e)}>
-          <FormControl mt={3}>
-            <FormLabel>Email Address</FormLabel>
-            <Input
-              type="email"
-              placeholder="Enter email"
-              name="email"
-              value={email}
-              onChange={(e) => onChange(e)}
-              required
-            ></Input>
-          </FormControl>
-          <FormControl mt={3}>
-            <FormLabel>Password</FormLabel>
-            <Input
-              type="password"
-              placeholder="Enter password"
-              name="password"
-              value={password}
-              onChange={(e) => onChange(e)}
-              required
-            ></Input>
-          </FormControl>
-          <Button
-            mt={4}
-            colorScheme="blue"
-            size="md"
-            type="submit"
-            variant="solid"
+    <Container maxWidth="container.xl" paddingTop="10">
+      <Flex align="center" justifyContent="center">
+        <Box width="md" height="auto" p={4} borderWidth="1px" borderRadius="md">
+          <Text
+            my={2}
+            fontSize="2xl"
+            textAlign="center"
+            fontWeight="bold"
+            lineHeight="short"
           >
             Sign In
-          </Button>
-        </form>
-      </Box>
-    </Flex>
+          </Text>
+          <form onSubmit={(e) => onSubmit(e)}>
+            <FormControl mt={3}>
+              <FormLabel>Email Address</FormLabel>
+              <Input
+                type="email"
+                placeholder="Enter email"
+                name="email"
+                value={email}
+                onChange={(e) => onChange(e)}
+                required
+              ></Input>
+            </FormControl>
+            <FormControl mt={3}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="Enter password"
+                name="password"
+                value={password}
+                onChange={(e) => onChange(e)}
+                required
+              ></Input>
+            </FormControl>
+            <Button
+              mt={4}
+              colorScheme="blue"
+              size="md"
+              type="submit"
+              variant="solid"
+            >
+              Sign In
+            </Button>
+          </form>
+        </Box>
+      </Flex>
+    </Container>
   );
 };
 const mapStateToProps = (state) => ({

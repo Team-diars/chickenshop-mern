@@ -31,7 +31,9 @@ import {
   Select,
   ModalCloseButton,
   FormControl,
+  Icon,
 } from "@chakra-ui/react";
+import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 const EmployeeScreen = ({
   getEmployees,
   addEmployee,
@@ -67,11 +69,11 @@ const EmployeeScreen = ({
   useEffect(() => {
     getEmployees();
   }, [getEmployees]);
-  
+
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   return (
-    <Container maxWidth="container.xl">
+    <Container maxWidth="container.xl" paddingTop="10">
       <Box
         display="flex"
         justifyContent="space-between"
@@ -81,8 +83,9 @@ const EmployeeScreen = ({
         <Text fontSize="2xl" fontWeight="semibold">
           Employees
         </Text>
-        <Button onClick={onOpen}>
-          <i className="fas fa-plus"></i> Register Employee
+        <Button onClick={onOpen} fontSize="lg" colorScheme="blue">
+          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Register
+          Employee
         </Button>
       </Box>
       <div>
@@ -116,16 +119,15 @@ const EmployeeScreen = ({
                   <Td>{employee.address}</Td>
                   <Td>
                     <LinkContainer to={`/employees/edit/${employee._id}`}>
-                      <Button variant="warning" className="btn-sm">
-                        <i className="fas fa-edit"></i>
+                      <Button>
+                        <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
                       </Button>
                     </LinkContainer>
                     <Button
-                      variant="danger"
-                      className="btn-sm"
+                      ml="2"
                       onClick={(e) => deleteEmployee(employee._id)}
                     >
-                      <i className="fas fa-trash"></i>
+                      <Icon as={FiTrash2} h={4} w={4} alignSelf={"center"} />
                     </Button>
                   </Td>
                 </Tr>

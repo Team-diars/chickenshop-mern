@@ -11,15 +11,21 @@ import {
   Tr,
   Td,
   Input,
+  Icon,
+  TableCaption,
 } from "@chakra-ui/react";
 import { updateProductCart, deleteProductCart } from "../../actions/cart";
+import { FiSmile, FiTrash2 } from "react-icons/fi";
 
 const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
   console.log("TableCart:", cart);
   return (
     <>
       <Box marginBottom="4">
-        <Table variant="striped" size="lg">
+        <Table variant="striped" size="md" colorScheme="yellow">
+          <TableCaption>
+            <Icon as={FiSmile} h={5} w={5} alignSelf={"center"} />
+          </TableCaption>
           <Thead>
             <Tr>
               <Th>Item</Th>
@@ -45,10 +51,10 @@ const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
                       }
                     />
                   </Td>
-                  <Td>{(dish.price * dish.quantity).toFixed(2)}</Td>
+                  <Td isNumeric>S/{(dish.price * dish.quantity).toFixed(2)}</Td>
                   <Td>
                     <Button onClick={() => deleteProductCart({ id: dish._id })}>
-                      <i className="far fa-trash-alt"></i>
+                      <Icon as={FiTrash2} h={5} w={5} />
                     </Button>
                   </Td>
                 </Tr>
@@ -61,20 +67,24 @@ const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
               </Tr>
             )}
           </Tbody>
-          {
-            cart.reduce(
-              (result, item) => item.quantity * item.price + result,
-              0
-            )
-            /* <Tfoot>
+
+          <Tfoot>
             <Tr>
+              <Th>Total:</Th>
               <Th></Th>
+
+              <Th isNumeric>
+                S/
+                {cart
+                  .reduce(
+                    (result, item) => item.quantity * item.price + result,
+                    0
+                  )
+                  .toFixed(2)}
+              </Th>
               <Th></Th>
-              <Th></Th>
-              <Th isNumeric>--</Th>
             </Tr>
-          </Tfoot> */
-          }
+          </Tfoot>
         </Table>
       </Box>
     </>

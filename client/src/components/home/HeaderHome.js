@@ -61,9 +61,10 @@ export default function HeaderHome(props) {
             textAlign={useBreakpointValue({ base: "center", md: "left" })}
             fontFamily={"heading"}
             fontSize="2xl"
+            fontWeight="semibold"
             color={useColorModeValue("gray.800", "white")}
           >
-            Harike
+            Rinconcito Ayacuchano
           </Text>
 
           {/* <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -100,13 +101,13 @@ export default function HeaderHome(props) {
               as={ReachLink}
               px={2}
               py={1}
-              rounded={"sm"}
+              rounded={"lg"}
               bg="blackAlpha.100"
               _hover={{
                 textDecoration: "none",
                 bg: useColorModeValue("gray.100", "gray.500"),
               }}
-              fontWeight="normal"
+              fontWeight="semibold"
               fontSize={"lg"}
               to={"/menu"}
             >
@@ -116,13 +117,13 @@ export default function HeaderHome(props) {
               as={ReachLink}
               px={2}
               py={1}
-              rounded={"sm"}
+              rounded={"lg"}
               bg="blackAlpha.100"
               _hover={{
                 textDecoration: "none",
                 bg: useColorModeValue("gray.100", "gray.500"),
               }}
-              fontWeight="normal"
+              fontWeight="semibold"
               fontSize={"lg"}
               display={{ base: "none", md: "inline-flex" }}
               to={"/register"}
@@ -133,13 +134,13 @@ export default function HeaderHome(props) {
               as={ReachLink}
               px={2}
               py={1}
-              rounded={"sm"}
+              rounded={"lg"}
               bg="blackAlpha.100"
               _hover={{
                 textDecoration: "none",
                 bg: useColorModeValue("gray.100", "gray.500"),
               }}
-              fontWeight="normal"
+              fontWeight="semibold"
               fontSize={"lg"}
               display={{ base: "none", md: "inline-flex" }}
               to={"/auth"}
