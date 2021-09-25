@@ -12,46 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { FiPlus, FiShoppingCart } from "react-icons/fi";
 
-// function Rating({ rating, numReviews }) {
-//   return (
-//     <Box d="flex" alignItems="center">
-//       {Array(5)
-//         .fill("")
-//         .map((_, i) => {
-//           const roundedRating = Math.round(rating * 2) / 2;
-//           if (roundedRating - i >= 1) {
-//             return (
-//               <Box
-//                 key={i}
-//                 style={{ marginLeft: "1" }}
-//                 color={i < rating ? "teal.500" : "gray.300"}
-//               />
-//             );
-//           }
-//           if (roundedRating - i === 0.5) {
-//             return <Box key={i} style={{ marginLeft: "1" }} />;
-//           }
-//           return <Box key={i} style={{ marginLeft: "1" }} />;
-//         })}
-//       <Box as="span" ml="2" color="gray.600" fontSize="sm">
-//         {numReviews} review{numReviews > 1 && "s"}
-//       </Box>
-//     </Box>
-//   );
-// }
-
-function ProductAddToCart({ product, onAddToCart }) {
-  const data = {
-    isNew: product.status,
-    imageURL: product.image,
-    name: product.name,
-    price: product.price,
-    rating: 4.2,
-    numReviews: 34,
-  };
-
+function ProductAddToCart(props) {
+  console.log(props);
   return (
-    <Box width="52" mb="16" mx="3">
+    <Box width={["full", "48", "52"]} mb="16" mx="2">
       <Box
         bg={useColorModeValue("white", "gray.800")}
         maxHeight="320px"
@@ -69,7 +33,7 @@ function ProductAddToCart({ product, onAddToCart }) {
         justifyContent="center"
         alignItems="center"
       >
-        {data.isNew && (
+        {props.product.isNew && (
           <Circle
             size="10px"
             position="absolute"
@@ -84,8 +48,8 @@ function ProductAddToCart({ product, onAddToCart }) {
           rounded="full"
           boxSize="150px"
           objectFit="cover"
-          src={`/images/${data.imageURL}`}
-          alt={data.name}
+          src={`/images/${props.product.image}`}
+          alt={props.product.name}
         />
 
         <Box py="6" px="4" width="full">
@@ -105,18 +69,22 @@ function ProductAddToCart({ product, onAddToCart }) {
               isTruncated
               marginBottom="10px"
             >
-              {data.name}
+              {props.product.name}
             </Box>
           </Flex>
 
-          <Flex justifyContent="space-between" alignContent="center">
-            <Box fontSize="xl" color={useColorModeValue("gray.800", "white")}>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Box
+              fontSize="xl"
+              fontWeight="semibold"
+              color={useColorModeValue("blue.500", "white")}
+            >
               <Box as="span" color={"gray.600"} fontSize="md" mr="1">
                 S/
               </Box>
-              {data.price.toFixed(2)}
+              {props.product.price.toFixed(2)}
             </Box>
-            {onAddToCart && (
+            {props.onAddToCart && (
               <Tooltip
                 label="Add"
                 bg="white"
@@ -124,7 +92,7 @@ function ProductAddToCart({ product, onAddToCart }) {
                 color={"gray.800"}
                 fontSize={"1em"}
               >
-                <Button onClick={onAddToCart} display={"flex"}>
+                <Button onClick={props.onAddToCart} display={"flex"}>
                   <Icon as={FiPlus} h={5} w={5} alignSelf={"center"} />
                 </Button>
               </Tooltip>

@@ -27,7 +27,9 @@ import {
   FormLabel,
   ModalOverlay,
   ModalContent,
+  Icon,
 } from "@chakra-ui/react";
+import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 const UserScreen = ({
   getUsers,
@@ -72,7 +74,7 @@ const UserScreen = ({
       <span className="sr-only">Loading...</span>
     </Spinner>
   ) : (
-    <Container maxWidth="container.xl">
+    <Container maxWidth="container.xl" paddingTop="10">
       <Box
         display="flex"
         justifyContent="space-between"
@@ -82,12 +84,13 @@ const UserScreen = ({
         <Text fontSize="2xl" fontWeight="semibold">
           Users
         </Text>
-        <Button onClick={onOpen}>
-          <i className="fas fa-plus"></i> Register User
+        <Button onClick={onOpen} fontSize="lg" colorScheme="blue">
+          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Register
+          User
         </Button>
       </Box>
       <>
-        <Table variant="simple">
+        <Table variant="simple" size="sm">
           <Thead>
             <Tr>
               <Th>ID</Th>
@@ -106,16 +109,12 @@ const UserScreen = ({
                 <Td>{user.email}</Td>
                 <Td>
                   <LinkContainer to={`/users/edit/${user.coduser}`}>
-                    <Button variant="warning" className="btn-sm">
-                      <i className="fas fa-edit"></i>
+                    <Button>
+                      <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
                     </Button>
                   </LinkContainer>
-                  <Button
-                    variant="danger"
-                    className="btn-sm"
-                    onClick={() => deleteUser(user.coduser)}
-                  >
-                    <i className="fas fa-trash"></i>
+                  <Button ml="2" onClick={() => deleteUser(user.coduser)}>
+                    <Icon as={FiTrash2} h={4} w={4} alignSelf={"center"} />
                   </Button>
                 </Td>
               </Tr>

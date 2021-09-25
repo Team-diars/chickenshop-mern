@@ -11,7 +11,7 @@ import Header from "./components/layout/Header";
 import LoginScreenEmployee from "./components/auth/LoginScreenEmployee";
 import RegisterScreen from "./components/auth/RegisterScreen";
 import ProductScreen from "./components/products/ProductScreen";
-import DashboardScreen from "./components/dashboard/DashboardScreen";
+import ProfileScreen from "./components/profile/ProfileScreen";
 import SettingsScreen from "./components/settings/SettingsScreen";
 import UserScreen from "./components/users/UserScreen";
 import EmployeeScreen from "./components/employees/EmployeeScreen";
@@ -25,7 +25,7 @@ import EditUser from "./components/users/EditUser";
 import { MenuScreen } from "./components/menu/MenuScreen";
 import FoodMenuScreen from "./components/menu/FoodMenuScreen";
 import WebSocketProvider from "./ws/index";
-import { LiveOrders } from "./components/orders/LiveOrders";
+import LiveOrders from "./components/orders/LiveOrders";
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -49,7 +49,7 @@ function App() {
               <Route exact path="/menu2" component={MenuScreen} />
               <Route exact path="/menu" component={FoodMenuScreen} />
               <Route exact path="/register" component={RegisterScreen} />
-              <PrivateRoute exact path="/profile" component={DashboardScreen} />
+              <PrivateRoute exact path="/profile" component={ProfileScreen} />
               <PrivateRoute exact path="/products" component={ProductScreen} />
               <PrivateRoute
                 exact

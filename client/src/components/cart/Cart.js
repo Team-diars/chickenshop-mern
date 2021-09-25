@@ -34,11 +34,15 @@ import {
   Drawer,
   Stack,
   InputRightAddon,
+  IconButton,
+  Icon,
 } from "@chakra-ui/react";
 
 import { WebSocketContext } from "../../ws";
 import io from "socket.io-client";
 import { addOrder } from "../../actions/order";
+import { GiShoppingCart } from "react-icons/gi";
+import { FiShoppingCart } from "react-icons/fi";
 
 let socket;
 const CONNECTION_PORT = `http://localhost:5000/`;
@@ -117,14 +121,24 @@ const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
   //   }, [getCart]);
   return (
     <>
-      <Button
-        colorScheme="blue"
-        onClick={onOpen}
-        position="fixed"
-        bottom="10"
-        right="10"
-      >
-        Cart
+      <Button onClick={onOpen} position="fixed" bottom="10" right="10">
+        <Icon as={FiShoppingCart} h={6} w={6} alignSelf={"center"} />
+        <Box
+          pos="absolute"
+          top="-1px"
+          right="-1px"
+          px={2}
+          py={1}
+          fontSize="xs"
+          fontWeight="bold"
+          lineHeight="none"
+          color="red.100"
+          transform="translate(50%,-50%)"
+          bg="red.600"
+          rounded="full"
+        >
+          {cart.length}
+        </Box>
       </Button>
       <Drawer
         isOpen={isOpen}
@@ -141,11 +155,6 @@ const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
           <DrawerBody>
             <Stack spacing="24px">
               <TableCart cart={cart} />
-              {
-                <Box display="flex" justifyContent="flex-end">
-                  <Text>Total: a</Text>
-                </Box>
-              }
               {cart.length > 0 && (
                 <Box display="flex" justifyContent="space-between">
                   <Button variant="outline" mr={3} onClick={clearCart}>

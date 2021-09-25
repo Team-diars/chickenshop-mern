@@ -3,8 +3,16 @@ const {
   model
 } = require('mongoose');
 const OrderSchema = new Schema({
+  total:{
+    type:Number,
+  },
+  specialDelivery:{
+    type:Boolean,
+    default: true,
+  },
   products: [{
     name: String,
+    desc: String,
     price: Number,
     category: String,
     qty: Number,

@@ -26,7 +26,7 @@ export const addProduct = (formData) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
     }
     dispatch({
       type: PRODUCT_ERROR,
@@ -53,7 +53,7 @@ export const updateProduct = (id, formData, history) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
     }
     dispatch({
       type: PRODUCT_ERROR,
@@ -104,7 +104,7 @@ export const deleteProduct = (id) => async (dispatch) => {
         type: REMOVE_PRODUCT,
         payload: id,
       });
-      dispatch(setAlert("Product Removed", "danger"));
+      dispatch(setAlert("Product Removed", "error"));
     } catch (err) {
       dispatch({
         type: PRODUCT_ERROR,

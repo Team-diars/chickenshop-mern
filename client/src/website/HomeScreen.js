@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link as ReachLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProducts } from "../actions/product";
 import { getSettings } from "../actions/settings";
@@ -17,7 +18,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 
-import { GiChickenOven } from "react-icons/gi";
+import { GiChickenOven, GiFootTrip } from "react-icons/gi";
 
 import ProductAddToCart from "./../components/home/ProductCard";
 import FeatureCard from "./../components/home/FeatureCard";
@@ -79,80 +80,94 @@ const HomeScreen = ({
     getProducts();
   }, [getProducts]);
   return (
-    <Box maxWidth="full">
-      {/* <Box p={4}>Main Content Here</Box> */}
-      <Container bg="blackAlpha.800" maxW="full">
-        <Stack
-          // justifyContent="center"
-          // alignItems="center"
-          maxW={"full"}
-          as={Box}
-          textAlign={"center"}
-          // spacing={{ base: 6, md: 8 }}
-          py={{ base: 20, md: 36 }}
+    <Box maxW="full">
+      <Box
+        bg="blackAlpha.800"
+        w="full"
+        // backgroundImage="url('https://media.discordapp.net/attachments/877385598627905579/890098348927881226/como-abrir-una-polleria.png')"
+        backgroundImage="url(https://scontent.flim9-1.fna.fbcdn.net/v/t1.6435-9/176159586_2788581568070408_2835478741898514405_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=e3f864&_nc_eui2=AeEhoVKhyf1grszzuVGdyqm6j9S8Jip9DBSP1LwmKn0MFEceQqFp9J9bbX7MAaxM4d0&_nc_ohc=vbgWsKC03yoAX93PuXb&_nc_oc=AQn6Bt_oxGj4g4KFT7TRcuN_tMrSlsx46oBUOJG-j-yNW8fVXK1KvVQwxf45nH8FkuMF652XD_xSj9jsn9zzopMg&tn=xBURpsnkRHQBKBCA&_nc_ht=scontent.flim9-1.fna&oh=550ddbcf5b630c82eed45931f36067c9&oe=616F81BD)"
+        backgroundPosition="center"
+        backgroundRepeat="no-repeat"
+        backgroundSize="cover"
+      >
+        <Flex
+          align="center"
+          pos="relative"
+          justify="center"
+          boxSize="full"
+          bg="blackAlpha.500"
         >
-          <Box d="flex" justifyContent="center">
-            <GiChickenOven size={"100"} color="white" />
-          </Box>
-          <Heading
-            fontWeight={600}
-            fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
-            lineHeight={"110%"}
-            color="white"
-          >
-            Pollos a la brasa <br />
-            <Text as={"span"} color={"yellow.400"}>
-              Harike
-            </Text>
-          </Heading>
-          <Text color={"gray.100"}>
-            Ven y disfruta de los mejores pollos a la brasa!
-          </Text>
           <Stack
-            direction={"column"}
-            spacing={3}
-            align={"center"}
-            alignSelf={"center"}
-            position={"relative"}
+            maxW={"full"}
+            as={Box}
+            textAlign={"center"}
+            // spacing={{ base: 6, md: 8 }}
+            py={{ base: 20, md: 32 }}
           >
-            <Button
-              colorScheme={"yellow"}
-              bg={"yellow.300"}
-              rounded={"full"}
-              px={6}
-              _hover={{
-                bg: "yellow.400",
-              }}
-            >
-              Ver Carta
-            </Button>
-            {/* <Button variant={"link"} colorScheme={"blue"} size={"sm"}>
-              Learn more
-            </Button> */}
-            <Box>
-              <Icon
-                as={Arrow}
-                color={useColorModeValue("gray.100", "gray.300")}
-                w={71}
-                position={"absolute"}
-                right={-61}
-                top={"40px"}
-              />
-              <Text
-                fontSize={["sm", "lg"]}
-                fontFamily={"Caveat"}
-                position={"absolute"}
-                right={["-110px", "-155px"]}
-                bottom={"15px"}
-                transform={"rotate(10deg)"}
-                color="white"
-              >
-                Haz tu pedido ya!
-              </Text>
+            <Box d="flex" justifyContent="center">
+              {/* <GiChickenOven size={"100"} color="white" /> */}
+              {/* <GiFootTrip size={"100"} color="white" /> */}
             </Box>
+            <Heading
+              fontWeight={600}
+              fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+              lineHeight={"110%"}
+              color="white"
+            >
+              Rinconcito <br />
+              <Text as={"span"} color={"yellow.400"}>
+                Ayacuchano
+              </Text>
+            </Heading>
+            <Text color={"gray.100"}>
+              Ven y disfruta de los mejores platos!
+            </Text>
+            <Stack
+              marginTop="2"
+              direction={"column"}
+              spacing={3}
+              align={"center"}
+              alignSelf={"center"}
+              position={"relative"}
+            >
+              <Button
+                as={ReachLink}
+                to={"/menu"}
+                colorScheme={"yellow"}
+                bg={"yellow.300"}
+                rounded={"full"}
+                px={6}
+                _hover={{
+                  bg: "yellow.400",
+                }}
+              >
+                Ver Carta
+              </Button>
+              <Box>
+                <Icon
+                  as={Arrow}
+                  color={useColorModeValue("gray.100", "gray.300")}
+                  w={71}
+                  position={"absolute"}
+                  right={-61}
+                  top={"40px"}
+                />
+                <Text
+                  fontSize={["sm", "lg"]}
+                  fontFamily={"Caveat"}
+                  position={"absolute"}
+                  right={["-110px", "-155px"]}
+                  bottom={"15px"}
+                  transform={"rotate(10deg)"}
+                  color="white"
+                >
+                  Haz tu pedido ya!
+                </Text>
+              </Box>
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
+        </Flex>
+      </Box>
       <Container maxWidth="container.xl">
         <Text mt="8" fontSize="3xl" fontWeight="bold" color={"black"}>
           Categorias

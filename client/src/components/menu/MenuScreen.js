@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { WebSocketContext } from '../../ws'
 
 let socket;
-const CONNECTION_PORT = `http://localhost:5000/`;
+const CONNECTION_PORT = `http://127.0.0.1:5000/`;
 export const MenuScreen = () => {
   const data = useSelector(state => state.order)  
   // console.log("data: ",data)
@@ -13,13 +13,20 @@ export const MenuScreen = () => {
   const sendPayload = () => {
     const payload =  [
         {
-          "name": "torta helada test@@@@",
-          "price": 5,
-          "category": "dessert",
-          "qty": 1,
-          "creams": [
-          ]
-        }
+          total: 20,
+          status: 1,
+          specialDelivery: true,
+          products: [
+            {
+              name: "torta helada 2",
+              desc: "torta helada 1",
+              price: 7,
+              category: "dessert",
+              qty: 2,
+              creams: [],
+            },
+          ],
+        },
       ];
     console.log('sent!');
     // This will handle adding the order

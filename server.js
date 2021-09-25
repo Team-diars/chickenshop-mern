@@ -69,7 +69,8 @@ io.on('connection', async(socket) => {
 
   socket.on('send-order', async (msg, callback) => {
     try{
-      const newOrder = new Order({products: JSON.parse(msg)});
+      console.log("data to save: ",JSON.parse(msg));
+      const newOrder = new Order(JSON.parse(msg));
       await newOrder.save();
       //redirects to client components who are being connected to sockets
       callback(newOrder);

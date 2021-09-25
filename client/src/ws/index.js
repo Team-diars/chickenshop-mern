@@ -6,7 +6,7 @@ export const WebSocketContext = createContext(null);
 export default function ({ children }) {
   let socket;
   let ws;
-  const CONNECTION_PORT = `http://localhost:5000/`;
+  const CONNECTION_PORT = `http://127.0.0.1:5000/`;
   const sendOrder = (payload) => {
     socket.emit(
       "send-order",

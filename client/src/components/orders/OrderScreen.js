@@ -163,7 +163,7 @@ const OrderScreen = ({
     getProducts();
   }, [getProducts]);
   return (
-    <Container maxWidth="container.xl">
+    <Container maxWidth="container.xl" paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
         Orders
       </Text>
