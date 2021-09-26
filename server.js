@@ -6,6 +6,9 @@ const path = require("path");
 const Order = require('./models/Order');
 // const http = require('http').createServer(app);
 const socket = require('socket.io');
+const dayjs = require('dayjs');
+var localizedFormat = require('dayjs/plugin/localizedFormat')
+
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 app.use(cors());
 
@@ -69,12 +72,24 @@ io.on('connection', async(socket) => {
 
   socket.on('send-order', async (msg, callback) => {
     try{
-      console.log("data to save: ",JSON.parse(msg));
-      const newOrder = new Order(JSON.parse(msg));
-      await newOrder.save();
-      //redirects to client components who are being connected to sockets
-      callback(newOrder);
-      socket.broadcast.emit('send-order',newOrder);
+      let data = JSON.parse(msg)[0];
+      let newOrder = new Order(data);
+      await newOrder.save();      
+      let mydate = new Date(newOrder.date);
+      dayjs.extend(localizedFormat)
+      mydate = dayjs(mydate).format("DD MMM YYYY, LT")
+      let {status, specialDelivery, _id, total, products} = newOrder;
+      let payload_back = {
+        _id, 
+        status, 
+        specialDelivery, 
+        total, 
+        products,
+        date: mydate
+      }
+      callback(payload_back);
+      console.log("payload_back: ",payload_back);
+      socket.broadcast.emit('send-order',payload_back);
     }catch(err){
       console.log(err);
     }

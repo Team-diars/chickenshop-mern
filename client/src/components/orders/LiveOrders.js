@@ -40,7 +40,7 @@ export const LiveOrders = () => {
     socket.on('send-order',(payload) => {
       setOrder([...order, JSON.parse(JSON.stringify(payload))])
     })
-    console.log("Updating Order: ",order);
+    // console.log("Updating Order: ",order);
     return () => {
       socket.disconnect();
     };
@@ -192,7 +192,6 @@ export const LiveOrders = () => {
       <Flex flexWrap="wrap" justifyContent="space-between">
         {order?.length > 0
           ? order.map((item, idx) => {
-              console.log("item: ",item)
               return <OrdersCard key={idx} order={item}/>
           })
           : "No existe ordenes"}

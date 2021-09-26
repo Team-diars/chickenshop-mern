@@ -53,22 +53,15 @@ const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
   const ws = useContext(WebSocketContext);
   const sendPayload = () => {
     const payload = {
-      cart,
-      products: [
-        {
-          name: "helado 1LT",
-          price: 12,
-          category: "Icecream",
-          qty: 2,
-          creams: [],
-        },
-      ],
+      specialDelivery:true,
+      total:100,
+      products: cart,
     };
-    socket.emit("send-order", payload, (data) => {
-      console.log(data);
-    });
+    console.log("payload-cart: ",payload);
+    // socket.emit("send-order", payload, (data) => {
+    //   console.log(data);
+    // });
     dispatch(addOrder(payload));
-
     //   This will handle adding the order
     console.log("enviando ordennnn");
     ws.sendOrder(payload);
