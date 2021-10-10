@@ -63,7 +63,7 @@ const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
     // });
     dispatch(addOrder(payload));
     //   This will handle adding the order
-    console.log("enviando ordennnn");
+    // console.log("enviando ordennnn");
     ws.sendOrder(payload);
   };
 

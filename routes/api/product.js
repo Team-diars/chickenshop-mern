@@ -74,7 +74,7 @@ router.post(
         errors: errors.array(),
       });
     }
-    const { category, image, name, price } = req.body;
+    const { category, image, name, price, description } = req.body;
 
     //* Validate if product exists
     let product = await Product.findOne({ name });
@@ -88,7 +88,7 @@ router.post(
       const product = await Product.findOneAndUpdate({ name },{ category:category.toLowerCase(), price,image, status: 1 });
       return res.json(product);
     }
-    const newProduct = new Product({ category:category.toLowerCase(), name:name.trim(), price, image });
+    const newProduct = new Product({ category:category.toLowerCase(), name:name.trim(), description: description.trim(), price, image });
     await newProduct.save();
     return res.json(newProduct);  
   }
@@ -136,7 +136,7 @@ router.put(
         }); //* mapped() returns object
       }
       const { id } = req.params;
-      const { category, name, price } = req.body;
+      const { category, name, price, description } = req.body;
       const exists = await Product.exists({ _id: id, status: 1 });
       if (!exists) return res.status(500).send("Product doesn't exist");
       const duplicatedProduct = await Product.exists({ name: name, status: 0 });
@@ -154,7 +154,9 @@ router.put(
         }
       }
       const productUpdated = await Product.findByIdAndUpdate(id,
-                                            { category:category.toLowerCase(), name:name.trim(), price },
+                                            { category:category.toLowerCase(), 
+                                              name:name.trim(), description: description.trim(), 
+                                              price },
                                             { new: true });
       return res.json(productUpdated);
     }catch(error){

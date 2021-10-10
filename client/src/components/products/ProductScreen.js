@@ -46,12 +46,14 @@ const ProductScreen = ({
   const [image, setImage] = useState("");
   const [formData, setFormData] = useState({
     name: "",
+    description:"",
     category: "",
     price: 0,
     image: "",
   });
   const {
     name,
+    description,
     category,
     price,
     // image,
@@ -139,6 +141,7 @@ const ProductScreen = ({
                   <Tr key={idx}>
                     <Td>{product._id}</Td>
                     <Td>{product.name}</Td>
+                    <Td>{product.description}</Td>
                     <Td>
                       <Box>
                         <Image
@@ -149,7 +152,6 @@ const ProductScreen = ({
                       </Box>
                     </Td>
                     <Td>S/ {product.price.toFixed(2)}</Td>
-                    <Td>{product.category}</Td>
                     <Td>
                       <LinkContainer to={`/products/edit/${product._id}`}>
                         <Button>
@@ -181,6 +183,16 @@ const ProductScreen = ({
               <Input
                 name="name"
                 value={name}
+                type="text"
+                onChange={(e) => onChange(e)}
+                autoComplete="off"
+              />
+            </FormControl>
+            <FormControl mt={1}>
+              <FormLabel>Description</FormLabel>
+              <Input
+                name="description"
+                value={description}
                 type="text"
                 onChange={(e) => onChange(e)}
                 autoComplete="off"

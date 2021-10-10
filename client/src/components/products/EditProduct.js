@@ -18,6 +18,7 @@ const EditProduct = ({
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
+    description: "",
     category: "",
     price: 0,
     image: "",
@@ -35,6 +36,7 @@ const EditProduct = ({
       setFormData({
         _id: product._id || "",
         name: product.name || "",
+        description: product.description || "",
         category: product.category || "",
         price: product.price || 0,
         image: setImage(product.image) || "",
@@ -54,7 +56,6 @@ const EditProduct = ({
     const formData = new FormData();
     formData.append("image", file);
     setUploading(true);
-
     try {
       const config = {
         headers: {
@@ -91,6 +92,13 @@ const EditProduct = ({
               <Input
                 name="name"
                 value={formData.name}
+                type="text"
+                onChange={(e) => onChange(e)}
+              />
+              <FormLabel>Description</FormLabel>
+              <Input
+                name="description"
+                value={formData.description}
                 type="text"
                 onChange={(e) => onChange(e)}
               />
