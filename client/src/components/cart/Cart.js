@@ -63,7 +63,7 @@ const CartScreen = (props) => {
     // });
     dispatch(addOrder(payload));
     //   This will handle adding the order
-    console.log("enviando orden");
+    // console.log("enviando ordennnn");
     ws.sendOrder(payload);
   };
 
