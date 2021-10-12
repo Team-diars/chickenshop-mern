@@ -17,8 +17,6 @@ import {
 } from "@chakra-ui/react";
 import { FiCheck, FiX } from "react-icons/fi";
 function OrdersCard(props) {
-  const [show, setShow] = React.useState(false);
-  const handleToggle = () => setShow(!show);
   console.log("Order:", props);
   //1 == Pending
   //2 == Delivered
@@ -55,7 +53,7 @@ function OrdersCard(props) {
               isTruncated
               marginBottom="1"
             >
-              Order #{props.order._id.substring(0,5)}
+              Pedido #{props.order._id.substring(0, 5)}
             </Text>
             <Text
               color="gray"
@@ -77,7 +75,7 @@ function OrdersCard(props) {
               bg={`${status}.300`}
             />
             <Badge rounded="full" px="2" fontSize="sm" colorScheme={status}>
-              {(props.order.status === 1) ? "Pending" : "Delivered" }
+              {props.order.status === 1 ? "Pendiente" : "Entregado"}
             </Badge>
           </Box>
         </Flex>

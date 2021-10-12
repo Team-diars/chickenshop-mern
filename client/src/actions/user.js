@@ -61,7 +61,7 @@ export const addUser = (formData) => async (dispatch) => {
       type: ADD_USER,
       payload: res.data,
     });
-    dispatch(setAlert("User Added", "success"));
+    dispatch(setAlert("Usuario agregado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -89,7 +89,7 @@ export const updateUser = (id, formData, history) => async (dispatch) => {
       payload: { id, users: res.data },
     });
     history.push("/users");
-    dispatch(setAlert("User Updated", "success"));
+    dispatch(setAlert("Usuario actualizado", "success"));
   } catch (err) {
     // const errors = err.response.data.errors;
     // if(errors){
@@ -104,14 +104,14 @@ export const updateUser = (id, formData, history) => async (dispatch) => {
 
 //* Delete User
 export const deleteUser = (id) => async (dispatch) => {
-  if (window.confirm("Are you sure you want to delete this user?")) {
+  if (window.confirm("Estas seguro de eliminar este usuario?")) {
     try {
       await axios.delete(`/api/user/delete/${id}`);
       dispatch({
         type: REMOVE_USER,
         payload: id,
       });
-      dispatch(setAlert("User Removed", "error"));
+      dispatch(setAlert("Usuario removido", "error"));
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {

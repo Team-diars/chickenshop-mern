@@ -45,7 +45,7 @@ function CategoryCard(props) {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        href={data.name}
+        // href={data.name}
         bg={useColorModeValue("white", "gray.800")}
         // maxHeight="200px"
         position="relative"
@@ -64,7 +64,8 @@ function CategoryCard(props) {
           rounded="full"
           boxSize="150px"
           objectFit="cover"
-          src={`/images/${data.imageURL}`}
+          // src={`/images/${data.imageURL}`}
+          src="/images//image-1624114388774.jpg"
           alt={data.name}
         />
 

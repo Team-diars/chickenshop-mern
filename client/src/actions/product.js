@@ -22,7 +22,7 @@ export const addProduct = (formData) => async (dispatch) => {
       type: ADD_PRODUCT,
       payload: res.data,
     });
-    dispatch(setAlert("Product Added", "success"));
+    dispatch(setAlert("Producto creado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -49,7 +49,7 @@ export const updateProduct = (id, formData, history) => async (dispatch) => {
       payload: { id, products: res.data },
     });
     history.push("/products");
-    dispatch(setAlert("Product Updated", "success"));
+    dispatch(setAlert("Producto actualizado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -97,14 +97,14 @@ export const getProductByID = (id) => async (dispatch) => {
 
 //* Delete product
 export const deleteProduct = (id) => async (dispatch) => {
-  if (window.confirm("Are you sure you want to delete this product?")) {
+  if (window.confirm("Estas seguro de eliminar este producto?")) {
     try {
       await axios.delete(`/api/product/delete/${id}`);
       dispatch({
         type: REMOVE_PRODUCT,
         payload: id,
       });
-      dispatch(setAlert("Product Removed", "error"));
+      dispatch(setAlert("Producto eliminado", "error"));
     } catch (err) {
       dispatch({
         type: PRODUCT_ERROR,

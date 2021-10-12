@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LinkContainer } from "react-router-bootstrap";
+import { Link as ReachLink } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import {
@@ -81,11 +81,10 @@ const EmployeeScreen = ({
         marginBottom="10"
       >
         <Text fontSize="2xl" fontWeight="semibold">
-          Employees
+          Empleados
         </Text>
         <Button onClick={onOpen} fontSize="lg" colorScheme="blue">
-          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Register
-          Employee
+          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Agregar Empleado
         </Button>
       </Box>
       <div>
@@ -98,11 +97,11 @@ const EmployeeScreen = ({
             <Thead>
               <Tr>
                 <Th>ID</Th>
-                <Th>NAME</Th>
-                <Th>ROLE</Th>
+                <Th>NOMBRE</Th>
+                <Th>ROL</Th>
                 <Th>DNI</Th>
                 <Th>EMAIL</Th>
-                <Th>ADDRESS</Th>
+                <Th>DIRECCION</Th>
                 <Th></Th>
               </Tr>
             </Thead>
@@ -118,11 +117,9 @@ const EmployeeScreen = ({
                   <Td>{employee.email}</Td>
                   <Td>{employee.address}</Td>
                   <Td>
-                    <LinkContainer to={`/employees/edit/${employee._id}`}>
-                      <Button>
-                        <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
-                      </Button>
-                    </LinkContainer>
+                    <Button as={ReachLink} to={`/employees/edit/${employee._id.toString()}`}>
+                      <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
+                    </Button>
                     <Button
                       ml="2"
                       onClick={(e) => deleteEmployee(employee._id)}
@@ -139,11 +136,11 @@ const EmployeeScreen = ({
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add Employee</ModalHeader>
+          <ModalHeader>Agregar Empleado</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl mt={1}>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Nombres</FormLabel>
               <Input
                 name="name"
                 value={name}
@@ -152,7 +149,7 @@ const EmployeeScreen = ({
               />
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>Apellidos</FormLabel>
 
               <Input
                 name="lastname"
@@ -162,7 +159,7 @@ const EmployeeScreen = ({
               />
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Role</FormLabel>
+              <FormLabel>Rol</FormLabel>
 
               <Select
                 as="select"
@@ -170,7 +167,7 @@ const EmployeeScreen = ({
                 value={role}
                 onChange={(e) => onChange(e)}
               >
-                <option value="">-- Select a role --</option>
+                <option value="">-- Selecciona el rol --</option>
                 <option value="admin">Admin</option>
                 <option value="cashier">Cashier</option>
               </Select>
@@ -194,7 +191,7 @@ const EmployeeScreen = ({
               />
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>Direccion</FormLabel>
               <Input
                 name="address"
                 value={address}
@@ -205,9 +202,9 @@ const EmployeeScreen = ({
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={submitEmployee}>
-              Insert
+              Agregar
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

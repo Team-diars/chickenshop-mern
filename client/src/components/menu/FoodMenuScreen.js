@@ -17,7 +17,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 
-import ProductAddToCart from "../../components/home/ProductCard";
+import ProductAddToCart from "../../components/products/ProductCard";
 import Cart from "../../components/cart/Cart";
 
 const MenuScreen = ({
@@ -26,7 +26,10 @@ const MenuScreen = ({
   cart: { cart },
   addProductCart,
 }) => {
-  console.log(cart);
+  const dishes = products.filter((item) => item.category === "dishes");
+  const drinks = products.filter((item) => item.category === "drinks");
+  const salads = products.filter((item) => item.category === "salads");
+  console.log("Cart en menu:", cart);
   useEffect(() => {
     getProducts();
   }, [getProducts]);
@@ -37,10 +40,10 @@ const MenuScreen = ({
       </Text>
       <Box>
         <Text mt="8" fontSize="2xl" fontWeight="bold" color={"black"}>
-          Dishes
+          Platos
         </Text>
         <Flex w="full" flexWrap="wrap" mt="20">
-          {products.map((item, idx) => (
+          {dishes.map((item, idx) => (
             <ProductAddToCart
               key={idx}
               product={item}
@@ -51,10 +54,10 @@ const MenuScreen = ({
       </Box>
       <Box>
         <Text mt="8" fontSize="2xl" fontWeight="bold" color={"black"}>
-          Drinks
+          Bebidas
         </Text>
         <Flex w="full" flexWrap="wrap" mt="20">
-          {products.map((item, idx) => (
+          {drinks.map((item, idx) => (
             <ProductAddToCart
               key={idx}
               product={item}
@@ -65,7 +68,7 @@ const MenuScreen = ({
       </Box>
       <Box>
         <Text mt="8" fontSize="2xl" fontWeight="bold" color={"black"}>
-          Salads
+          Ensaladas
         </Text>
         <Flex
           w="full"
@@ -73,7 +76,7 @@ const MenuScreen = ({
           flexWrap="wrap"
           mt="20"
         >
-          {products.map((item, idx) => (
+          {salads.map((item, idx) => (
             <ProductAddToCart
               key={idx}
               product={item}

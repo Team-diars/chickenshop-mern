@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LinkContainer } from "react-router-bootstrap";
+import { Link as ReachLink } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getProducts, addProduct, deleteProduct } from "../../actions/product";
@@ -32,7 +32,7 @@ import {
   Image,
   Icon,
 } from "@chakra-ui/react";
-import { FiEdit, FiEdit2, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 
 const ProductScreen = ({
   addProduct,
@@ -106,78 +106,68 @@ const ProductScreen = ({
         marginBottom="10"
       >
         <Text fontSize="2xl" fontWeight="semibold">
-          Products
+          Lista de Productos
         </Text>
         {/* <Button leftIcon={<FiPlus />} colorScheme="blue" variant="solid">
           Create Product
         </Button> */}
         <Button onClick={onOpen} fontSize="lg" colorScheme="blue">
-          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Create
-          Product
+          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Agregar
+          Producto
         </Button>
       </Box>
       <Box>
-        {loading ? (
-          <Spinner animation="border" role="status">
-            <span className="sr-only"></span>
-          </Spinner>
-        ) : (
-          <div>
-            <Table variant="simple" size="sm">
-              <Thead>
-                <Tr>
-                  <Th>ID</Th>
-                  <Th>NAME</Th>
-                  <Th>IMAGE</Th>
-                  <Th>PRICE</Th>
-                  <Th>CATEGORY</Th>
-                  <Th>Actions</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {products.map((product, idx) => (
-                  <Tr key={idx}>
-                    <Td>{product._id}</Td>
-                    <Td>{product.name}</Td>
-                    <Td>
-                      <Box>
-                        <Image
-                          boxSize="80px"
-                          src={`/images/${product.image}`}
-                          alt={product.name}
-                        />
-                      </Box>
-                    </Td>
-                    <Td>S/ {product.price.toFixed(2)}</Td>
-                    <Td>{product.category}</Td>
-                    <Td>
-                      <LinkContainer to={`/products/edit/${product._id}`}>
-                        <Button>
-                          <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
-                        </Button>
-                      </LinkContainer>
-                      <Button
-                        ml="2"
-                        onClick={(e) => deleteProduct(product._id)}
-                      >
-                        <Icon as={FiTrash2} h={4} w={4} alignSelf={"center"} />
-                      </Button>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </div>
-        )}
+        <Table variant="simple" size="sm">
+          <Thead>
+            <Tr>
+              <Th>ID</Th>
+              <Th>NOMBRE</Th>
+              <Th>IMAGEN</Th>
+              <Th>PRECIO</Th>
+              <Th>CATEGORIA</Th>
+              <Th></Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {products.map((product, idx) => (
+              <Tr key={idx}>
+                <Td>{product._id}</Td>
+                <Td>{product.name}</Td>
+                <Td>
+                  <Box>
+                    <Image
+                      boxSize="80px"
+                      src={`/images/${product.image}`}
+                      alt={product.name}
+                    />
+                  </Box>
+                </Td>
+                <Td>S/ {product.price.toFixed(2)}</Td>
+                <Td>{product.category}</Td>
+                <Td>
+                  <Button
+                    as={ReachLink}
+                    to={`/products/edit/${product._id.toString()}`}
+                  >
+                    <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
+                  </Button>
+                  <Button ml="2" onClick={(e) => deleteProduct(product._id)}>
+                    <Icon as={FiTrash2} h={4} w={4} alignSelf={"center"} />
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
       </Box>
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add Product</ModalHeader>
+          <ModalHeader>Agregar Producto</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl mt={1}>
-              <FormLabel>Product name</FormLabel>
+              <FormLabel>Nombre</FormLabel>
               <Input
                 name="name"
                 value={name}
@@ -187,7 +177,7 @@ const ProductScreen = ({
               />
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Product price</FormLabel>
+              <FormLabel>Precio</FormLabel>
               <Input
                 type="number"
                 step="any"
@@ -198,7 +188,7 @@ const ProductScreen = ({
               />
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Product Image</FormLabel>
+              <FormLabel>Imagen</FormLabel>
               <Input
                 type="file"
                 label={image}
@@ -208,17 +198,17 @@ const ProductScreen = ({
               />
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Product category</FormLabel>
+              <FormLabel>Categoria</FormLabel>
               <Select
                 as="select"
                 name="category"
                 value={category}
                 onChange={(e) => onChange(e)}
               >
-                <option value="">-- Select a category --</option>
-                <option value="dishes">Dishes</option>
-                <option value="drinks">Drinks</option>
-                <option value="salads">Salads</option>
+                <option value="">-- Selecciona una categoria --</option>
+                <option value="dishes">Platos</option>
+                <option value="drinks">Bebidas</option>
+                <option value="salads">Ensaladas</option>
               </Select>
             </FormControl>
             <Box
@@ -231,13 +221,13 @@ const ProductScreen = ({
                 fontWeight="semibold"
                 style={{ display: (uploading || image) && "none" }}
               >
-                No preview image was set
+                No hay imagen previa
               </Text>
               {!uploading ? (
                 imagePicked
               ) : (
                 <Spinner animation="border" role="status">
-                  <span className="sr-only">Loading...</span>
+                  <span className="sr-only">Cargando...</span>
                 </Spinner>
               )}
             </Box>
@@ -245,9 +235,9 @@ const ProductScreen = ({
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={submitProduct}>
-              Insert
+              Agregar
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

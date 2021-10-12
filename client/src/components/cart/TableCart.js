@@ -17,8 +17,12 @@ import {
 import { updateProductCart, deleteProductCart } from "../../actions/cart";
 import { FiSmile, FiTrash2 } from "react-icons/fi";
 
-const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
-  console.log("TableCart:", cart);
+const TableCart = (props) => {
+  console.log("Tablecart:", props);
+  const cart = props.cart || [];
+  const ptotal = cart
+    .reduce((result, item) => item.quantity * item.price + result, 0)
+    .toFixed(2);
   return (
     <>
       <Box marginBottom="4">
@@ -28,9 +32,9 @@ const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
           </TableCaption>
           <Thead>
             <Tr>
-              <Th>Item</Th>
-              <Th>Quantity</Th>
-              <Th>Price</Th>
+              <Th>Producto</Th>
+              <Th>Can.</Th>
+              <Th>Precio</Th>
               <Th></Th>
             </Tr>
           </Thead>
@@ -47,13 +51,15 @@ const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
                       placeholder="Quantity"
                       value={dish.quantity}
                       onChange={(e) =>
-                        updateProductCart(e.target.value, dish._id)
+                        props.updateProductCart(e.target.value, dish._id)
                       }
                     />
                   </Td>
                   <Td isNumeric>S/{(dish.price * dish.quantity).toFixed(2)}</Td>
                   <Td>
-                    <Button onClick={() => deleteProductCart({ id: dish._id })}>
+                    <Button
+                      onClick={() => props.deleteProductCart({ id: dish._id })}
+                    >
                       <Icon as={FiTrash2} h={5} w={5} />
                     </Button>
                   </Td>
@@ -62,25 +68,18 @@ const TableCart = ({ cart, deleteProductCart, updateProductCart }) => {
             ) : (
               <Tr>
                 <Td colSpan="4" textAlign="center">
-                  Cart is empty
+                  El carrito esta vacio
                 </Td>
               </Tr>
             )}
           </Tbody>
-
           <Tfoot>
             <Tr>
               <Th>Total:</Th>
               <Th></Th>
-
               <Th isNumeric>
                 S/
-                {cart
-                  .reduce(
-                    (result, item) => item.quantity * item.price + result,
-                    0
-                  )
-                  .toFixed(2)}
+                {ptotal}
               </Th>
               <Th></Th>
             </Tr>

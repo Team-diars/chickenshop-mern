@@ -39,7 +39,7 @@ export const addEmployee = (formData) => async (dispatch) => {
       type: ADD_EMPLOYEE,
       payload: res.data,
     });
-    dispatch(setAlert("Employee Added", "success"));
+    dispatch(setAlert("Empleado agregado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -66,7 +66,7 @@ export const updateEmployee = (id, formData, history) => async (dispatch) => {
       payload: { id, employees: res.data },
     });
     history.push("/employees");
-    dispatch(setAlert("Employee Updated", "success"));
+    dispatch(setAlert("Empleado actualizado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -81,14 +81,14 @@ export const updateEmployee = (id, formData, history) => async (dispatch) => {
 
 //* Delete employee
 export const deleteEmployee = (id) => async (dispatch) => {
-  if (window.confirm("Are you sure you want to remove this employee?")) {
+  if (window.confirm("Estas seguro de eliminar este empleado?")) {
     try {
       await axios.delete(`/api/employee/delete/${id}`);
       dispatch({
         type: REMOVE_EMPLOYEE,
         payload: id,
       });
-      dispatch(setAlert("Employee Removed", "error"));
+      dispatch(setAlert("Empleado eliminado", "error"));
     } catch (err) {
       dispatch({
         type: EMPLOYEE_ERROR,

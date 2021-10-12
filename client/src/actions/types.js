@@ -82,6 +82,7 @@ export const ORDER_ERROR = "ORDER_ERROR";
 export const GET_FIRST_ORDER = "GET_FIRST_ORDER";
 export const GET_ORDERS = "GET_ORDERS";
 export const ATTEND_FIRST_ORDER = "ATTEND_FIRST_ORDER";
+
 //* Cart
 export const GET_CART = "GET_CART";
 export const ADD_PRODUCT_CART = "ADD_PRODUCT_CART";
@@ -89,3 +90,12 @@ export const REMOVE_PRODUCT_CART = "REMOVE_PRODUCT_CART";
 export const UPDATE_PRODUCT_CART = "UPDATE_PRODUCT_CART";
 export const CART_ERROR = "CART_ERROR";
 export const CLEAR_CART = "CLEAR_CART";
+
+//* Categories
+export const ADD_CATEGORY = "ADD_CATEGORY";
+export const GET_CATEGORIES = "GET_CATEGORIES";
+export const GET_CATEGORY = "GET_CATEGORY";
+export const REMOVE_CATEGORY = "REMOVE_CATEGORY";
+export const CLEAR_CATEGORIES = "CLEAR_CATEGORIES";
+export const EDIT_CATEGORY = "EDIT_CATEGORY";
+export const CATEGORIES_ERROR = "CATEGORIES_ERROR";

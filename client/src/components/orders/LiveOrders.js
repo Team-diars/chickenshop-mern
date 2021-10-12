@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { WebSocketContext } from "../../ws";
 import { FiCheck, FiPlus, FiX } from "react-icons/fi";
-import OrdersCard from "./OrdersCard";
+import OrderCard from "./OrderCard";
 
 let socket;
 const CONNECTION_PORT = `http://127.0.0.1:5000/`;
@@ -26,25 +26,25 @@ export const LiveOrders = () => {
   const ws = useContext(WebSocketContext);
 
   useEffect(() => {
-    socket = io(CONNECTION_PORT, {transports: ['websocket']});
-    socket.on('retrieve-remaining-orders',(payload) => {
-      if(payload) setOrder([...order, ...JSON.parse(JSON.stringify(payload))])
-    })
+    socket = io(CONNECTION_PORT, { transports: ["websocket"] });
+    socket.on("retrieve-remaining-orders", (payload) => {
+      if (payload) setOrder([...order, ...JSON.parse(JSON.stringify(payload))]);
+    });
     return () => {
       socket.disconnect();
-    }
-  },[])
+    };
+  }, []);
 
   useEffect(() => {
-    socket = io(CONNECTION_PORT, {transports: ['websocket']});
-    socket.on('send-order',(payload) => {
-      setOrder([...order, JSON.parse(JSON.stringify(payload))])
-    })
+    socket = io(CONNECTION_PORT, { transports: ["websocket"] });
+    socket.on("send-order", (payload) => {
+      setOrder([...order, JSON.parse(JSON.stringify(payload))]);
+    });
     // console.log("Updating Order: ",order);
     return () => {
       socket.disconnect();
     };
-  },[order])
+  }, [order]);
 
   useEffect(() => {
     socket = io(CONNECTION_PORT, { transports: ["websocket"] });
@@ -62,6 +62,7 @@ export const LiveOrders = () => {
     // console.log("finished")
     ws.finished();
   };
+  console.log(order);
   // console.log("Updating Order: ", order);
   // const order_temp = [
   //   {
@@ -184,7 +185,7 @@ export const LiveOrders = () => {
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
-        Live Orders
+        Pedidos
       </Text>
       <Button colorScheme="blue" onClick={removeFirstOrder} mb="5">
         Attend
@@ -192,9 +193,10 @@ export const LiveOrders = () => {
       <Flex flexWrap="wrap" justifyContent="space-between">
         {order?.length > 0
           ? order.map((item, idx) => {
-              return <OrdersCard key={idx} order={item}/>
-          })
-          : "No existe ordenes"}
+              console.log(item);
+              return <OrderCard key={idx} order={item} />;
+            })
+          : "No existen pedidos"}
       </Flex>
     </Container>
   );

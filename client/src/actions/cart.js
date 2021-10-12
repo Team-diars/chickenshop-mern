@@ -24,7 +24,7 @@ export const addProductCart = (product) => (dispatch, getState) => {
     payload: product,
   });
   console.log("Cart:", cart);
-  dispatch(setAlert("Product Added to cart", "success"));
+  dispatch(setAlert("Producto agregado al carrito", "success"));
   //   }
   //   try {
   // const config = {
@@ -71,14 +71,12 @@ export const getCart = () => async (dispatch) => {
 
 //* Delete product
 export const deleteProductCart = (id) => (dispatch) => {
-  if (
-    window.confirm("Are you sure you want to delete this product from cart?")
-  ) {
+  if (window.confirm("Estas seguro de eliminar este producto del carrito?")) {
     dispatch({
       type: REMOVE_PRODUCT_CART,
       payload: id,
     });
-    dispatch(setAlert("Product Removed from cart", "error"));
+    dispatch(setAlert("Producto eliminado del carrito", "error"));
     //   try {
     //     await axios.delete(`/api/product/delete/${id}`);
     //     dispatch({
@@ -102,7 +100,7 @@ export const updateProductCart = (quantity, id) => (dispatch) => {
     type: UPDATE_PRODUCT_CART,
     payload: { id, quantity },
   });
-  dispatch(setAlert("Product updated from cart", "success"));
+  dispatch(setAlert("Producto actualizado del carrito", "success"));
   //   try {
   //     await axios.delete(`/api/product/delete/${id}`);
   //     dispatch({

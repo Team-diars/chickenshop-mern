@@ -10,7 +10,6 @@ const MainTable = ({
   deleteTicket,
   ticket: { tickets, loading },
 }) => {
-  
   useEffect(() => {
     getTickets();
   }, [getTickets]);
@@ -19,8 +18,8 @@ const MainTable = ({
       <Table variant="striped" size="lg">
         <Thead>
           <Tr>
-            <Th>Cashier</Th>
-            <Th>Table</Th>
+            <Th>Cajero</Th>
+            <Th>Mesa</Th>
             <Th>Subtotal</Th>
             <Th>Total</Th>
             <Th></Th>

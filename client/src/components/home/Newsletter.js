@@ -33,7 +33,7 @@ export default function Simple() {
           textAlign={"center"}
           mb={5}
         >
-          Subscribe to our Newsletter
+          Suscribete a nuestras promociones!
         </Heading>
         <Stack
           direction={{ base: "column", md: "row" }}
@@ -68,8 +68,8 @@ export default function Simple() {
               id={"email"}
               type={"email"}
               required
-              placeholder={"Your Email"}
-              aria-label={"Your Email"}
+              placeholder={"Email"}
+              aria-label={"Email"}
               value={email}
               //   disabled={state !== "initial"}
               onChange={(e) => setEmail(e.target.value)}
@@ -82,7 +82,7 @@ export default function Simple() {
               w="100%"
               type={"button"}
             >
-              {"Submit"}
+              {"Enviar"}
             </Button>
             {/* <Button
               colorScheme={state === "success" ? "green" : "blue"}
@@ -94,7 +94,7 @@ export default function Simple() {
             </Button> */}
           </FormControl>
         </Stack>
-        <Text
+        {/* <Text
           mt={2}
           textAlign={"center"}
           color={error ? "red.500" : "gray.500"}
@@ -102,7 +102,7 @@ export default function Simple() {
           {error
             ? "Oh no an error occured! 😢 Please try again later."
             : "You won't receive any spam! ✌️"}
-        </Text>
+        </Text> */}
       </Container>
     </Flex>
   );
