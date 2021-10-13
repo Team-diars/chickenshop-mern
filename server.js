@@ -72,7 +72,7 @@ io.on('connection', async(socket) => {
 
   socket.on('send-order', async (msg, callback) => {
     try{
-      let data = JSON.parse(msg)[0];
+      let data = JSON.parse(msg)[0] || JSON.parse(msg);
       let newOrder = new Order(data);
       await newOrder.save();      
       let mydate = new Date(newOrder.date);
@@ -88,7 +88,6 @@ io.on('connection', async(socket) => {
         date: mydate
       }
       callback(payload_back);
-      console.log("payload_back: ",payload_back);
       socket.broadcast.emit('send-order',payload_back);
     }catch(err){
       console.log(err);

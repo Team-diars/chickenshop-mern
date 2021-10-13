@@ -130,7 +130,7 @@ const ProductScreen = ({
                 <Tr>
                   <Th>ID</Th>
                   <Th>NAME</Th>
-                  <Th>IMAGE</Th>
+                  <Th>Description</Th>
                   <Th>PRICE</Th>
                   <Th>CATEGORY</Th>
                   <Th>Actions</Th>
