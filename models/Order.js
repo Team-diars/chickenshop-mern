@@ -13,9 +13,10 @@ const OrderSchema = new Schema({
   products: [{
     name: String,
     desc: String,
+    image: String,
     price: Number,
     category: String,
-    qty: Number,
+    quantity: Number,
     creams: [String]
   }],
   status: {

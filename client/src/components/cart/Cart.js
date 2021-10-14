@@ -54,7 +54,6 @@ const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
   const sendPayload = () => {
     const payload = {
       specialDelivery:true,
-      total:100,
       products: cart,
     };
     console.log("payload-cart: ",payload);

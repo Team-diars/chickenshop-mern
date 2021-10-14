@@ -110,8 +110,8 @@ function OrdersCard(props) {
                     rounded="full"
                     boxSize="50px"
                     objectFit="cover"
-                    src={`/images/image-1624755960056.jpg`}
-                    alt={product.name}
+                    src={`/images/${product.image}`}
+                    alt={product.name+"-"+product.image}
                   />
                 </Box>
                 <Box w={2 / 3}>
@@ -158,7 +158,7 @@ function OrdersCard(props) {
                         isTruncated
                         marginBottom="5px"
                       >
-                        Qty: {product.qty}
+                        Qty: {product.quantity}
                       </Text>
                     </Box>
                   </Flex>

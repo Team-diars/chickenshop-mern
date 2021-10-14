@@ -78,7 +78,11 @@ io.on('connection', async(socket) => {
       let mydate = new Date(newOrder.date);
       dayjs.extend(localizedFormat)
       mydate = dayjs(mydate).format("DD MMM YYYY, LT")
-      let {status, specialDelivery, _id, total, products} = newOrder;
+      let {status, specialDelivery, _id, products} = newOrder;
+      let total = 0;
+      for(let i = 0; i < products.length; i++){
+        total += products[i].price * products[i].quantity;
+      }
       let payload_back = {
         _id, 
         status, 
@@ -87,6 +91,7 @@ io.on('connection', async(socket) => {
         products,
         date: mydate
       }
+      console.log("payload_back: ",payload_back);
       callback(payload_back);
       socket.broadcast.emit('send-order',payload_back);
     }catch(err){
