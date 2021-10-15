@@ -69,8 +69,11 @@ io.on('connection', async(socket) => {
     }
   })
   socket.on("check-order", async(id) => {
-    console.log("id to be checked: ",id);
     await Order.findByIdAndUpdate(id, { status: 2 }, { new: true });
+    socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
+  })
+  socket.on("uncheck-order", async(id) => {
+    await Order.findByIdAndUpdate(id, { status: 0 }, { new: true });
     socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
   })
   socket.on('send-order', async (msg, callback) => {

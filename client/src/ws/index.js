@@ -28,6 +28,9 @@ export default function ({
   const checkOrder = (id) => {
     socket.emit("check-order", id);
   }
+  const uncheckOrder = (id) => {
+    socket.emit("uncheck-order", id);
+  }
   if (!socket) {
     socket = io(CONNECTION_PORT, {
       transports: ["websocket"]
@@ -41,7 +44,8 @@ export default function ({
       socket: socket,
       sendOrder,
       finished,
-      checkOrder
+      checkOrder,
+      uncheckOrder
     };
   }
   return ( <WebSocketContext.Provider value = {ws} > 
