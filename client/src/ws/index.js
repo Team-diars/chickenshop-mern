@@ -25,6 +25,9 @@ export default function ({
       JSON.stringify(payload);
     })
   }
+  const checkOrder = (id) => {
+    socket.emit("check-order", id);
+  }
   if (!socket) {
     socket = io(CONNECTION_PORT, {
       transports: ["websocket"]
@@ -38,6 +41,7 @@ export default function ({
       socket: socket,
       sendOrder,
       finished,
+      checkOrder
     };
   }
   return ( <WebSocketContext.Provider value = {ws} > 

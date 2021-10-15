@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { connect } from "react-redux";
 import {
   Box,
@@ -16,13 +16,37 @@ import {
   Collapse,
 } from "@chakra-ui/react";
 import { FiCheck, FiX } from "react-icons/fi";
-function OrdersCard(props) {
+import { WebSocketContext } from "../../ws";
+import io from "socket.io-client";
+
+const OrdersCard = (props) => {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
-  console.log("Order:", props);
+  const ws = useContext(WebSocketContext);
+  const Types = {
+    PENDING: 1,
+    VALIDATED: 2,
+    DELIVERED: 3    
+  }
   //1 == Pending
-  //2 == Delivered
-  let status = props.order.status === 1 ? "blue" : "green";
+  //2 == Validated
+  //3 == Delivered
+  let status;
+  let status_letter;
+  if(props.order.status === Types.PENDING){
+    status = "grey";
+    status_letter = "PENDING";
+  }else if(props.order.status === Types.VALIDATED){
+    status = "blue";
+    status_letter = "VALIDATED";
+  }else if(props.order.status === Types.DELIVERED){
+    status = "green";
+    status_letter = "DELIVERED";
+  }
+  const handleChecked = (id) => {
+    console.log("id: ",id);
+    ws.checkOrder(id);
+  }
   return (
     <Flex
       width={{
@@ -77,7 +101,7 @@ function OrdersCard(props) {
               bg={`${status}.300`}
             />
             <Badge rounded="full" px="2" fontSize="sm" colorScheme={status}>
-              {(props.order.status === 1) ? "Pending" : "Delivered" }
+              {status_letter}
             </Badge>
           </Box>
         </Flex>
@@ -177,7 +201,7 @@ function OrdersCard(props) {
               {props.order.total?.toFixed(2)}
             </Box>
             <Flex fontSize="xl" fontWeight="semibold">
-              <Button size="lg" display={"flex"} mr="2" colorScheme="green">
+              <Button size="lg" display={"flex"} mr="2" colorScheme="green" onClick={() => handleChecked(props.order._id)}>
                 <Icon as={FiCheck} h={5} w={5} alignSelf={"center"} />
               </Button>
               <Button size="lg" display={"flex"} colorScheme="red">

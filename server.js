@@ -53,7 +53,7 @@ const server = app.listen(PORT, () => console.log(`Server started on port : ${PO
 //Socket
 io = socket(server);
 io.on('connection', async(socket) => {
-  console.log('connected server: ', socket.id)
+  // console.log('connected server: ', socket.id)
   socket.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
   socket.on('finished', async () => {
     try{
@@ -64,36 +64,40 @@ io.on('connection', async(socket) => {
         // console.log(orders);
         socket.broadcast.emit('finished', await Order.find({ status: {$ne: 0} }).exec())
       }
-      // callback(orders);
     }catch(err){
       console.log(err)
     }
   })
-
+  socket.on("check-order", async(id) => {
+    console.log("id to be checked: ",id);
+    await Order.findByIdAndUpdate(id, { status: 2 }, { new: true });
+    socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
+  })
   socket.on('send-order', async (msg, callback) => {
     try{
       let data = JSON.parse(msg)[0] || JSON.parse(msg);
-      let newOrder = new Order(data);
-      await newOrder.save();      
-      let mydate = new Date(newOrder.date);
+      // console.log("data: ",data);
+      let mydate = new Date();
+      mydate = mydate.toUTCString();
       dayjs.extend(localizedFormat)
       mydate = dayjs(mydate).format("DD MMM YYYY, LT")
-      let {status, specialDelivery, _id, products} = newOrder;
+      // mydate = mydate.split(' ').slice(0, 4).join(' ');
+      let { specialDelivery, products} = data;
       let total = 0;
       for(let i = 0; i < products.length; i++){
         total += products[i].price * products[i].quantity;
       }
-      let payload_back = {
-        _id, 
-        status, 
+      let payload_back = { 
         specialDelivery, 
         total, 
         products,
         date: mydate
       }
-      console.log("payload_back: ",payload_back);
-      callback(payload_back);
-      socket.broadcast.emit('send-order',payload_back);
+      let newOrder = new Order(payload_back);
+      await newOrder.save();      
+      console.log("payload_back: ",newOrder);
+      callback(newOrder);
+      socket.broadcast.emit('send-order',newOrder);
     }catch(err){
       console.log(err);
     }
