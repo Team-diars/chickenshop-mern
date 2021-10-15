@@ -1,8 +1,22 @@
 import React from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  Container,
+  Text,
+  Flex,
+  Badge,
+  useColorModeValue,
+  Icon,
+  Circle,
+} from "@chakra-ui/react";
 export const LiveOrdersKitchen = () => {
   return (
-    <h1>
-      Live Orders Kitchen
-    </h1>
+    <Container maxWidth="container.xl" paddingTop="10">
+      <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
+        Orders
+      </Text>
+    </Container>
   )
 }

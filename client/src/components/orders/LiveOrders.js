@@ -63,9 +63,9 @@ export const LiveOrders = () => {
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
         Pending Orders
       </Text>
-      <Button colorScheme="blue" onClick={removeFirstOrder} mb="5">
+      {/* <Button colorScheme="blue" onClick={removeFirstOrder} mb="5">
         Attend
-      </Button>
+      </Button> */}
       <Flex flexWrap="wrap" justifyContent="space-between">
         {order?.length > 0
           ? order.map((item, idx) => {
