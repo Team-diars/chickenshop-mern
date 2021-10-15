@@ -34,7 +34,7 @@ const OrdersCard = (props) => {
   let status;
   let status_letter;
   if(props.order.status === Types.PENDING){
-    status = "grey";
+    status = "gray";
     status_letter = "PENDING";
   }else if(props.order.status === Types.VALIDATED){
     status = "blue";
@@ -196,8 +196,8 @@ const OrdersCard = (props) => {
 
         <Box pt="4" width="full">
           <Flex justifyContent="space-between" alignItems="center">
-            <Box fontSize="xl" fontWeight="semibold" color="blue.500">
-              <Box as="span" color={"gray.600"} fontSize="md" mr="1">
+            <Box fontSize="xl" fontWeight="semibold" color="green.500">
+              <Box as="span" color={"green.500"} fontSize="md" mr="1">
                 S/
               </Box>
               {props.order.total?.toFixed(2)}

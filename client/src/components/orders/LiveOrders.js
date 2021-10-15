@@ -61,7 +61,7 @@ export const LiveOrders = () => {
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
-        Live Orders
+        Pending Orders
       </Text>
       <Button colorScheme="blue" onClick={removeFirstOrder} mb="5">
         Attend

@@ -26,6 +26,7 @@ import { MenuScreen } from "./components/menu/MenuScreen";
 import FoodMenuScreen from "./components/menu/FoodMenuScreen";
 import WebSocketProvider from "./ws/index";
 import LiveOrders from "./components/orders/LiveOrders";
+import {LiveOrdersKitchen} from "./components/orders/LiveOrdersKitchen";
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -74,6 +75,7 @@ function App() {
               <PrivateRoute exact path="/sales" component={SaleScreen} />
               <PrivateRoute exact path="/orders" component={OrderScreen} />
               <PrivateRoute exact path="/liveorders" component={LiveOrders} />
+              <PrivateRoute exact path="/kitchen" component={LiveOrdersKitchen} />
             </Box>
           </Router>
         </ChakraProvider>

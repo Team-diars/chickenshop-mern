@@ -192,6 +192,23 @@ const Header = ({
             }}
             fontWeight="semibold"
             fontSize="lg"
+            key="kitchen"
+            to="/kitchen"
+          >
+            Kitchen
+          </Button>
+          <Button
+            as={ReachLink}
+            px={2}
+            py={1}
+            rounded={"lg"}
+            bg="blackAlpha.100"
+            _hover={{
+              textDecoration: "none",
+              bg: useColorModeValue("gray.100", "gray.500"),
+            }}
+            fontWeight="semibold"
+            fontSize="lg"
             key="orders"
             to="/orders"
           >
