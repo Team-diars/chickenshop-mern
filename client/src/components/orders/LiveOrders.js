@@ -14,10 +14,9 @@ import {
   Icon,
   Circle,
 } from "@chakra-ui/react";
-import { WebSocketContext } from "../../ws";
 import { FiCheck, FiPlus, FiX } from "react-icons/fi";
+import { WebSocketContext } from "../../ws";
 import OrdersCard from "./OrdersCard";
-
 let socket;
 const CONNECTION_PORT = `http://127.0.0.1:5000/`;
 

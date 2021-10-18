@@ -55,6 +55,7 @@ io = socket(server);
 io.on('connection', async(socket) => {
   // console.log('connected server: ', socket.id)
   socket.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
+  socket.emit('retrieve-validated-orders', await Order.find({ status: 2 }).exec());
   socket.on('finished', async () => {
     try{
       const orders = await Order.find({ status: {$ne: 0} }).exec();
@@ -70,10 +71,11 @@ io.on('connection', async(socket) => {
   socket.on("check-order", async(id) => {
     await Order.findByIdAndUpdate(id, { status: 2 }, { new: true });
     socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
+    socket.broadcast.emit('retrieve-validated-orders', await Order.find({ status: 2 }).exec());
   })
   socket.on("uncheck-order", async(id) => {
     await Order.findByIdAndUpdate(id, { status: 0 }, { new: true });
-    socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
+    socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec()); //reload again with data updated
   })
   socket.on('send-order', async (msg, callback) => {
     try{

@@ -202,14 +202,18 @@ const OrdersCard = (props) => {
               </Box>
               {props.order.total?.toFixed(2)}
             </Box>
-            <Flex fontSize="xl" fontWeight="semibold" display={"flex"} justifyContent={"flex-end"}>
-              <Button size="lg" display={"flex"} style={{width:"30%", borderRadius:"40px"}} mr="2" colorScheme="green" onClick={() => handleChecked(props.order._id)}>
-                <Icon as={FiCheck} h={5} w={5} alignSelf={"center"} />
-              </Button>
-              <Button size="lg" display={"flex"} style={{width:"30%", borderRadius:"40px"}} colorScheme="red" onClick={() => handleUncheck(props.order._id)}>
-                <Icon as={FiX} h={5} w={5} alignSelf={"center"} />
-              </Button>
-            </Flex>
+            {
+              (props.order.status === 1) && (
+              <Flex fontSize="xl" fontWeight="semibold" display={"flex"} justifyContent={"flex-end"}>
+                <Button size="lg" display={"flex"} style={{width:"30%", borderRadius:"40px"}} mr="2" colorScheme="green" onClick={() => handleChecked(props.order._id)}>
+                  <Icon as={FiCheck} h={5} w={5} alignSelf={"center"} />
+                </Button>
+                <Button size="lg" display={"flex"} style={{width:"30%", borderRadius:"40px"}} colorScheme="red" onClick={() => handleUncheck(props.order._id)}>
+                  <Icon as={FiX} h={5} w={5} alignSelf={"center"} />
+                </Button>
+              </Flex>
+              )
+            }
           </Flex>
         </Box>
       </Flex>
