@@ -39,30 +39,15 @@ import {
 } from "@chakra-ui/react";
 
 import { WebSocketContext } from "../../ws";
-import io from "socket.io-client";
-import { addOrder } from "../../actions/order";
-import { GiShoppingCart } from "react-icons/gi";
 import { FiShoppingCart } from "react-icons/fi";
 
-let socket;
-const CONNECTION_PORT = `http://localhost:5000/`;
-
 const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
-  //   const data = useSelector((state) => state.order);
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
   const sendPayload = () => {
     const payload = {
-      specialDelivery:true,
       products: cart,
     };
-    console.log("payload-cart: ",payload);
-    // socket.emit("send-order", payload, (data) => {
-    //   console.log(data);
-    // });
-    // dispatch(addOrder(payload));
-    //   This will handle adding the order
-    // console.log("enviando ordennnn");
     ws.sendOrder(payload);
   };
 
@@ -106,8 +91,8 @@ const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
   //     num_table,
   //     product: data,
   //   });
-  console.log("CART Component:", cart);
-  console.log("isAdded:", isAdded, onOpen);
+  // console.log("CART Component:", cart);
+  // console.log("isAdded:", isAdded, onOpen);
   //   useEffect(() => {
   //     getCart();
   //   }, [getCart]);

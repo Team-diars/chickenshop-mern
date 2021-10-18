@@ -44,27 +44,11 @@ export const LiveOrders = () => {
     };
   },[order])
 
-  useEffect(() => {
-    socket = io(CONNECTION_PORT, { transports: ["websocket"] });
-    socket.on("finished", (payload) => {
-      setOrder([...payload]);
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, [order]);
-
-  const removeFirstOrder = () => {
-    ws.finished();
-  };
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
         Pending Orders
       </Text>
-      {/* <Button colorScheme="blue" onClick={removeFirstOrder} mb="5">
-        Attend
-      </Button> */}
       <Flex flexWrap="wrap" justifyContent="space-between">
         {order?.length > 0
           ? order.map((item, idx) => {

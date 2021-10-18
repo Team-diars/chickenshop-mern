@@ -28,6 +28,15 @@ export const LiveOrdersKitchen = () => {
       socket.disconnect();
     }
   },[])
+  useEffect(() => {
+    socket = io(CONNECTION_PORT, { transports: ["websocket"] });
+    socket.on("finished", (payload) => {
+      setOrder([...payload]);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [order]);
   const removeFirstOrder = () => {
     ws.finished();
   };

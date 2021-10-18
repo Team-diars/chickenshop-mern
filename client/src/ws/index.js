@@ -15,7 +15,7 @@ export default function ({
     console.log("payload-index.js: ",payload);
     socket.emit("send-order", JSON.stringify(payload), (payload_from_server) => {
         //Here we're going to return the payload in order to show the receipt or order that they sent
-        // console.log(payload_from_server)
+        console.log("Your order is being prepared: ",payload_from_server)
       }
     );
     // dispatch(addOrder(payload));
@@ -34,11 +34,6 @@ export default function ({
   if (!socket) {
     socket = io(CONNECTION_PORT, {
       transports: ["websocket"]
-    });
-    socket.on("send-order", (data) => {
-      // const payload = JSON.parse(data);
-      // dispatch(addOrder(payload));
-      // console.log("DATA: ",data)
     });
     ws = {
       socket: socket,

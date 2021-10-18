@@ -58,11 +58,11 @@ io.on('connection', async(socket) => {
   socket.emit('retrieve-validated-orders', await Order.find({ status: 2 }).exec());
   socket.on('finished', async () => {
     try{
-      const orders = await Order.find({ status: {$ne: 0} }).exec();
-      console.log("orders: ",orders);
+      const orders = await Order.find({ status: 2 }).exec();
+      // console.log("orders: ",orders);
       if(orders.length > 0){
-        await Order.findByIdAndUpdate(orders[0]._id, { status: 3 }, { new: true });
-        socket.broadcast.emit('finished', await Order.find({ status: {$ne: 0} }).exec())
+        await Order.findByIdAndUpdate(orders[0]._id, { status: 3 }, { new: true }); //updating to delivered (3)
+        socket.broadcast.emit('finished', await Order.find({ status: 2 }).exec())
       }
     }catch(err){
       console.log(err)
@@ -99,7 +99,7 @@ io.on('connection', async(socket) => {
       }
       let newOrder = new Order(payload_back);
       await newOrder.save();      
-      console.log("payload_back: ",newOrder);
+      // console.log("payload_back: ",newOrder);
       callback(newOrder);
       socket.broadcast.emit('send-order',newOrder);
     }catch(err){
