@@ -9,11 +9,12 @@ router.post('/', async (req,res) => {
   const {products} = req.body;
   if(!products) return;
   let unique_creams = [];
-  products.forEach((item) => {
-    unique_creams.push(...item.creams);
-  })
-  unique_creams = [...new Set(unique_creams)]; // All unique creams
+  // products.forEach((item) => {
+  //   unique_creams.push(...item.creams);
+  // })
+  // unique_creams = [...new Set(unique_creams)]; // All unique creams
   const newOrder = new Order({ products });
+  // console.log("Order: ",newOrder);
   await newOrder.save();
   return res.json(newOrder);
 })

@@ -53,43 +53,55 @@ const server = app.listen(PORT, () => console.log(`Server started on port : ${PO
 //Socket
 io = socket(server);
 io.on('connection', async(socket) => {
-  console.log('connected server: ', socket.id)
+  // console.log('connected server: ', socket.id)
   socket.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
+  socket.emit('retrieve-validated-orders', await Order.find({ status: 2 }).exec());
   socket.on('finished', async () => {
     try{
-      const orders = await Order.find({ status: {$ne: 0} }).exec();
-      console.log("orders: ",orders);
+      const orders = await Order.find({ status: 2 }).exec();
+      // console.log("orders: ",orders);
       if(orders.length > 0){
-        await Order.findByIdAndUpdate(orders[0]._id, { status: 0 }, { new: true });
-        // console.log(orders);
-        socket.broadcast.emit('finished', await Order.find({ status: {$ne: 0} }).exec())
+        await Order.findByIdAndUpdate(orders[0]._id, { status: 3 }, { new: true }); //updating to delivered (3)
+        socket.broadcast.emit('finished', await Order.find({ status: 2 }).exec())
       }
-      // callback(orders);
     }catch(err){
       console.log(err)
     }
   })
-
+  socket.on("check-order", async(id) => {
+    await Order.findByIdAndUpdate(id, { status: 2 }, { new: true });
+    socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
+    socket.broadcast.emit('retrieve-validated-orders', await Order.find({ status: 2 }).exec());
+  })
+  socket.on("uncheck-order", async(id) => {
+    await Order.findByIdAndUpdate(id, { status: 0 }, { new: true });
+    socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec()); //reload again with data updated
+  })
   socket.on('send-order', async (msg, callback) => {
     try{
-      let data = JSON.parse(msg)[0];
-      let newOrder = new Order(data);
-      await newOrder.save();      
-      let mydate = new Date(newOrder.date);
+      let data = JSON.parse(msg)[0] || JSON.parse(msg);
+      // console.log("data: ",data);
+      let mydate = new Date();
+      mydate = mydate.toUTCString();
       dayjs.extend(localizedFormat)
       mydate = dayjs(mydate).format("DD MMM YYYY, LT")
-      let {status, specialDelivery, _id, total, products} = newOrder;
-      let payload_back = {
-        _id, 
-        status, 
+      // mydate = mydate.split(' ').slice(0, 4).join(' ');
+      let { specialDelivery, products} = data;
+      let total = 0;
+      for(let i = 0; i < products.length; i++){
+        total += products[i].price * products[i].quantity;
+      }
+      let payload_back = { 
         specialDelivery, 
         total, 
         products,
         date: mydate
       }
-      callback(payload_back);
-      console.log("payload_back: ",payload_back);
-      socket.broadcast.emit('send-order',payload_back);
+      let newOrder = new Order(payload_back);
+      await newOrder.save();      
+      // console.log("payload_back: ",newOrder);
+      callback(newOrder);
+      socket.broadcast.emit('send-order',newOrder);
     }catch(err){
       console.log(err);
     }

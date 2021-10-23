@@ -26,6 +26,7 @@ import LiveOrders from "./components/orders/LiveOrders";
 import WebSocketProvider from "./ws/index";
 import Alert from "./components/layout/Alert";
 import { ChakraProvider, Container, Box } from "@chakra-ui/react";
+import { LiveOrdersKitchen } from "./components/orders/LiveOrdersKitchen";
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
@@ -73,6 +74,11 @@ function App() {
               <PrivateRoute exact path="/sales" component={SaleScreen} />
               <PrivateRoute exact path="/orders" component={OrderScreen} />
               <PrivateRoute exact path="/liveorders" component={LiveOrders} />
+              <PrivateRoute
+                exact
+                path="/kitchen"
+                component={LiveOrdersKitchen}
+              />
             </Box>
           </Router>
         </ChakraProvider>

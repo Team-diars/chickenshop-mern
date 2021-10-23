@@ -13,9 +13,10 @@ const OrderSchema = new Schema({
   products: [{
     name: String,
     desc: String,
+    image: String,
     price: Number,
     category: String,
-    qty: Number,
+    quantity: Number,
     creams: [String]
   }],
   status: {
@@ -23,8 +24,8 @@ const OrderSchema = new Schema({
     default: 1,
   },
   date: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    // defaults: Date.now,
   }
 })
 

@@ -45,6 +45,15 @@ import { category } from "../../reducers/category";
 const CartScreen = (props) => {
   //   const data = useSelector((state) => state.order);
   let cart = props.cart;
+  // const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
+  const dispatch = useDispatch();
+  const ws = useContext(WebSocketContext);
+  const sendPayload = () => {
+    const payload = {
+      products: cart,
+    };
+    ws.sendOrder(payload);
+  };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
@@ -105,20 +114,20 @@ const CartScreen = (props) => {
     .reduce((result, item) => item.quantity * item.price + result, 0)
     .toFixed(2);
   console.log(productsCart, ptotal);
-  const ws = useContext(WebSocketContext);
-  const sendPayload = () => {
-    const payload = [
-      {
-        total: ptotal,
-        status: 1,
-        specialDelivery: true,
-        products: productsCart,
-      },
-    ];
-    console.log("sent!", payload);
-    // This will handle adding the order
-    ws.sendOrder(payload);
-  };
+  // const ws = useContext(WebSocketContext);
+  // const sendPayload = () => {
+  //   const payload = [
+  //     {
+  //       total: ptotal,
+  //       status: 1,
+  //       specialDelivery: true,
+  //       products: productsCart,
+  //     },
+  //   ];
+  //   console.log("sent!", payload);
+  //   // This will handle adding the order
+  //   ws.sendOrder(payload);
+  // };
   return (
     <>
       <Button onClick={onOpen} position="fixed" top="50%" right="10">

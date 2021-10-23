@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import {
   Box,
@@ -16,11 +16,39 @@ import {
   Collapse,
 } from "@chakra-ui/react";
 import { FiCheck, FiX } from "react-icons/fi";
-function OrdersCard(props) {
-  console.log("Order:", props);
+import { WebSocketContext } from "../../ws";
+import io from "socket.io-client";
+
+const OrdersCard = (props) => {
+  const [show, setShow] = React.useState(false);
+  const handleToggle = () => setShow(!show);
+  const ws = useContext(WebSocketContext);
+  const Types = {
+    PENDING: 1,
+    VALIDATED: 2,
+    DELIVERED: 3,
+  };
   //1 == Pending
-  //2 == Delivered
-  let status = props.order.status === 1 ? "blue" : "green";
+  //2 == Validated
+  //3 == Delivered
+  let status;
+  let status_letter;
+  if (props.order.status === Types.PENDING) {
+    status = "gray";
+    status_letter = "PENDING";
+  } else if (props.order.status === Types.VALIDATED) {
+    status = "blue";
+    status_letter = "VALIDATED";
+  } else if (props.order.status === Types.DELIVERED) {
+    status = "green";
+    status_letter = "DELIVERED";
+  }
+  const handleChecked = (id) => {
+    ws.checkOrder(id);
+  };
+  const handleUncheck = (id) => {
+    ws.uncheckOrder(id);
+  };
   return (
     <Flex
       width={{
@@ -75,7 +103,7 @@ function OrdersCard(props) {
               bg={`${status}.300`}
             />
             <Badge rounded="full" px="2" fontSize="sm" colorScheme={status}>
-              {props.order.status === 1 ? "Pendiente" : "Entregado"}
+              {status_letter}
             </Badge>
           </Box>
         </Flex>
@@ -108,8 +136,8 @@ function OrdersCard(props) {
                     rounded="full"
                     boxSize="50px"
                     objectFit="cover"
-                    src={`/images/image-1624755960056.jpg`}
-                    alt={product.name}
+                    src={`/images/${product.image}`}
+                    alt={product.name + "-" + product.image}
                   />
                 </Box>
                 <Box w={2 / 3}>
@@ -156,7 +184,7 @@ function OrdersCard(props) {
                         isTruncated
                         marginBottom="5px"
                       >
-                        Qty: {product.qty}
+                        Qty: {product.quantity}
                       </Text>
                     </Box>
                   </Flex>
@@ -168,25 +196,45 @@ function OrdersCard(props) {
 
         <Box pt="4" width="full">
           <Flex justifyContent="space-between" alignItems="center">
-            <Box fontSize="xl" fontWeight="semibold" color="blue.500">
-              <Box as="span" color={"gray.600"} fontSize="md" mr="1">
+            <Box fontSize="xl" fontWeight="semibold" color="green.500">
+              <Box as="span" color={"green.500"} fontSize="md" mr="1">
                 S/
               </Box>
               {props.order.total?.toFixed(2)}
             </Box>
-            <Flex fontSize="xl" fontWeight="semibold">
-              <Button size="lg" display={"flex"} mr="2" colorScheme="green">
-                <Icon as={FiCheck} h={5} w={5} alignSelf={"center"} />
-              </Button>
-              <Button size="lg" display={"flex"} colorScheme="red">
-                <Icon as={FiX} h={5} w={5} alignSelf={"center"} />
-              </Button>
-            </Flex>
+            {props.order.status === 1 && (
+              <Flex
+                fontSize="xl"
+                fontWeight="semibold"
+                display={"flex"}
+                justifyContent={"flex-end"}
+              >
+                <Button
+                  size="lg"
+                  display={"flex"}
+                  style={{ width: "30%", borderRadius: "40px" }}
+                  mr="2"
+                  colorScheme="green"
+                  onClick={() => handleChecked(props.order._id)}
+                >
+                  <Icon as={FiCheck} h={5} w={5} alignSelf={"center"} />
+                </Button>
+                <Button
+                  size="lg"
+                  display={"flex"}
+                  style={{ width: "30%", borderRadius: "40px" }}
+                  colorScheme="red"
+                  onClick={() => handleUncheck(props.order._id)}
+                >
+                  <Icon as={FiX} h={5} w={5} alignSelf={"center"} />
+                </Button>
+              </Flex>
+            )}
           </Flex>
         </Box>
       </Flex>
     </Flex>
   );
-}
+};
 
 export default OrdersCard;
