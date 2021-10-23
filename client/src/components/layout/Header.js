@@ -132,8 +132,6 @@ const Header = ({
   auth: { user, isAuthenticated, loading },
   ...rest
 }) => {
-  // const { isAdmin } = useAccount();
-  console.log(user);
   const { pathname } = useLocation();
   const isActive = pathname.startsWith(to);
   const AdminNavbar = (

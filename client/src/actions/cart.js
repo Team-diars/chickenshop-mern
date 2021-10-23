@@ -4,50 +4,28 @@ import {
   CART_ERROR,
   UPDATE_PRODUCT_CART,
   ADD_PRODUCT_CART,
+  ADD_QTY_PRODUCT_CART,
+  REMOVE_QTY_PRODUCT_CART,
   REMOVE_PRODUCT_CART,
   CLEAR_CART,
 } from "./types";
+import { loadState } from "./../localStorage";
 //* Add Product
 export const addProductCart = (product) => (dispatch, getState) => {
   console.log("Agregando al carrito", product);
-  //   if (getState().products.byId[product._id].inventory > 0) {
-  //   console.log(product);
-
-  let cart = [];
-  if (localStorage.getItem("cart")) {
-    cart = JSON.parse(localStorage.getItem("cart"));
-  }
-  cart.push(product);
-  localStorage.setItem("cart", JSON.stringify(cart));
+  // let cart = [];
+  // if (localStorage.getItem("cart")) {
+  //   cart = JSON.parse(localStorage.getItem("cart"));
+  console.log("CartFromLS:", getState().cart.cart);
+  // }
+  // cart.push(product);
   dispatch({
     type: ADD_PRODUCT_CART,
     payload: product,
   });
-  console.log("Cart:", cart);
+  // localStorage.setItem("cart", JSON.stringify(getState().cart.cart));
+  // console.log("Cart:", cart);
   dispatch(setAlert("Producto agregado al carrito", "success"));
-  //   }
-  //   try {
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // };
-  // const res = await axios.post("/api/product", product, config);
-  //   console.log("Agregando al carrito", product);
-  //   dispatch({
-  //     type: ADD_PRODUCT_CART,
-  //     payload: product,
-  //   });
-  //   } catch (err) {
-  //     const errors = err.response.data.errors;
-  //     if (errors) {
-  //       errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
-  //     }
-  //     dispatch({
-  //       type: CART_ERROR,
-  //       payload: { msg: err.response.statusText, status: err.response.status },
-  //     });
-  //   }
 };
 
 //* Get cart
@@ -55,11 +33,12 @@ export const getCart = () => async (dispatch) => {
   dispatch({ type: CLEAR_CART });
   try {
     // const res = await axios.get("/api/product");
-    const cartList = localStorage.getItem("cart");
-    console.log("CartList:", cartList);
+    // const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cart = loadState().cart;
+    console.log("CartList:", cart);
     dispatch({
       type: GET_CART,
-      payload: cartList,
+      payload: cart,
     });
   } catch (err) {
     // dispatch({
@@ -70,50 +49,40 @@ export const getCart = () => async (dispatch) => {
 };
 
 //* Delete product
-export const deleteProductCart = (id) => (dispatch) => {
+export const deleteProductCart = (id) => (dispatch, getState) => {
   if (window.confirm("Estas seguro de eliminar este producto del carrito?")) {
     dispatch({
       type: REMOVE_PRODUCT_CART,
       payload: id,
     });
     dispatch(setAlert("Producto eliminado del carrito", "error"));
-    //   try {
-    //     await axios.delete(`/api/product/delete/${id}`);
-    //     dispatch({
-    //       type: REMOVE_PRODUCT,
-    //       payload: id,
-    //     });
-    //     dispatch(setAlert("Product Removed", "error"));
-    //   } catch (err) {
-    //     dispatch({
-    //       type: PRODUCT_ERROR,
-    //       payload: { msg: err.response.statusText, status: err.response.status },
-    //     });
-    //   }
   }
 };
 
 //* Update product
-export const updateProductCart = (quantity, id) => (dispatch) => {
+export const updateProductCart = (quantity, id) => (dispatch, getState) => {
   console.log(quantity, id);
   dispatch({
     type: UPDATE_PRODUCT_CART,
     payload: { id, quantity },
   });
   dispatch(setAlert("Producto actualizado del carrito", "success"));
-  //   try {
-  //     await axios.delete(`/api/product/delete/${id}`);
-  //     dispatch({
-  //       type: REMOVE_PRODUCT,
-  //       payload: id,
-  //     });
-  //     dispatch(setAlert("Product Removed", "error"));
-  //   } catch (err) {
-  //     dispatch({
-  //       type: PRODUCT_ERROR,
-  //       payload: { msg: err.response.statusText, status: err.response.status },
-  //     });
-  //   }
+};
+
+//* Add qty product
+export const addQtyProductCart = (id) => (dispatch) => {
+  dispatch({
+    type: ADD_QTY_PRODUCT_CART,
+    payload: { id },
+  });
+};
+
+//* Remove qty product
+export const removeQtyProductCart = (id) => (dispatch) => {
+  dispatch({
+    type: REMOVE_QTY_PRODUCT_CART,
+    payload: { id },
+  });
 };
 
 //* Get cart

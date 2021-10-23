@@ -40,54 +40,27 @@ import {
 import { addOrder } from "../../actions/order";
 import { FiShoppingCart } from "react-icons/fi";
 import { WebSocketContext } from "../../ws";
-import io from "socket.io-client";
-
-let socket;
-const CONNECTION_PORT = `http://localhost:5000/`;
+import { category } from "../../reducers/category";
 
 const CartScreen = (props) => {
   //   const data = useSelector((state) => state.order);
-  const cart = props.cart || [];
-
-  const dispatch = useDispatch();
-  const ws = useContext(WebSocketContext);
-  const sendPayload = () => {
-    const payload = {
-      specialDelivery: true,
-      total: 100,
-      products: cart,
-    };
-    console.log("payload-cart: ", payload);
-    // socket.emit("send-order", payload, (data) => {
-    //   console.log(data);
-    // });
-    dispatch(addOrder(payload));
-    //   This will handle adding the order
-    // console.log("enviando ordennnn");
-    ws.sendOrder(payload);
-  };
+  let cart = props.cart;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
-
-  const [myState, setMystate] = useState(cart);
-
-  console.log(myState, "- Has changed");
-
+  // if (localStorage.getItem("cart")) {
+  //   cart = JSON.parse(localStorage.getItem("cart"));
+  //   console.log("CartFromLS:", JSON.parse(localStorage.getItem("cart")));
+  // } else {
+  // localStorage.setItem("cart", JSON.stringify(cart));
+  // }
+  // cart.push(product);
   // if (isAdded) {
   //   onOpen();
   // }
   //   const [cart1, setCart] = useState([]);
 
   //   const [num_table, setNumTable] = useState("");
-
-  //   const [formDataDishes, setFormDataDishes] = useState({
-  //     dish_name: "",
-  //     dish_quantity: "",
-  //     dish_id: null,
-  //   });
-
-  //   const { dish_name, dish_quantity } = formDataDishes;
 
   //   const onChange = (e) => {
   //     const { value, type } = e.target;
@@ -108,14 +81,44 @@ const CartScreen = (props) => {
 
   //     setCart([]);
   //   };
-  //   addTicket({
-  //     num_table,
-  //     product: data,
-  //   });
-  // console.log("isAdded:", isAdded);
-  //   useEffect(() => {
-  //     getCart();
-  //   }, [getCart]);
+  // addTicket({
+  //   num_table,
+  //   product: data,
+  // });
+  // useEffect(() => {
+  //   getCart();
+  // }, [getCart]);
+  const productsCart =
+    cart.length > 0
+      ? cart.map((dish) => {
+          return {
+            name: dish.name,
+            desc: dish.name,
+            price: dish.price,
+            category: dish.category,
+            qty: dish.quantity,
+            creams: [],
+          };
+        })
+      : [];
+  const ptotal = cart
+    .reduce((result, item) => item.quantity * item.price + result, 0)
+    .toFixed(2);
+  console.log(productsCart, ptotal);
+  const ws = useContext(WebSocketContext);
+  const sendPayload = () => {
+    const payload = [
+      {
+        total: ptotal,
+        status: 1,
+        specialDelivery: true,
+        products: productsCart,
+      },
+    ];
+    console.log("sent!", payload);
+    // This will handle adding the order
+    ws.sendOrder(payload);
+  };
   return (
     <>
       <Button onClick={onOpen} position="fixed" top="50%" right="10">
@@ -150,7 +153,7 @@ const CartScreen = (props) => {
           <DrawerHeader borderBottomWidth="1px">Carrito</DrawerHeader>
           <DrawerBody>
             <Stack spacing="24px">
-              <TableCart cart={cart} />
+              <TableCart cart={cart} total={ptotal} />
               {cart.length > 0 && (
                 <Box display="flex" justifyContent="space-between">
                   <Button variant="outline" mr={3} onClick={props.clearCart}>
@@ -199,15 +202,11 @@ const CartScreen = (props) => {
   );
 };
 // const mapStateToProps = (state) => ({
-//   // cart: state.cart,
-
+//   cart: state.cart,
 // });
-// const mapDispatchToProps = {
-//   getCart,
-//   deleteProductCart: (id) => deleteProductCart(id),
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
+
 const mapDispatchToProps = {
+  // getCart,
   clearCart,
   updateProductCart: (quantity, id) => updateProductCart(quantity, id),
 };

@@ -19,8 +19,7 @@ import EditUser from "./components/users/EditUser";
 import EmployeeScreen from "./components/employees/EmployeeScreen";
 import EditEmployee from "./components/employees/EditEmployee";
 import SaleScreen from "./components/sales/SaleScreen";
-import { MenuScreen } from "./components/menu/MenuScreen";
-import FoodMenuScreen from "./components/menu/FoodMenuScreen";
+import MenuScreen from "./components/menu/MenuScreen";
 import OrderScreen from "./components/orders/OrderScreen";
 import LiveOrders from "./components/orders/LiveOrders";
 //
@@ -47,8 +46,7 @@ function App() {
               </Container>
               <Route exact path="/" component={HomeScreen} />
               <Route exact path="/auth" component={LoginScreenEmployee} />
-              <Route exact path="/menu2" component={MenuScreen} />
-              <Route exact path="/menu" component={FoodMenuScreen} />
+              <Route exact path="/menu" component={MenuScreen} />
               <Route exact path="/register" component={RegisterScreen} />
               <PrivateRoute exact path="/profile" component={ProfileScreen} />
               <PrivateRoute exact path="/products" component={ProductScreen} />

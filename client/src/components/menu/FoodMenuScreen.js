@@ -21,6 +21,7 @@ import ProductAddToCart from "../../components/products/ProductCard";
 import Cart from "../../components/cart/Cart";
 
 const MenuScreen = ({
+  getCart,
   getProducts,
   products: { products },
   cart: { cart },
@@ -29,10 +30,10 @@ const MenuScreen = ({
   const dishes = products.filter((item) => item.category === "dishes");
   const drinks = products.filter((item) => item.category === "drinks");
   const salads = products.filter((item) => item.category === "salads");
-  console.log("Cart en menu:", cart);
   useEffect(() => {
     getProducts();
-  }, [getProducts]);
+    getCart();
+  }, [getProducts, getCart]);
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text textAlign="center" fontSize="3xl" fontWeight="bold" color={"black"}>
@@ -96,6 +97,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  getCart,
   getProducts,
   addProductCart: (product) => addProductCart({ ...product, quantity: 1 }),
 };
