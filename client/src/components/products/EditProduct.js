@@ -72,7 +72,7 @@ const EditProduct = ({
     }
   };
   const imagePicked = image && (
-    <img src={`/images/${image}`} alt={image} className="image-picked" />
+    <img src={`/images/${image}`} alt={image} className="image-picked" style={{width:"20%"}}/>
   );
 
   return (
@@ -86,7 +86,7 @@ const EditProduct = ({
         </div>
       ) : (
         <>
-          <ModalBody>
+          <ModalBody style={{width:"50%"}}>
             <div className="form-group">
               <FormLabel>Product name</FormLabel>
               <Input
@@ -135,12 +135,12 @@ const EditProduct = ({
                 px="2"
                 style={{ background: image ? "#181818" : "#eee" }}
               >
-                <Text
+                {/* <Text
                   fontWeight="semibold"
                   style={{ display: uploading && "none" }}
                 >
                   No preview image was set
-                </Text>
+                </Text> */}
                 {!uploading ? (
                   imagePicked
                 ) : (

@@ -64,8 +64,8 @@ const ProductScreen = ({
   //   setIsOpen(!isOpen);
   // };
   const submitProduct = () => {
-    addProduct({ name: name.trim(), category, price, image });
-    setFormData({ name: "", category: "", price: 0, image: "" });
+    addProduct({ name: name.trim(), category, description, price, image });
+    setFormData({ name: "", category: "",description:"", price: 0, image: "" });
     setImage("");
     // setIsOpen(!isOpen);
     onClose();
@@ -130,7 +130,7 @@ const ProductScreen = ({
                 <Tr>
                   <Th>ID</Th>
                   <Th>NAME</Th>
-                  <Th>Description</Th>
+                  <Th>DESCRIPTION</Th>
                   <Th>PRICE</Th>
                   <Th>CATEGORY</Th>
                   <Th>Actions</Th>

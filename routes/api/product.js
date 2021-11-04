@@ -75,7 +75,7 @@ router.post(
       });
     }
     const { category, image, name, price, description } = req.body;
-
+    console.log(req.body);
     //* Validate if product exists
     let product = await Product.findOne({ name });
     if (product && product.status === 1) {
@@ -88,7 +88,11 @@ router.post(
       const product = await Product.findOneAndUpdate({ name },{ category:category.toLowerCase(), price,image, status: 1 });
       return res.json(product);
     }
-    const newProduct = new Product({ category:category.toLowerCase(), name:name.trim(), description: description.trim(), price, image });
+    const newProduct = new Product({ category:category.toLowerCase(), 
+                                     name:name.trim(), 
+                                     desc: description.trim(), 
+                                     price, 
+                                     image });
     await newProduct.save();
     return res.json(newProduct);  
   }
@@ -155,7 +159,8 @@ router.put(
       }
       const productUpdated = await Product.findByIdAndUpdate(id,
                                             { category:category.toLowerCase(), 
-                                              name:name.trim(), description: description.trim(), 
+                                              name:name.trim(), 
+                                              desc: description.trim(), 
                                               price },
                                             { new: true });
       return res.json(productUpdated);

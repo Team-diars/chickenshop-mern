@@ -29,10 +29,10 @@ export function product(state = initialState, action){
       };
     case EDIT_PRODUCT:
       if (state.product._id === payload.id){
-        const {products:{_id,category,name,price}} = payload;
+        const {products:{_id,category,description,name,price}} = payload;
         return {
           ...state,
-          product: [...state.products, {_id,category,name,price}]
+          product: [...state.products, {_id,category,description,name,price}]
         }
       }else{
         return product
