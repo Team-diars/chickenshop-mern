@@ -40,19 +40,29 @@ import {
 
 import { WebSocketContext } from "../../ws";
 import { FiShoppingCart } from "react-icons/fi";
-
+import io from "socket.io-client";
+let socket;
+const CONNECTION_PORT = `http://127.0.0.1:5000/`;
 const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
-  const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
-  const sendPayload = () => {
+  const sendPayload = () => { 
     const payload = {
       products: cart,
     };
     ws.sendOrder(payload);
   };
 
+  // const sendPayload = () => {
+  //   socket = io(CONNECTION_PORT, {transports: ['websocket']});
+  //   socket.emit("send-order", JSON.stringify({products:cart}), (payload_from_server) => {
+  //       //Here we're going to return the payload in order to show the receipt or order that they sent
+  //       console.log("Your order is being prepared: ",payload_from_server)
+  //     }
+  //   );
+  // };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
+  
   // if (isAdded) {
   //   onOpen();
   // }

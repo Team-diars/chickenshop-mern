@@ -72,6 +72,8 @@ io.on('connection', async(socket) => {
     await Order.findByIdAndUpdate(id, { status: 2 }, { new: true });
     socket.broadcast.emit('retrieve-remaining-orders', await Order.find({ status: 1 }).exec());
     socket.broadcast.emit('retrieve-validated-orders', await Order.find({ status: 2 }).exec());
+    //retrieving data back to its client
+    socket.broadcast.emit('send-order',await Order.find({ _id: id ,status: 1 }).exec())
   })
   socket.on("uncheck-order", async(id) => {
     await Order.findByIdAndUpdate(id, { status: 0 }, { new: true });
@@ -80,7 +82,7 @@ io.on('connection', async(socket) => {
   socket.on('send-order', async (msg, callback) => {
     try{
       let data = JSON.parse(msg)[0] || JSON.parse(msg);
-      // console.log("data: ",data);
+      console.log("data: ",data);
       let mydate = new Date();
       mydate = mydate.toUTCString();
       dayjs.extend(localizedFormat)
@@ -100,6 +102,7 @@ io.on('connection', async(socket) => {
       let newOrder = new Order(payload_back);
       await newOrder.save();      
       // console.log("payload_back: ",newOrder);
+      //Sending order back to client
       callback(newOrder);
       socket.broadcast.emit('send-order',newOrder);
     }catch(err){

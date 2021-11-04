@@ -81,7 +81,7 @@ const OrdersCard = (props) => {
               isTruncated
               marginBottom="1"
             >
-              Order #{props.order._id.substring(0,5)}
+              {/* Order #{props.order._id.substring(0,5)} */}
             </Text>
             <Text
               color="gray"

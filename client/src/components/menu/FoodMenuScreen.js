@@ -19,17 +19,17 @@ import {
 
 import ProductAddToCart from "../../components/home/ProductCard";
 import Cart from "../../components/cart/Cart";
+import { WebSocketContext } from "../../ws";
+import io from "socket.io-client";
 
-const MenuScreen = ({
-  getProducts,
-  products: { products },
-  cart: { cart },
-  addProductCart,
-}) => {
-  console.log(cart);
+const MenuScreen = ({ getProducts, products: { products }, cart: { cart },addProductCart}) => {
+  const [order, setOrder] = useState([]);
+  const ws = useContext(WebSocketContext);
+
   useEffect(() => {
     getProducts();
   }, [getProducts]);
+  
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text textAlign="center" fontSize="3xl" fontWeight="bold" color={"black"}>
