@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { Spinner } from "react-bootstrap";
+import { Link as ReachLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUsers, addUser, deleteUser } from "../../actions/user";
 import { getEmployees } from "../../actions/employee";
@@ -69,11 +68,7 @@ const UserScreen = ({
     });
   };
 
-  return loading && loading_emp ? (
-    <Spinner animation="border" role="status">
-      <span className="sr-only">Loading...</span>
-    </Spinner>
-  ) : (
+  return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Box
         display="flex"
@@ -82,60 +77,61 @@ const UserScreen = ({
         marginBottom="10"
       >
         <Text fontSize="2xl" fontWeight="semibold">
-          Users
+          Usuarios
         </Text>
         <Button onClick={onOpen} fontSize="lg" colorScheme="blue">
-          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Register
-          User
+          <Icon as={FiPlus} h={6} w={6} alignSelf={"center"} mr="2" /> Agregar
+          Usuario
         </Button>
       </Box>
-      <>
-        <Table variant="simple" size="sm">
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>NAME</Th>
-              <Th>EMAIL</Th>
-              <Th></Th>
+
+      <Table variant="simple" size="sm">
+        <Thead>
+          <Tr>
+            <Th>ID</Th>
+            <Th>NOMBRE</Th>
+            <Th>EMAIL</Th>
+            <Th></Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {users.map((user, idx) => (
+            <Tr key={idx}>
+              <Td>{user._id}</Td>
+              <Td>
+                {user.name} {user.lastname}
+              </Td>
+              <Td>{user.email}</Td>
+              <Td>
+                <Button
+                  as={ReachLink}
+                  to={`/users/edit/${user.coduser.toString()}`}
+                >
+                  <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
+                </Button>
+                <Button ml="2" onClick={() => deleteUser(user.coduser)}>
+                  <Icon as={FiTrash2} h={4} w={4} alignSelf={"center"} />
+                </Button>
+              </Td>
             </Tr>
-          </Thead>
-          <Tbody>
-            {users.map((user, idx) => (
-              <Tr key={idx}>
-                <Td>{user._id}</Td>
-                <Td>
-                  {user.name} {user.lastname}
-                </Td>
-                <Td>{user.email}</Td>
-                <Td>
-                  <LinkContainer to={`/users/edit/${user.coduser}`}>
-                    <Button>
-                      <Icon as={FiEdit} h={4} w={4} alignSelf={"center"} />
-                    </Button>
-                  </LinkContainer>
-                  <Button ml="2" onClick={() => deleteUser(user.coduser)}>
-                    <Icon as={FiTrash2} h={4} w={4} alignSelf={"center"} />
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </>
+          ))}
+        </Tbody>
+      </Table>
+
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add User</ModalHeader>
+          <ModalHeader>Agregar Usuario</ModalHeader>
           <ModalBody>
             <FormControl mt={1}>
-              <FormLabel>Employee</FormLabel>
+              <FormLabel>Empleado</FormLabel>
               <Select
                 name="employee"
                 type="select"
                 onChange={(e) => onChange(e)}
                 value={employee}
               >
-                <option value="">Select an employee</option>
+                <option value="">Selecciona un empleado</option>
                 {employees.map(
                   (emp) =>
                     emp.coduser === null && (
@@ -147,7 +143,7 @@ const UserScreen = ({
               </Select>
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Contrasena</FormLabel>
               <Input
                 name="password"
                 value={password}
@@ -158,19 +154,21 @@ const UserScreen = ({
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={submitUser}>
-              Insert
+              Agregar
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
     </Container>
   );
 };
+
 const mapStateToProps = (state) => ({
   user: state.user,
   employee: state.employee,
 });
+
 UserScreen.propTypes = {
   addUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,

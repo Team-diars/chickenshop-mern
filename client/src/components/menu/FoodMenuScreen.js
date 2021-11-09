@@ -17,7 +17,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 
-import ProductAddToCart from "../../components/home/ProductCard";
+import ProductAddToCart from "../../components/products/ProductCard";
 import Cart from "../../components/cart/Cart";
 import { WebSocketContext } from "../../ws";
 import io from "socket.io-client";
@@ -26,10 +26,20 @@ const MenuScreen = ({ getProducts, products: { products }, cart: { cart },addPro
   const [order, setOrder] = useState([]);
   const ws = useContext(WebSocketContext);
 
+const MenuScreen = ({
+  getCart,
+  getProducts,
+  products: { products },
+  cart: { cart },
+  addProductCart,
+}) => {
+  const dishes = products.filter((item) => item.category === "dishes");
+  const drinks = products.filter((item) => item.category === "drinks");
+  const salads = products.filter((item) => item.category === "salads");
   useEffect(() => {
     getProducts();
-  }, [getProducts]);
-  
+    getCart();
+  }, [getProducts, getCart]);
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text textAlign="center" fontSize="3xl" fontWeight="bold" color={"black"}>
@@ -37,10 +47,10 @@ const MenuScreen = ({ getProducts, products: { products }, cart: { cart },addPro
       </Text>
       <Box>
         <Text mt="8" fontSize="2xl" fontWeight="bold" color={"black"}>
-          Dishes
+          Platos
         </Text>
         <Flex w="full" flexWrap="wrap" mt="20">
-          {products.map((item, idx) => (
+          {dishes.map((item, idx) => (
             <ProductAddToCart
               key={idx}
               product={item}
@@ -51,10 +61,10 @@ const MenuScreen = ({ getProducts, products: { products }, cart: { cart },addPro
       </Box>
       <Box>
         <Text mt="8" fontSize="2xl" fontWeight="bold" color={"black"}>
-          Drinks
+          Bebidas
         </Text>
         <Flex w="full" flexWrap="wrap" mt="20">
-          {products.map((item, idx) => (
+          {drinks.map((item, idx) => (
             <ProductAddToCart
               key={idx}
               product={item}
@@ -65,7 +75,7 @@ const MenuScreen = ({ getProducts, products: { products }, cart: { cart },addPro
       </Box>
       <Box>
         <Text mt="8" fontSize="2xl" fontWeight="bold" color={"black"}>
-          Salads
+          Ensaladas
         </Text>
         <Flex
           w="full"
@@ -73,7 +83,7 @@ const MenuScreen = ({ getProducts, products: { products }, cart: { cart },addPro
           flexWrap="wrap"
           mt="20"
         >
-          {products.map((item, idx) => (
+          {salads.map((item, idx) => (
             <ProductAddToCart
               key={idx}
               product={item}
@@ -93,6 +103,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  getCart,
   getProducts,
   addProductCart: (product) => addProductCart({ ...product, quantity: 1 }),
 };

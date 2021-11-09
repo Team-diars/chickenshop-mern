@@ -110,12 +110,12 @@ const SaleScreen = ({
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
-        Sales
+        Ventas
       </Text>
       <Flex width="full" flexDirection="row" wrap="wrap">
         <Box display="flex" flex="1" flexDirection="column" px="4">
           <FormControl>
-            <FormLabel>Table number</FormLabel>
+            <FormLabel>Numero de Mesa</FormLabel>
             <Input type="number" name="num_table" value={num_table} readOnly />
           </FormControl>
           <FormControl>
@@ -132,7 +132,7 @@ const SaleScreen = ({
             <Input type="number" name="total" value={total} readOnly />
           </FormControl>
           <FormControl>
-            <FormLabel>Products</FormLabel>
+            <FormLabel>Productos</FormLabel>
             <div className="products-wrapper w-100">
               {/* {
               (!p_loading && productsName) && productsName.map((p,idx) => (<Button key={idx} className="button-badge d-flex justify-content-center w-100" variant="secondary" disabled>
@@ -145,17 +145,17 @@ const SaleScreen = ({
           </FormControl>
           <Button className="btn-search btn btn-success" onClick={registerSale}>
             <i className="mr-2 fas fa-cash-register"></i>
-            Register Sale
+            Registrar Venta
           </Button>
         </Box>
         <Box display="flex" flex="2">
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th>Cashier</Th>
-                <Th>Table</Th>
+                <Th>Cajero</Th>
+                <Th>Mesa</Th>
                 <Th>Total</Th>
-                <Th>Date</Th>
+                <Th>Fecha</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -168,7 +168,7 @@ const SaleScreen = ({
                   <Tr key={idx}>
                     <Td>{sale.cashier}</Td>
                     <Td>{sale.num_table}</Td>
-                    <Td>S/.{sale.total}</Td>
+                    <Td>S/.{sale.total.toFixed(2)}</Td>
                     <Td>{sale.date}</Td>
                   </Tr>
                 ))
@@ -180,12 +180,12 @@ const SaleScreen = ({
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Search Ticket</ModalHeader>
+          <ModalHeader>Buscar ticket</ModalHeader>
           <ModalBody>
             <Table variant="simple" size="sm">
               <Thead>
                 <Tr>
-                  <Th>Table</Th>
+                  <Th>Mesa</Th>
                   <Th>Subtotal</Th>
                   <Th>Total</Th>
                   <Th></Th>

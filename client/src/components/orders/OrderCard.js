@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import {
   Box,
@@ -26,29 +26,29 @@ const OrdersCard = (props) => {
   const Types = {
     PENDING: 1,
     VALIDATED: 2,
-    DELIVERED: 3    
-  }
+    DELIVERED: 3,
+  };
   //1 == Pending
   //2 == Validated
   //3 == Delivered
   let status;
   let status_letter;
-  if(props.order.status === Types.PENDING){
+  if (props.order.status === Types.PENDING) {
     status = "gray";
     status_letter = "PENDING";
-  }else if(props.order.status === Types.VALIDATED){
+  } else if (props.order.status === Types.VALIDATED) {
     status = "blue";
     status_letter = "VALIDATED";
-  }else if(props.order.status === Types.DELIVERED){
+  } else if (props.order.status === Types.DELIVERED) {
     status = "green";
     status_letter = "DELIVERED";
   }
   const handleChecked = (id) => {
     ws.checkOrder(id);
-  }
+  };
   const handleUncheck = (id) => {
     ws.uncheckOrder(id);
-  }
+  };
   return (
     <Flex
       width={{
@@ -81,7 +81,11 @@ const OrdersCard = (props) => {
               isTruncated
               marginBottom="1"
             >
+<<<<<<< HEAD:client/src/components/orders/OrdersCard.js
               {/* Order #{props.order._id.substring(0,5)} */}
+=======
+              Pedido #{props.order._id.substring(0, 5)}
+>>>>>>> 0129220ede2f2a0661bbe15dc7d246ce8836a32e:client/src/components/orders/OrderCard.js
             </Text>
             <Text
               color="gray"
@@ -137,7 +141,7 @@ const OrdersCard = (props) => {
                     boxSize="50px"
                     objectFit="cover"
                     src={`/images/${product.image}`}
-                    alt={product.name+"-"+product.image}
+                    alt={product.name + "-" + product.image}
                   />
                 </Box>
                 <Box w={2 / 3}>
@@ -202,23 +206,39 @@ const OrdersCard = (props) => {
               </Box>
               {props.order.total?.toFixed(2)}
             </Box>
-            {
-              (props.order.status === 1) && (
-              <Flex fontSize="xl" fontWeight="semibold" display={"flex"} justifyContent={"flex-end"}>
-                <Button size="lg" display={"flex"} style={{width:"30%", borderRadius:"40px"}} mr="2" colorScheme="green" onClick={() => handleChecked(props.order._id)}>
+            {props.order.status === 1 && (
+              <Flex
+                fontSize="xl"
+                fontWeight="semibold"
+                display={"flex"}
+                justifyContent={"flex-end"}
+              >
+                <Button
+                  size="lg"
+                  display={"flex"}
+                  style={{ width: "30%", borderRadius: "40px" }}
+                  mr="2"
+                  colorScheme="green"
+                  onClick={() => handleChecked(props.order._id)}
+                >
                   <Icon as={FiCheck} h={5} w={5} alignSelf={"center"} />
                 </Button>
-                <Button size="lg" display={"flex"} style={{width:"30%", borderRadius:"40px"}} colorScheme="red" onClick={() => handleUncheck(props.order._id)}>
+                <Button
+                  size="lg"
+                  display={"flex"}
+                  style={{ width: "30%", borderRadius: "40px" }}
+                  colorScheme="red"
+                  onClick={() => handleUncheck(props.order._id)}
+                >
                   <Icon as={FiX} h={5} w={5} alignSelf={"center"} />
                 </Button>
               </Flex>
-              )
-            }
+            )}
           </Flex>
         </Box>
       </Flex>
     </Flex>
   );
-}
+};
 
 export default OrdersCard;

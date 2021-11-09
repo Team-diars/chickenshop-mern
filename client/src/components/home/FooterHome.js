@@ -50,7 +50,7 @@ export default function SmallWithSocial() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Text fontWeight="semibold">© {year} - Harike</Text>
+        <Text fontWeight="semibold">© {year}</Text>
         <Stack direction={"row"} spacing={6}>
           <SocialButton label={"Facebook"} href={"#"}>
             <FaFacebook />

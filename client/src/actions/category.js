@@ -1,50 +1,51 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 import {
-  UPDATE_SETTINGS,
-  CLEAR_SETTINGS,
-  SETTINGS_ERROR,
-  GET_SETTINGS,
+  GET_CATEGORIES,
+  REMOVE_CATEGORY,
+  CATEGORIES_ERROR,
+  EDIT_CATEGORY,
+  CLEAR_CATEGORIES,
 } from "./types";
 
-//* Get Settings
-export const getSettings = () => async (dispatch) => {
-  dispatch({ type: CLEAR_SETTINGS });
+//* Get Categories
+export const getCategories = () => async (dispatch) => {
+  dispatch({ type: CLEAR_CATEGORIES });
   try {
-    const res = await axios.get("/api/settings");
+    const res = await axios.get("/api/category");
     dispatch({
-      type: GET_SETTINGS,
+      type: GET_CATEGORIES,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: CLEAR_SETTINGS,
+      type: CLEAR_CATEGORIES,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-//* Update Settings
-export const updateSettings = (formData) => async (dispatch) => {
+//* Update Category
+export const updateCategory = (formData) => async (dispatch) => {
   try {
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-    const res = await axios.post("/api/settings", formData, config);
+    const res = await axios.post("/api/category", formData, config);
     dispatch({
-      type: UPDATE_SETTINGS,
+      type: EDIT_CATEGORY,
       payload: res.data,
     });
-    dispatch(setAlert("Datos de contacto actualizado", "success"));
+    dispatch(setAlert("Datos de Categoria actualizada", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
     }
     dispatch({
-      type: SETTINGS_ERROR,
+      type: CATEGORIES_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

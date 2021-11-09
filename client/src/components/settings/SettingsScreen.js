@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getSettings, updateSettings } from "../../actions/settings";
-// import { Button, Container, Form, Row } from 'react-bootstrap'
 import {
   Box,
   Button,
@@ -56,24 +55,24 @@ const SettingsScreen = ({
   return (
     <Container paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
-        Settings
+        Ajustes de Contacto
       </Text>
       <Box p="4" borderWidth="1px" borderRadius="md">
         <FormControl marginBottom="3">
-          <FormLabel>Address</FormLabel>
+          <FormLabel>Direccion</FormLabel>
           <Input
             type="text"
             name="address"
-            placeholder="Enter the address"
+            placeholder="Ingresa una direccion"
             onChange={(e) => onChange(e)}
             value={address}
           ></Input>
         </FormControl>
         <FormControl marginBottom="3">
-          <FormLabel>Telephone</FormLabel>
+          <FormLabel>Telefono</FormLabel>
           <Input
             type="text"
-            placeholder="Enter shop telephone"
+            placeholder="Ingresa de numero de telefono"
             name="telephone"
             onChange={(e) => onChange(e)}
             value={telephone}
@@ -83,7 +82,7 @@ const SettingsScreen = ({
           <FormLabel>Email</FormLabel>
           <Input
             type="text"
-            placeholder="Enter shop email"
+            placeholder="Ingresa un email"
             name="email"
             onChange={(e) => onChange(e)}
             value={email}
@@ -96,9 +95,9 @@ const SettingsScreen = ({
             onClick={() => toggleSocialInputs(!displaySocialInputs)}
             type="button"
           >
-            Add Social Network Links
+            Agregar links de redes sociales
           </Button>
-          <span>Optional</span>
+          <span>Opcional</span>
         </Box>
         {displaySocialInputs && (
           <>
@@ -108,7 +107,7 @@ const SettingsScreen = ({
                   pointerEvents="none"
                   children={<i className="mr-2 fab fa-facebook fa-2x"></i>}
                 />
-                <InputLeftAddon pl="10" children="https://facebook.com" />
+                <InputLeftAddon pl="10" children="" />
                 <Input
                   type="text"
                   placeholder="Facebook URL"
@@ -125,7 +124,7 @@ const SettingsScreen = ({
                   pointerEvents="none"
                   children={<i className="mr-2 fab fa-instagram fa-2x"></i>}
                 />
-                <InputLeftAddon pl="10" children="https://instagram.com" />
+                <InputLeftAddon pl="10" children="" />
                 <Input
                   type="text"
                   placeholder="Instagram URL"
@@ -143,7 +142,7 @@ const SettingsScreen = ({
           type="submit"
           onClick={onSubmitSettings}
         >
-          Save Changes
+          Guardar Cambios
         </Button>
       </Box>
     </Container>

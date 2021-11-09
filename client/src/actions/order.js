@@ -17,6 +17,7 @@ const config = {
 
 //* Add Order
 export const addOrder = (formData) => async (dispatch) => {
+  console.log("Action Order:", formData);
   try {
     const res = await axios.post("/api/menu", formData, config);
     dispatch({

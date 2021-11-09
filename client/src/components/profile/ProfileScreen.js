@@ -28,12 +28,12 @@ const DashboardScreen = ({ loadUser, auth: { user, loading } }) => {
             fontWeight="bold"
             lineHeight="short"
           >
-            Profile
+            Perfil
           </Text>
           <Flex flexDirection="column" align="center" justifyContent="center">
             {loading || user === null ? (
               <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
+                <span className="sr-only">Cargando...</span>
               </Spinner>
             ) : (
               <>
@@ -56,7 +56,7 @@ const DashboardScreen = ({ loadUser, auth: { user, loading } }) => {
                     fontWeight="bold"
                     lineHeight="short"
                   >
-                    Name: {user.name} {user.lastname}
+                    Nombre: {user.name} {user.lastname}
                   </Text>
                   <Text
                     mt={1}
@@ -74,7 +74,7 @@ const DashboardScreen = ({ loadUser, auth: { user, loading } }) => {
                     fontWeight="bold"
                     lineHeight="short"
                   >
-                    Role: {user.role}
+                    Rol: {user.role}
                   </Text>
                 </Flex>
               </>

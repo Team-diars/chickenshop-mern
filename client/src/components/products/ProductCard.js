@@ -13,7 +13,6 @@ import {
 import { FiPlus, FiShoppingCart } from "react-icons/fi";
 
 function ProductAddToCart(props) {
-  console.log(props);
   return (
     <Box width={["full", "48", "52"]} mb="16" mx="2">
       <Box
@@ -47,6 +46,8 @@ function ProductAddToCart(props) {
           marginTop="-10"
           rounded="full"
           boxSize="150px"
+          border="2px"
+          borderColor="yellow.200"
           objectFit="cover"
           src={`/images/${props.product.image}`}
           alt={props.product.name}
@@ -86,7 +87,7 @@ function ProductAddToCart(props) {
             </Box>
             {props.onAddToCart && (
               <Tooltip
-                label="Add"
+                label="Agregar"
                 bg="white"
                 placement={"top"}
                 color={"gray.800"}

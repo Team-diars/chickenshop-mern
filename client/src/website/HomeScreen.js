@@ -3,6 +3,8 @@ import { Link as ReachLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { getProducts } from "../actions/product";
 import { getSettings } from "../actions/settings";
+import { getCategories } from "../actions/category";
+
 import {
   Box,
   Flex,
@@ -20,7 +22,7 @@ import {
 
 import { GiChickenOven, GiFootTrip } from "react-icons/gi";
 
-import ProductAddToCart from "./../components/home/ProductCard";
+import ProductAddToCart from "./../components/products/ProductCard";
 import FeatureCard from "./../components/home/FeatureCard";
 import CategoryCard from "./../components/home/CategoryCard";
 import FooterHome from "./../components/home/FooterHome";
@@ -28,7 +30,9 @@ import Newsletter from "./../components/home/Newsletter";
 
 const HomeScreen = ({
   getSettings,
+  getCategories,
   getProducts,
+  category: { categories },
   settings: { settings: _settings, loading },
   product: { products, loading: p_loading },
 }) => {
@@ -41,25 +45,6 @@ const HomeScreen = ({
   });
   // const { isOpen, onToggle } = useDisclosure();
   // const { address, telephone, email } = formData;
-  // const responsive = {
-  //   superLargeDesktop: {
-  //     // the naming can be any, depends on you.
-  //     breakpoint: { max: 4000, min: 3000 },
-  //     items: 5,
-  //   },
-  //   desktop: {
-  //     breakpoint: { max: 3000, min: 1024 },
-  //     items: 3,
-  //   },
-  //   tablet: {
-  //     breakpoint: { max: 1024, min: 464 },
-  //     items: 2,
-  //   },
-  //   mobile: {
-  //     breakpoint: { max: 464, min: 0 },
-  //     items: 1,
-  //   },
-  // };
   useEffect(() => {
     getSettings();
   }, [getSettings]);
@@ -79,6 +64,10 @@ const HomeScreen = ({
   useEffect(() => {
     getProducts();
   }, [getProducts]);
+  useEffect(() => {
+    getCategories();
+  }, [getCategories]);
+  console.log("Categories:", categories);
   return (
     <Box maxW="full">
       <Box
@@ -173,8 +162,8 @@ const HomeScreen = ({
           Categorias
         </Text>
         <Flex w="full" alignItems="center" flexWrap="wrap" my="10">
-          {products.map((item, i) => (
-            <CategoryCard key={item.name} product={item} />
+          {categories.map((item) => (
+            <CategoryCard key={item._id} product={item} />
           ))}
         </Flex>
       </Container>
@@ -242,8 +231,11 @@ const Arrow = createIcon({
 const mapStateToProps = (state) => ({
   settings: state.settings,
   product: state.product,
+  category: state.category,
 });
 
-export default connect(mapStateToProps, { getSettings, getProducts })(
-  HomeScreen
-);
+export default connect(mapStateToProps, {
+  getSettings,
+  getProducts,
+  getCategories,
+})(HomeScreen);

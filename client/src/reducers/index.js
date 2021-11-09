@@ -9,6 +9,8 @@ import { sale } from "./sale";
 import { settings } from "./settings";
 import { order } from "./orders";
 import { cart } from "./cart";
+import { category } from "./category";
+
 export default combineReducers({
   alert,
   auth,
@@ -20,4 +22,5 @@ export default combineReducers({
   sale,
   order,
   cart,
+  category,
 });

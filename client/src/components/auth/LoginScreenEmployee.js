@@ -1,6 +1,5 @@
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import React from "react";
-import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { auth } from "../../actions/auth";
 import {
@@ -13,6 +12,7 @@ import {
   Box,
   Container,
 } from "@chakra-ui/react";
+
 const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -41,11 +41,11 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
             fontWeight="bold"
             lineHeight="short"
           >
-            Sign In
+            Iniciar Sesion
           </Text>
           <form onSubmit={(e) => onSubmit(e)}>
             <FormControl mt={3}>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>Email</FormLabel>
               <Input
                 type="email"
                 placeholder="Enter email"
@@ -56,7 +56,7 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
               ></Input>
             </FormControl>
             <FormControl mt={3}>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Contrasena</FormLabel>
               <Input
                 type="password"
                 placeholder="Enter password"
@@ -73,7 +73,7 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
               type="submit"
               variant="solid"
             >
-              Sign In
+              Ingresar
             </Button>
           </form>
         </Box>
@@ -81,6 +81,7 @@ const LoginScreenEmployee = ({ auth, isAuthenticated }) => {
     </Container>
   );
 };
+
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });

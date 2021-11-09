@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { getProducts } from "../../actions/product";
 import { getCart } from "../../actions/cart";
-import TableCart from "./TableCart";
+import TableCart from "../cart/TableCart";
 import MainTable from "./MainTable";
 import {
   Box,
@@ -165,13 +165,13 @@ const OrderScreen = ({
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Text fontSize="2xl" fontWeight="semibold" marginBottom="10">
-        Orders
+        Registrar Pedido
       </Text>
       <Flex width="full" flexDirection="column" wrap="wrap">
         <Box display="flex">
           <Box flex="1">
             <FormControl marginBottom="5">
-              <FormLabel>Table number</FormLabel>
+              <FormLabel>Nro Mesa</FormLabel>
               <Input
                 width="20"
                 placeholder="#1"
@@ -182,7 +182,7 @@ const OrderScreen = ({
               />
             </FormControl>
             <FormControl marginBottom="5">
-              <FormLabel>Dishes</FormLabel>
+              <FormLabel>Platos</FormLabel>
               <InputGroup>
                 <Select
                   mr="2"
@@ -191,7 +191,7 @@ const OrderScreen = ({
                   value={dish_name}
                   onChange={(e) => onChangeDishes(e)}
                 >
-                  <option value="">-- Select a dish --</option>
+                  <option value="">-- Selecciona un plato --</option>
                   {products.map(
                     (product) =>
                       product.category === "dishes" && (
@@ -206,7 +206,7 @@ const OrderScreen = ({
                   name="dish_quantity"
                   value={dish_quantity}
                   type="number"
-                  placeholder="Quantity"
+                  placeholder="Cantidad"
                   onChange={(e) => onChangeDishes(e)}
                 />
 
@@ -216,7 +216,7 @@ const OrderScreen = ({
               </InputGroup>
             </FormControl>
             <FormControl marginBottom="5">
-              <FormLabel>Drinks</FormLabel>
+              <FormLabel>Bebidas</FormLabel>
               <InputGroup>
                 <Select
                   mr="2"
@@ -225,7 +225,7 @@ const OrderScreen = ({
                   value={drink_name}
                   onChange={(e) => onChangeDrinks(e)}
                 >
-                  <option value="">-- Select a drink --</option>
+                  <option value="">-- Selecciona una bebida --</option>
                   {products.map(
                     (product) =>
                       product.category === "drinks" && (
@@ -240,7 +240,7 @@ const OrderScreen = ({
                   type="number"
                   name="drink_quantity"
                   value={drink_quantity}
-                  placeholder="Quantity"
+                  placeholder="Cantidad"
                   onChange={(e) => onChangeDrinks(e)}
                 />
                 <Button onClick={addDrink}>
@@ -249,7 +249,7 @@ const OrderScreen = ({
               </InputGroup>
             </FormControl>
             <FormControl marginBottom="5">
-              <FormLabel>Salads</FormLabel>
+              <FormLabel>Ensaladas</FormLabel>
               <InputGroup>
                 <Select
                   mr="2"
@@ -258,7 +258,7 @@ const OrderScreen = ({
                   value={salad_name}
                   onChange={(e) => onChangeSalads(e)}
                 >
-                  <option value="">-- Select a salad --</option>
+                  <option value="">-- Selecciona una ensalada --</option>
                   {products.map(
                     (product) =>
                       product.category === "salads" && (
@@ -272,7 +272,7 @@ const OrderScreen = ({
                   mr="2"
                   type="number"
                   name="salad_quantity"
-                  placeholder="Quantity"
+                  placeholder="Cantidad"
                   value={salad_quantity}
                   onChange={(e) => onChangeSalads(e)}
                 />

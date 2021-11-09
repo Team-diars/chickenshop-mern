@@ -1,6 +1,8 @@
 import {
   GET_CART,
   ADD_PRODUCT_CART,
+  ADD_QTY_PRODUCT_CART,
+  REMOVE_QTY_PRODUCT_CART,
   UPDATE_PRODUCT_CART,
   REMOVE_PRODUCT_CART,
   CART_ERROR,
@@ -22,12 +24,14 @@ export function cart(state = initialState, action) {
         loading: false,
       };
     case ADD_PRODUCT_CART:
-      const inCart = state.cart.find((product) => {
-        if (product._id === payload._id) {
-          product.quantity += payload.quantity;
-          return product;
-        }
-      });
+      const inCart =
+        state.cart &&
+        state.cart.find((product) => {
+          if (product._id === payload._id) {
+            product.quantity += payload.quantity;
+            return product;
+          }
+        });
       return {
         ...state,
         cart: inCart ? [...state.cart] : [...state.cart, payload],
@@ -44,7 +48,29 @@ export function cart(state = initialState, action) {
         ...state,
         cart: state.cart.filter((product) => {
           if (product._id === payload.id) {
-            product.quantity = payload.quantity;
+            product.quantity += payload.quantity;
+          }
+          return product;
+        }),
+        loading: false,
+      };
+    case ADD_QTY_PRODUCT_CART:
+      return {
+        ...state,
+        cart: state.cart.filter((product) => {
+          if (product._id === payload.id) {
+            product.quantity += 1;
+          }
+          return product;
+        }),
+        loading: false,
+      };
+    case REMOVE_QTY_PRODUCT_CART:
+      return {
+        ...state,
+        cart: state.cart.filter((product) => {
+          if (product._id === payload.id) {
+            product.quantity = product.quantity > 1 ? product.quantity - 1 : 1;
           }
           return product;
         }),

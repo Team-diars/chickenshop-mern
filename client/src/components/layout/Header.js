@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import { Link as ReachLink } from "react-router-dom";
+import { Link as ReachLink, useLocation, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout, loadUser } from "../../actions/auth";
-import HeaderHome from "./../home/HeaderHome";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -16,344 +14,384 @@ import {
   MenuItem,
   useDisclosure,
   useColorModeValue,
+  useBreakpointValue,
   Text,
   Stack,
   Link,
+  useColorMode,
+  Avatar,
+  Spinner,
+  MenuGroup,
+  MenuDivider,
+  Icon,
 } from "@chakra-ui/react";
+import {
+  FiLogOut,
+  FiUser,
+  FiUsers,
+  FiPackage,
+  FiDatabase,
+  FiRadio,
+  FiShoppingBag,
+  FiPlusCircle,
+  FiFileText,
+} from "react-icons/fi";
 
-// const NavLink = ({ children }) => (
-//   <Link
-//     px={2}
-//     py={1}
-//     rounded={"md"}
-//     _hover={{
-//       textDecoration: "none",controlId
-//       bg: useColorModeValue("gray.200", "gray.700"),
-//     }}
-//     href={children.url}
-//   >
-//     {children.name}
-//   </Link>
-// );
+const MainMenuItem = ({ to, ...rest }) => {
+  // const { rtlValue } = useRtl();
+  // const { navOnClose } = useLayoutContext();
+
+  const { pathname } = useLocation();
+  const isActive = pathname.startsWith(to);
+  return (
+    <Box
+      as={ReachLink}
+      to={to}
+      bg="yellow.200"
+      justifyContent="flex-start"
+      position="relative"
+      opacity={isActive ? 1 : 0.8}
+      fontWeight="bold"
+      borderRadius="md"
+      px="4"
+      py="2"
+      rounded={"lg"}
+      fontSize="lg"
+      _active={{ bg: "gray.300" }}
+      _hover={{
+        bg: "yellow.400",
+        _after: {
+          opacity: 1,
+          w: "2rem",
+        },
+      }}
+      _focus={{
+        outline: "none",
+        bg: "yellow.400",
+        _after: {
+          opacity: 1,
+          w: "2rem",
+        },
+      }}
+      _after={{
+        opacity: isActive ? 1 : 0,
+        content: '""',
+        position: "absolute",
+        insetStart: { base: 8, md: "50%" },
+        bottom: "0.2em",
+        transform: "translateX(-50%)",
+        transition: "0.2s",
+        w: isActive ? "2rem" : 0,
+        h: "2px",
+        borderRadius: "full",
+        bg: "currentColor",
+      }}
+      // onClick={navOnClose}
+      {...rest}
+    />
+  );
+};
+
+const AccountMenu = (props) => {
+  // const { account, isLoading } = useAccount();
+  const history = useHistory();
+  return (
+    <Menu placement="bottom-end">
+      <MenuButton>
+        <Avatar
+          size="sm"
+          name={props.user?.name}
+          src={props.user?.avatar}
+        ></Avatar>
+        {/* <Avatar size="sm" icon={<></>} name={!isLoading && `${props.user?.name}`}>
+          {isLoading && <Spinner size="xs" />}
+        </Avatar> */}
+      </MenuButton>
+      <MenuList color={"gray.800"} maxW="12rem" overflow="hidden">
+        <MenuGroup
+          title={`${props.user?.name} ${props.user?.lastname}`}
+          isTruncated
+        >
+          <MenuItem as={ReachLink} to="/profile" icon={<FiUser />}>
+            Perfil
+          </MenuItem>
+        </MenuGroup>
+        <MenuDivider />
+        <MenuItem icon={<FiLogOut />} onClick={props.onLogout}>
+          Salir
+        </MenuItem>
+      </MenuList>
+    </Menu>
+  );
+};
 
 const Header = ({
+  to,
+  logout,
   loadUser,
   auth: { user, isAuthenticated, loading },
-  logout,
+  ...rest
 }) => {
-  // const [isOpen, setIsOpen] = useState(false);
-  // const handleOpen = () => setIsOpen(!isOpen);
-  const { isOpenA, onOpen, onClose } = useDisclosure();
-  const GuestNavbar = (
-    <header className="header-website">
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-3">
-            <div className="full">
-              <a className="logo" href="/">
-                <img src="/images-website/logo.png" alt="#" />
-              </a>
-            </div>
-          </div>
-          <div className="col-md-9">
-            <div className="full">
-              <div className="right_header_info">
-                <ul>
-                  <li className="dinone">
-                    Contact Us :{" "}
-                    <img
-                      style={{ marginRight: "15px", marginLeft: "15px" }}
-                      src="/images-website/phone_icon.png"
-                      alt="#"
-                    />
-                    <a href="#">987-654-3210</a>
-                  </li>
-                  <li className="dinone">
-                    <img
-                      style={{ marginRight: "15px" }}
-                      src="/images-website/mail_icon.png"
-                      alt="#"
-                    />
-                    <a href="#">demo@gmail.com</a>
-                  </li>
-                  <li className="dinone">
-                    <img
-                      style={{
-                        marginRight: "15px",
-                        height: "21px",
-                        position: "relative",
-                        top: "-2px",
-                      }}
-                      src="/images-website/location_icon.png"
-                      alt="#"
-                    />
-                    <a href="#">104 New york , USA</a>
-                  </li>
-                  <li className="button_user">
-                    <a className="button active" href="/auth">
-                      Login
-                    </a>
-                    <a className="button" href="#">
-                      Register
-                    </a>
-                  </li>
-                  <li>
-                    <img
-                      style={{ marginRight: "15px" }}
-                      src="/images-website/search_icon.png"
-                      alt="#"
-                    />
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                      id="sidebarCollapse"
-                      // onClick={handleOpen}
-                    >
-                      <img src="/images-website/menu_icon.png" alt="#" />
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-
+  const { pathname } = useLocation();
+  const isActive = pathname.startsWith(to);
   const AdminNavbar = (
     <>
-      <HStack spacing={8} alignItems={"center"}>
-        <HStack as={"nav"} spacing={5} fontSize="lg">
-          {/* {Links.map((link) => (
-            <Link href={link.url}>{link.name}</Link>
-          ))} */}
-          <Button
-            as={ReachLink}
-            px={2}
-            py={1}
-            rounded={"lg"}
-            bg="blackAlpha.100"
-            _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("gray.100", "gray.500"),
-            }}
-            fontWeight="semibold"
-            fontSize="lg"
-            key="profile"
-            to="/profile"
-          >
-            Profile
-          </Button>
-          <Button
-            as={ReachLink}
-            px={2}
-            py={1}
-            rounded={"lg"}
-            bg="blackAlpha.100"
-            _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("gray.100", "gray.500"),
-            }}
-            fontWeight="semibold"
-            fontSize="lg"
-            key="menu"
-            to="/menu"
-          >
-            Menu
-          </Button>
-          <Button
-            as={ReachLink}
-            px={2}
-            py={1}
-            rounded={"lg"}
-            bg="blackAlpha.100"
-            _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("gray.100", "gray.500"),
-            }}
-            fontWeight="semibold"
-            fontSize="lg"
-            key="liveorders"
-            to="/liveorders"
-          >
-            LiveOrders
-          </Button>
-          <Button
-            as={ReachLink}
-            px={2}
-            py={1}
-            rounded={"lg"}
-            bg="blackAlpha.100"
-            _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("gray.100", "gray.500"),
-            }}
-            fontWeight="semibold"
-            fontSize="lg"
-            key="kitchen"
-            to="/kitchen"
-          >
-            Kitchen
-          </Button>
-          <Button
-            as={ReachLink}
-            px={2}
-            py={1}
-            rounded={"lg"}
-            bg="blackAlpha.100"
-            _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("gray.100", "gray.500"),
-            }}
-            fontWeight="semibold"
-            fontSize="lg"
-            key="orders"
-            to="/orders"
-          >
-            Orders
-          </Button>
-          <Menu>
-            <MenuButton
-              as={Button}
-              px={2}
-              py={1}
-              rounded={"lg"}
-              cursor={"pointer"}
-              color="black"
-              bg="blackAlpha.100"
-              _hover={{
-                textDecoration: "none",
-                bg: useColorModeValue("gray.100", "gray.500"),
-              }}
-              fontWeight="semibold"
-              fontSize="lg"
-            >
-              Sale
-            </MenuButton>
-            <MenuList>
-              <MenuItem as={ReachLink} key="orders" to="/orders">
-                Register Order
-              </MenuItem>
-              <MenuItem as={ReachLink} key="sales" to="/sales">
-                Generate Sale
-              </MenuItem>
-            </MenuList>
-          </Menu>
-          <Menu>
-            <MenuButton
-              as={Button}
-              px={2}
-              py={1}
-              rounded={"lg"}
-              cursor={"pointer"}
-              color="black"
-              bg="blackAlpha.100"
-              _hover={{
-                textDecoration: "none",
-                bg: useColorModeValue("gray.100", "gray.500"),
-              }}
-              fontWeight="semibold"
-              fontSize="lg"
-            >
-              Maintenance
-            </MenuButton>
-            <MenuList>
-              <MenuItem as={ReachLink} key="users" to="/users">
-                Users
-              </MenuItem>
-              <MenuItem as={ReachLink} key="employees" to="/employees">
-                Employees
-              </MenuItem>
-              <MenuItem as={ReachLink} key="products" to="/products">
-                Products
-              </MenuItem>
-            </MenuList>
-          </Menu>
-          <Button
-            as={ReachLink}
-            px={2}
-            py={1}
-            rounded={"lg"}
-            bg="blackAlpha.100"
-            _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("gray.100", "gray.200"),
-            }}
-            fontWeight="semibold"
-            fontSize="lg"
-            key="settings"
-            to="/settings"
-          >
-            Settings
-          </Button>
-          <Button
-            px={2}
-            py={1}
-            rounded={"lg"}
-            bg="blackAlpha.100"
-            _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("gray.100", "gray.500"),
-            }}
-            fontWeight="semibold"
-            fontSize="lg"
-            key="logout"
-            to="/auth"
-            onClick={logout}
-          >
-            Logout
-          </Button>
-        </HStack>
-      </HStack>
+      <Menu placement="bottom-end" {...rest}>
+        <MenuButton
+          bg="yellow.200"
+          justifyContent="flex-start"
+          position="relative"
+          opacity={isActive ? 1 : 0.8}
+          fontWeight="bold"
+          borderRadius="md"
+          px="4"
+          py="2"
+          rounded={"lg"}
+          fontSize="lg"
+          _active={{ bg: "gray.300" }}
+          _hover={{
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _focus={{
+            outline: "none",
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _after={{
+            opacity: isActive ? 1 : 0,
+            content: '""',
+            position: "absolute",
+            insetStart: { base: 8, md: "50%" },
+            bottom: "0.2em",
+            transform: "translateX(-50%)",
+            transition: "0.2s",
+            w: isActive ? "2rem" : 0,
+            h: "2px",
+            borderRadius: "full",
+            bg: "currentColor",
+          }}
+        >
+          Pedidos
+        </MenuButton>
+        <MenuList color={"gray.800"} maxW="12rem" overflow="hidden">
+          <MenuGroup title={""} isTruncated>
+            <MenuItem as={ReachLink} to="/liveorders" icon={<FiRadio />}>
+              Pedidos Online
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuItem as={ReachLink} to="/orders" icon={<FiShoppingBag />}>
+            Pedidos
+          </MenuItem>
+        </MenuList>
+      </Menu>
+      <Menu placement="bottom-end" {...rest}>
+        <MenuButton
+          bg="yellow.200"
+          justifyContent="flex-start"
+          position="relative"
+          opacity={isActive ? 1 : 0.8}
+          fontWeight="bold"
+          borderRadius="md"
+          px="4"
+          py="2"
+          rounded={"lg"}
+          fontSize="lg"
+          _active={{ bg: "gray.300" }}
+          _hover={{
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _focus={{
+            outline: "none",
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _after={{
+            opacity: isActive ? 1 : 0,
+            content: '""',
+            position: "absolute",
+            insetStart: { base: 8, md: "50%" },
+            bottom: "0.2em",
+            transform: "translateX(-50%)",
+            transition: "0.2s",
+            w: isActive ? "2rem" : 0,
+            h: "2px",
+            borderRadius: "full",
+            bg: "currentColor",
+          }}
+        >
+          Ventas
+        </MenuButton>
+        <MenuList color={"gray.800"} maxW="12rem" overflow="hidden">
+          <MenuGroup title={""} isTruncated>
+            <MenuItem as={ReachLink} to="/orders" icon={<FiPlusCircle />}>
+              Registrar Pedido
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuItem as={ReachLink} to="/sales" icon={<FiFileText />}>
+            Generar Venta
+          </MenuItem>
+        </MenuList>
+      </Menu>
+      <Menu placement="bottom-end" {...rest}>
+        <MenuButton
+          bg="yellow.200"
+          justifyContent="flex-start"
+          position="relative"
+          opacity={isActive ? 1 : 0.8}
+          fontWeight="bold"
+          borderRadius="md"
+          px="4"
+          py="2"
+          rounded={"lg"}
+          fontSize="lg"
+          _active={{ bg: "gray.300" }}
+          _hover={{
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _focus={{
+            outline: "none",
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _after={{
+            opacity: isActive ? 1 : 0,
+            content: '""',
+            position: "absolute",
+            insetStart: { base: 8, md: "50%" },
+            bottom: "0.2em",
+            transform: "translateX(-50%)",
+            transition: "0.2s",
+            w: isActive ? "2rem" : 0,
+            h: "2px",
+            borderRadius: "full",
+            bg: "currentColor",
+          }}
+        >
+          Configuraciones
+        </MenuButton>
+        <MenuList color={"gray.800"} maxW="12rem" overflow="hidden">
+          <MenuGroup title={""} isTruncated>
+            <MenuItem as={ReachLink} to="/users" icon={<FiUser />}>
+              Usuarios
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuGroup title={""} isTruncated>
+            <MenuItem as={ReachLink} to="/employees" icon={<FiUser />}>
+              Empleados
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuGroup title={""} isTruncated>
+            <MenuItem as={ReachLink} to="/products" icon={<FiPackage />}>
+              Productos
+            </MenuItem>
+          </MenuGroup>
+        </MenuList>
+      </Menu>
+      <MainMenuItem to="/settings">Ajustes</MainMenuItem>
+      <AccountMenu user={user} onLogout={() => logout()} />
     </>
   );
   const CashierNavbar = (
     <>
-      <HStack spacing={8} alignItems={"center"}>
-        <HStack as={"nav"} spacing={4}>
-          {/* {Links.map((link) => (
-            <Link href={link.url}>{link.name}</Link>
-          ))} */}
-          <Link key="profile" to="/profile">
-            Profile
-          </Link>
-          <Menu>
-            <MenuButton
-              as={Button}
-              rounded={"sm"}
-              variant={"link"}
-              cursor={"pointer"}
+      <MainMenuItem to="/profile">Perfil</MainMenuItem>
+      <MainMenuItem to="/liveorders">Pedidos Online</MainMenuItem>
+      <MainMenuItem to="/orders">Pedidos</MainMenuItem>
+      <Menu placement="bottom-end" {...rest}>
+        <MenuButton
+          bg="yellow.200"
+          justifyContent="flex-start"
+          position="relative"
+          opacity={isActive ? 1 : 0.8}
+          fontWeight="bold"
+          borderRadius="md"
+          px="4"
+          py="2"
+          rounded={"lg"}
+          fontSize="lg"
+          _active={{ bg: "gray.300" }}
+          _hover={{
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _focus={{
+            outline: "none",
+            bg: "yellow.400",
+            _after: {
+              opacity: 1,
+              w: "2rem",
+            },
+          }}
+          _after={{
+            opacity: isActive ? 1 : 0,
+            content: '""',
+            position: "absolute",
+            insetStart: { base: 8, md: "50%" },
+            bottom: "0.2em",
+            transform: "translateX(-50%)",
+            transition: "0.2s",
+            w: isActive ? "2rem" : 0,
+            h: "2px",
+            borderRadius: "full",
+            bg: "currentColor",
+          }}
+        >
+          Ventas
+        </MenuButton>
+        <MenuList color={"gray.800"} maxW="12rem" overflow="hidden">
+          <MenuGroup title={""} isTruncated>
+            <MenuItem
+              as={ReachLink}
+              to="/orders"
+              icon={<Icon icon={FiUser} fontSize="lg" color="gray.400" />}
             >
-              Sale
-            </MenuButton>
-            <MenuList>
-              <MenuItem>
-                <Link key="orders" to="/orders">
-                  Register Order
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link key="sales" to="/sales">
-                  Generate Sale
-                </Link>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-          <Link key="logout" onClick={logout} to="/auth">
-            Logout
-          </Link>
-        </HStack>
-      </HStack>
+              Registrar Pedido
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuItem
+            as={ReachLink}
+            to="/sales"
+            icon={<Icon icon={FiLogOut} fontSize="lg" color="gray.400" />}
+          >
+            Generar Venta
+          </MenuItem>
+        </MenuList>
+      </Menu>
+      <AccountMenu user={user} />
     </>
   );
   useEffect(() => {
     loadUser();
   }, [loadUser]);
-  return !loading && !isAuthenticated ? (
-    <HeaderHome />
-  ) : (
+  return (
     <Box
       backgroundColor={"yellow.300"}
       border="1px solid gray.600"
@@ -362,14 +400,6 @@ const Header = ({
       px="6"
     >
       <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <IconButton
-          size={"md"}
-          color="white"
-          icon={isOpenA ? <CloseIcon /> : <HamburgerIcon />}
-          aria-label={"Open Menu"}
-          display={{ md: "none" }}
-          onClick={isOpenA ? onClose : onOpen}
-        />
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Text
             as={ReachLink}
@@ -380,31 +410,46 @@ const Header = ({
           >
             Rinconcito Ayacuchano
           </Text>
-          {/* <Text fontSize="xl">Harike</Text> */}
         </Flex>
         <Flex alignItems={"center"} display={{ base: "none", md: "flex" }}>
-          {!loading && isAuthenticated && user && user.role === "admin"
-            ? AdminNavbar
-            : CashierNavbar}
+          <HStack spacing={9} alignItems={"center"}>
+            <HStack as={"nav"} spacing={6} fontSize="lg">
+              <Stack direction="row" spacing="3" {...rest}>
+                <Text
+                  textAlign={useBreakpointValue({ base: "center", md: "left" })}
+                  fontFamily={"heading"}
+                  color={useColorModeValue("gray.800", "white")}
+                  display={{ base: "none", md: "flex" }}
+                  alignItems="center"
+                  marginRight="3"
+                >
+                  Llamanos:
+                  <Button
+                    as={"a"}
+                    fontSize={"sm"}
+                    fontWeight={500}
+                    color={"black"}
+                    variant="link"
+                    href={"tel: 5199999"}
+                  >
+                    +51 {"99999222"}
+                  </Button>
+                </Text>
+                <MainMenuItem to="/menu">Menu</MainMenuItem>
+                {!loading && isAuthenticated ? (
+                  user && user.role === "admin" ? (
+                    AdminNavbar
+                  ) : (
+                    CashierNavbar
+                  )
+                ) : (
+                  <MainMenuItem to="/auth">Ingresar</MainMenuItem>
+                )}
+              </Stack>
+            </HStack>
+          </HStack>
         </Flex>
       </Flex>
-      {isOpenA ? (
-        // <Box pb={4} display={{ md: 'none' }}>
-        //   <Stack as={'nav'} spacing={4}>
-        //     {Links.map((link) => (
-        //       <NavLink key={link}>{link}</NavLink>
-        //     ))}
-        //   </Stack>
-        // </Box>
-
-        <Box display={{ md: "none" }}>
-          <Stack as={"nav"} spacing={4}>
-            {!loading && isAuthenticated && user && user.role === "admin"
-              ? AdminNavbar
-              : CashierNavbar}
-          </Stack>
-        </Box>
-      ) : null}
     </Box>
   );
 };
@@ -413,4 +458,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout, loadUser })(Header);
+const mapDispatchToProps = {
+  loadUser,
+  logout,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
