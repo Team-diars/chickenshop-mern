@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { ModalBody, ModalFooter, Spinner } from "react-bootstrap";
+import { Modal, ModalBody, ModalFooter, Spinner } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getUserByID, updateUser } from "../../actions/user";
 import { Link } from "react-router-dom";
 import { FormLabel, Input, Select, Button } from "@chakra-ui/react";
+import "./index.css";
+
 const EditUser = ({
   history,
   getUserByID,
@@ -46,8 +48,7 @@ const EditUser = ({
     });
   };
   return (
-    <>
-      <ModalHeader>Edit User</ModalHeader>
+    <div style={{padding:"1rem"}}> 
       {loading ? (
         <div className="container p-5 d-flex justify-content-center align-items-center">
           <Spinner animation="border" role="status">
@@ -55,9 +56,10 @@ const EditUser = ({
           </Spinner>
         </div>
       ) : (
-        <>
-          <ModalBody>
-            <div className="form-group">
+        <div className="edit-wrapper">
+          {/* <h1 style={{fontSize:"26px !important","color":"#424242"}}>Edit User</h1> */}
+          <ModalBody style={{width:"100%",marginBottom:"1rem"}}>
+            <div className="form-group" style={{width:"100%"}}>
               <FormLabel>Employee</FormLabel>
               <Select
                 as="select"
@@ -74,7 +76,14 @@ const EditUser = ({
               <Input
                 type="password"
                 name="password"
-                value={formData.password}
+                value=""
+                onChange={(e) => onChange(e)}
+              />
+              <FormLabel>Confirm Password</FormLabel>
+              <Input
+                type="password"
+                name="password"
+                value=""
                 onChange={(e) => onChange(e)}
               />
             </div>
@@ -92,9 +101,9 @@ const EditUser = ({
               Cancel
             </Link>
           </ModalFooter>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 const mapStateToProps = (state) => ({

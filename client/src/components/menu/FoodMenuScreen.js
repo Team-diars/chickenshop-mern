@@ -22,10 +22,6 @@ import Cart from "../../components/cart/Cart";
 import { WebSocketContext } from "../../ws";
 import io from "socket.io-client";
 
-const MenuScreen = ({ getProducts, products: { products }, cart: { cart },addProductCart}) => {
-  const [order, setOrder] = useState([]);
-  const ws = useContext(WebSocketContext);
-
 const MenuScreen = ({
   getCart,
   getProducts,
@@ -33,6 +29,8 @@ const MenuScreen = ({
   cart: { cart },
   addProductCart,
 }) => {
+  const [order, setOrder] = useState([]);
+  const ws = useContext(WebSocketContext);
   const dishes = products.filter((item) => item.category === "dishes");
   const drinks = products.filter((item) => item.category === "drinks");
   const salads = products.filter((item) => item.category === "salads");

@@ -1,0 +1,11 @@
+.edit-wrapper{
+  border:1px solid #ccc;
+  padding:1rem;
+  width:50%;
+  border-radius:5px;
+}
+@media (max-width:1024px){
+  .edit-wrapper{
+    width:100%;
+  }
+}

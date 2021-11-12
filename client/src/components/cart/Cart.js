@@ -9,6 +9,7 @@ import {
   updateProductCart,
 } from "../../actions/cart";
 import TableCart from "./../cart/TableCart";
+
 import {
   Box,
   Container,
@@ -41,6 +42,8 @@ import { addOrder } from "../../actions/order";
 import { FiShoppingCart } from "react-icons/fi";
 import { WebSocketContext } from "../../ws";
 import { category } from "../../reducers/category";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const CartScreen = (props) => {
   //   const data = useSelector((state) => state.order);
@@ -48,66 +51,24 @@ const CartScreen = (props) => {
   // const CartScreen = ({ cart, isAdded, clearCart, updateProductCart }) => {
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
-  const sendPayload = () => { 
+  const MySwal = withReactContent(Swal)
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const sendPayload = async() => { 
     const payload = {
       products: cart,
     };
     ws.sendOrder(payload);
+    onClose();
+    await MySwal.fire({
+      title: <strong>Orden Registrada</strong>,
+      html: <i>Tu order fue registrada satisfactoriamente!</i>,
+      icon: 'success'
+    })
   };
-
-  // const sendPayload = () => {
-  //   socket = io(CONNECTION_PORT, {transports: ['websocket']});
-  //   socket.emit("send-order", JSON.stringify({products:cart}), (payload_from_server) => {
-  //       //Here we're going to return the payload in order to show the receipt or order that they sent
-  //       console.log("Your order is being prepared: ",payload_from_server)
-  //     }
-  //   );
-  // };
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  console.log("cart: ",isOpen);
   const firstField = React.useRef();
-  // if (localStorage.getItem("cart")) {
-  //   cart = JSON.parse(localStorage.getItem("cart"));
-  //   console.log("CartFromLS:", JSON.parse(localStorage.getItem("cart")));
-  // } else {
-  // localStorage.setItem("cart", JSON.stringify(cart));
-  // }
-  // cart.push(product);
-  // if (isAdded) {
-  //   onOpen();
-  // }
-  //   const [cart1, setCart] = useState([]);
-
-  //   const [num_table, setNumTable] = useState("");
-
-  //   const onChange = (e) => {
-  //     const { value, type } = e.target;
-  //     setNumTable(type === "number" ? parseInt(value) : value);
-  //   };
-
-  //   const onChangeDishes = (e) => {
-  //     const { name, value, type } = e.target;
-  //     setFormDataDishes({
-  //       ...formDataDishes,
-  //       [name]: type === "number" ? parseInt(value) : value,
-  //     });
-  //   };
-  //   const saveTicket = () => {
-  //     const data = cart.map((item) => {
-  //       return item;
-  //     });
-
-  //     setCart([]);
-  //   };
-  // addTicket({
-  //   num_table,
-  //   product: data,
-  // });
-  // useEffect(() => {
-  //   getCart();
-  // }, [getCart]);
-  const productsCart =
-    cart.length > 0
-      ? cart.map((dish) => {
+  const productsCart = cart.length > 0 ? cart.map((dish) => {
           return {
             name: dish.name,
             desc: dish.name,
@@ -116,26 +77,11 @@ const CartScreen = (props) => {
             qty: dish.quantity,
             creams: [],
           };
-        })
-      : [];
+        }) : [];
   const ptotal = cart
     .reduce((result, item) => item.quantity * item.price + result, 0)
     .toFixed(2);
   console.log(productsCart, ptotal);
-  // const ws = useContext(WebSocketContext);
-  // const sendPayload = () => {
-  //   const payload = [
-  //     {
-  //       total: ptotal,
-  //       status: 1,
-  //       specialDelivery: true,
-  //       products: productsCart,
-  //     },
-  //   ];
-  //   console.log("sent!", payload);
-  //   // This will handle adding the order
-  //   ws.sendOrder(payload);
-  // };
   return (
     <>
       <Button onClick={onOpen} position="fixed" top="50%" right="10">
@@ -188,20 +134,20 @@ const CartScreen = (props) => {
               )}
               <Box>
                 <FormLabel htmlFor="username">Nombre</FormLabel>
-                <Input ref={firstField} id="username" placeholder="" />
+                <Input ref={firstField} id="username" autoComplete="off"/>
               </Box>
               <Box>
-                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormLabel htmlFor="nummesa">Numero de Mesa</FormLabel>
                 <Input
                   ref={firstField}
-                  type="email"
-                  id="email"
-                  placeholder=""
+                  type="number"
+                  id="nummesa"
+                  autoComplete="off"
                 />
               </Box>
               <Box>
                 <FormLabel htmlFor="desc">Nota</FormLabel>
-                <Textarea id="desc" />
+                <Textarea id="desc" autoComplete="off"/>
               </Box>
             </Stack>
           </DrawerBody>

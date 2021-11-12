@@ -415,7 +415,7 @@ const Header = ({
           <HStack spacing={9} alignItems={"center"}>
             <HStack as={"nav"} spacing={6} fontSize="lg">
               <Stack direction="row" spacing="3" {...rest}>
-                <Text
+                {/* <Text
                   textAlign={useBreakpointValue({ base: "center", md: "left" })}
                   fontFamily={"heading"}
                   color={useColorModeValue("gray.800", "white")}
@@ -434,7 +434,7 @@ const Header = ({
                   >
                     +51 {"99999222"}
                   </Button>
-                </Text>
+                </Text> */}
                 <MainMenuItem to="/menu">Menu</MainMenuItem>
                 {!loading && isAuthenticated ? (
                   user && user.role === "admin" ? (

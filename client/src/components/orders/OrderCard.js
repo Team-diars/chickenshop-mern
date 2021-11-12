@@ -81,11 +81,7 @@ const OrdersCard = (props) => {
               isTruncated
               marginBottom="1"
             >
-<<<<<<< HEAD:client/src/components/orders/OrdersCard.js
-              {/* Order #{props.order._id.substring(0,5)} */}
-=======
               Pedido #{props.order._id.substring(0, 5)}
->>>>>>> 0129220ede2f2a0661bbe15dc7d246ce8836a32e:client/src/components/orders/OrderCard.js
             </Text>
             <Text
               color="gray"

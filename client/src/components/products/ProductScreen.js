@@ -99,6 +99,7 @@ const ProductScreen = ({
   const imagePicked = image && (
     <img src={`/images/${image}`} alt={image} className="image-picked" />
   );
+  console.log("products: ",products)
   return (
     <Container maxWidth="container.xl" paddingTop="10">
       <Box
@@ -136,7 +137,7 @@ const ProductScreen = ({
               <Tr key={idx}>
                 <Td>{product._id}</Td>
                 <Td>{product.name}</Td>
-                <Td>{product.description}</Td>
+                <Td>{product.desc}</Td>
                 <Td>
                   <Box>
                     <Image
