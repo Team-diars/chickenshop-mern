@@ -1,12 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Modal, ModalBody, ModalFooter, Spinner } from "react-bootstrap";
-import ModalHeader from "react-bootstrap/esm/ModalHeader";
+import { ModalBody, ModalFooter, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getUserByID, updateUser } from "../../actions/user";
-import { Link } from "react-router-dom";
-import { FormLabel, Input, Select, Button, FormControl } from "@chakra-ui/react";
-import "../../components/users/index.css";
+import { Link as ReachLink } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  InputGroup,
+  InputLeftAddon,
+  InputLeftElement,
+  Icon,
+  Text,
+} from "@chakra-ui/react";
+import { FiArrowLeft, FiFile } from "react-icons/fi";
+import { Loader } from "./../../components/loader/Loader";
 
 const EditUser = ({
   history,
@@ -49,19 +63,32 @@ const EditUser = ({
     });
   };
   return (
-    <div style={{padding:"1rem"}}> 
+    <Container paddingY="10">
+      <Box
+        display="flex"
+        alignItems="center"
+        marginBottom="6"
+        position="relative"
+      >
+        <Button as={ReachLink} to="/users" mr={[3, 5]} variant="ghost">
+          <Icon as={FiArrowLeft} h={[5, 6]} w={[5, 6]} alignSelf={"center"} />
+        </Button>
+        <Text
+          fontSize="2xl"
+          textAlign="center"
+          fontWeight="bold"
+          lineHeight="short"
+        >
+          Editar Usuario
+        </Text>
+      </Box>
       {loading ? (
-        <div className="container p-5 d-flex justify-content-center align-items-center">
-          <Spinner animation="border" role="status">
-            <span className="sr-only"></span>
-          </Spinner>
-        </div>
+        <Loader />
       ) : (
-        <div className="edit-wrapper">
-          {/* <h1 style={{fontSize:"26px !important","color":"#424242"}}>Edit User</h1> */}
-          <ModalBody style={{width:"100%",marginBottom:"1rem"}}>
-            <FormControl className="form-group" style={{width:"100%"}}>
-              <FormLabel>Employee</FormLabel>
+        <>
+          <Box p="4" borderWidth="1px" borderRadius="md">
+            <FormControl marginBottom="3">
+              <FormLabel>Empleado</FormLabel>
               <Select
                 as="select"
                 name="role"
@@ -79,20 +106,36 @@ const EditUser = ({
               <Input
                 type="password"
                 name="password"
-                value=""
+                value={formData.password}
                 // value={formData.password}
                 onChange={(e) => onChange(e)}
               />
-              <FormLabel>Confirm Password</FormLabel>
+            </FormControl>
+            <FormControl marginBottom="3">
+              <FormLabel>Confirmar Contraseña</FormLabel>
               <Input
                 type="password"
                 name="confirm_password"
                 value={formData.confirm_password}
+                // value={formData.password}
                 onChange={(e) => onChange(e)}
               />
             </FormControl>
-          </ModalBody>
-          <ModalFooter>
+          </Box>
+          <Box
+            mt="4"
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+          >
+            {/* <Button as={ReachLink} to="/users" mr={3} variant="ghost">
+              <Icon
+                as={FiArrowLeft}
+                h={[4, 6]}
+                w={[4, 6]}
+                alignSelf={"center"}
+              />
+            </Button> */}
             <Button
               colorScheme="blue"
               type="submit"
@@ -100,13 +143,10 @@ const EditUser = ({
             >
               Guardar
             </Button>
-            <Link to="/users" className="btn btn-danger">
-              Cancel
-            </Link>
-          </ModalFooter>
-        </div>
+          </Box>
+        </>
       )}
-    </div>
+    </Container>
   );
 };
 const mapStateToProps = (state) => ({

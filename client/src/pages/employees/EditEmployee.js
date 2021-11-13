@@ -2,10 +2,25 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getEmployeeByID, updateEmployee } from "../../actions/employee";
-import { Link } from "react-router-dom";
-import { Input, FormControl, Select, Button, FormLabel } from "@chakra-ui/react";
-import { Form, ModalBody, ModalFooter, Spinner } from "react-bootstrap";
-import "../../components/users/index.css";
+import { Link as ReachLink } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  InputGroup,
+  InputLeftAddon,
+  InputLeftElement,
+  Text,
+  Icon,
+} from "@chakra-ui/react";
+import { FiArrowLeft } from "react-icons/fi";
+import { Loader } from "./../../components/loader/Loader";
+
 function EditEmployee({
   history,
   getEmployeeByID,
@@ -50,19 +65,32 @@ function EditEmployee({
     });
   };
   return (
-    <div style={{padding:"1rem"}}>
-      {/* <ModalHeader>Edit Employee</ModalHeader> */}
+    <Container paddingY="10">
+      <Box
+        display="flex"
+        alignItems="center"
+        marginBottom="6"
+        position="relative"
+      >
+        <Button as={ReachLink} to="/employees" mr={[3, 5]} variant="ghost">
+          <Icon as={FiArrowLeft} h={[5, 6]} w={[5, 6]} alignSelf={"center"} />
+        </Button>
+        <Text
+          fontSize="2xl"
+          textAlign="center"
+          fontWeight="bold"
+          lineHeight="short"
+        >
+          Editar Empleado
+        </Text>
+      </Box>
       {loading ? (
-        <div className="container p-5 d-flex justify-content-center align-items-center">
-          <Spinner animation="border" role="status">
-            <span className="sr-only"></span>
-          </Spinner>
-        </div>
+        <Loader />
       ) : (
-        <div className="edit-wrapper">
-          <ModalBody style={{width:"100%",marginBottom:"1rem"}}>
-            <FormControl className="form-group" style={{width:"100%"}}>
-              <FormLabel>Name</FormLabel>
+        <>
+          <Box p="4" borderWidth="1px" borderRadius="md">
+            <FormControl marginBottom="3">
+              <FormLabel>Nombres</FormLabel>
               <Input
                 name="name"
                 value={name}
@@ -119,12 +147,13 @@ function EditEmployee({
                 onChange={(e) => onChange(e)}
               />
             </FormControl>
-          {/* <Box
+          </Box>
+          <Box
             mt="4"
             display="flex"
             justifyContent="flex-end"
             alignItems="center"
-          > */}
+          >
             {/* <Button as={ReachLink} to="/employees" mr={3} variant="ghost">
               <Icon
                 as={FiArrowLeft}
@@ -133,8 +162,6 @@ function EditEmployee({
                 alignSelf={"center"}
               />
             </Button> */}
-          </ModalBody>
-          <ModalFooter>
             <Button
               colorScheme="blue"
               type="submit"
@@ -142,13 +169,10 @@ function EditEmployee({
             >
               Guardar
             </Button>
-            <Link to="/employees" className="btn btn-danger">
-              Cancel
-            </Link>
-          </ModalFooter>
-        </div>
+          </Box>
+        </>
       )}
-    </div>
+    </Container>
   );
 }
 const mapStateToProps = (state) => ({

@@ -31,10 +31,10 @@ import {
   InputRightAddon,
   IconButton,
   Icon,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"; 
 import { FiShoppingCart } from "react-icons/fi";
 
-import * as Yup from "yup";
+import * as Yup from "yup"; 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
