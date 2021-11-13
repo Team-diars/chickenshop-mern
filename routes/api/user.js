@@ -200,25 +200,10 @@ router.put("/edit/:id",[auth],
       }
       const user = await User.findById(id);
       if (!user) return res.status(500).send("User doesn't exist");
-      
-      if(new_password === user.password){
-        const userUpdated = await User.findByIdAndUpdate(id,{password},{new:true});
-        return res.json(userUpdated);
-      }else{
-        // const salt = await bcrypt.genSalt(10);
-        // const hashPassword = await bcrypt.hash(new_password, salt); //* Hashing password
-        const userUpdated = await User.findByIdAndUpdate(
-          id,
-          {
-            password,
-          },
-          { new: true }
-        );
-        return res.json(userUpdated);
-      }
+      const userUpdated = await User.findByIdAndUpdate(id,{password},{new:true});
+      return res.json(userUpdated);
     } catch (error) {
-      
-      res.status(500).send("Server error");
+      res.status(500).send(error);
     }
 })
 

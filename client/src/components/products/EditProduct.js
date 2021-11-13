@@ -7,7 +7,7 @@ import { getProductByID, updateProduct } from "../../actions/product";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Input, Select, Button, FormLabel, Text, Box } from "@chakra-ui/react";
-
+import "../users/index.css";
 const EditProduct = ({
   history,
   getProductByID,
@@ -76,8 +76,8 @@ const EditProduct = ({
   );
 
   return (
-    <>
-      <ModalHeader>Edit Product</ModalHeader>
+    <div style={{padding:"1rem"}}>
+      {/* <ModalHeader>Edit Product</ModalHeader> */}
       {loading ? (
         <div className="container p-5 d-flex justify-content-center align-items-center">
           <Spinner animation="border" role="status">
@@ -85,9 +85,9 @@ const EditProduct = ({
           </Spinner>
         </div>
       ) : (
-        <>
-          <ModalBody style={{width:"50%"}}>
-            <div className="form-group">
+        <div className="edit-wrapper">
+          <ModalBody style={{width:"100%",marginBottom:"1rem"}}>
+            <div className="form-group" style={{width:"100%"}}>
               <FormLabel>Product name</FormLabel>
               <Input
                 name="name"
@@ -164,9 +164,9 @@ const EditProduct = ({
               Cancel
             </Link>
           </ModalFooter>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 const mapStateToProps = (state) => ({

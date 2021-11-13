@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { getEmployeeByID, updateEmployee } from "../../actions/employee";
 import { Link } from "react-router-dom";
 import { Input, Select, Button, FormLabel } from "@chakra-ui/react";
+import "../users/index.css";
 function EditEmployee({
   history,
   getEmployeeByID,
@@ -50,8 +51,8 @@ function EditEmployee({
     });
   };
   return (
-    <>
-      <ModalHeader>Edit Employee</ModalHeader>
+    <div style={{padding:"1rem"}}>
+      {/* <ModalHeader>Edit Employee</ModalHeader> */}
       {loading ? (
         <div className="container p-5 d-flex justify-content-center align-items-center">
           <Spinner animation="border" role="status">
@@ -59,9 +60,9 @@ function EditEmployee({
           </Spinner>
         </div>
       ) : (
-        <>
-          <ModalBody>
-            <div className="form-group">
+        <div className="edit-wrapper">
+          <ModalBody style={{width:"100%",marginBottom:"1rem"}}>
+            <div className="form-group" style={{width:"100%"}}>
               <FormLabel>Name</FormLabel>
               <Input
                 name="name"
@@ -123,9 +124,9 @@ function EditEmployee({
               Cancel
             </Link>
           </ModalFooter>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 const mapStateToProps = (state) => ({

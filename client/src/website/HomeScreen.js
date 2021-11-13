@@ -103,9 +103,9 @@ const HomeScreen = ({
               lineHeight={"110%"}
               color="white"
             >
-              Rinconcito <br />
+              Polleria <br />
               <Text as={"span"} color={"yellow.400"}>
-                Ayacuchano
+                Harike
               </Text>
             </Heading>
             <Text color={"gray.100"}>
