@@ -4,6 +4,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  confirm_password: {
+    type: String,
+    require: true,
+  },
   avatar: {
     type: String,
   },

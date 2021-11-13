@@ -168,7 +168,8 @@ const SaleScreen = ({
                   <Tr key={idx}>
                     <Td>{sale.cashier}</Td>
                     <Td>{sale.num_table}</Td>
-                    <Td>S/.{sale.total.toFixed(2)}</Td>
+                    {/* <Td>S/.{sale.total.toFixed(2)}</Td> */}
+                    <Td>S/.{sale.total}</Td>
                     <Td>{sale.date}</Td>
                   </Tr>
                 ))

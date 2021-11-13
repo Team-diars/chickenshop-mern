@@ -194,23 +194,23 @@ router.put("/edit/:id",[auth],
       const errors = validationResult(req);
       if(!errors.isEmpty()) return res.status(400).json({errors: errors.array()});
       const { id } = req.params;
-      const { password:new_password } = req.body;
+      const { password:new_password, confirm_password } = req.body;
+      if (password != confirm_password){
+        return res.status(500).json({ errors: [{ msg: "Las contrasenas no coinciden" }] });
+      }
       const user = await User.findById(id);
       if (!user) return res.status(500).send("User doesn't exist");
       
-      
-      
       if(new_password === user.password){
-        const userUpdated = await User.findByIdAndUpdate(id,{});
-        
+        const userUpdated = await User.findByIdAndUpdate(id,{password},{new:true});
         return res.json(userUpdated);
       }else{
-        const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(new_password, salt); //* Hashing password
+        // const salt = await bcrypt.genSalt(10);
+        // const hashPassword = await bcrypt.hash(new_password, salt); //* Hashing password
         const userUpdated = await User.findByIdAndUpdate(
           id,
           {
-            password: hashPassword,
+            password,
           },
           { new: true }
         );

@@ -76,6 +76,7 @@ export const addUser = (formData) => async (dispatch) => {
 
 //* Update User
 export const updateUser = (id, formData, history) => async (dispatch) => {
+  console.log(formData);
   try {
     const config = {
       headers: {

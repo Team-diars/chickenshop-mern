@@ -407,8 +407,9 @@ const Header = ({
             textAlign={"center"}
             fontFamily={"heading"}
             fontSize="2xl"
+            style={{fontWeight:"bold"}}
           >
-            Rinconcito Ayacuchano
+            Polleria Harike
           </Text>
         </Flex>
         <Flex alignItems={"center"} display={{ base: "none", md: "flex" }}>

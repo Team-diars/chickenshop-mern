@@ -22,6 +22,7 @@ const EditUser = ({
     lastname: "",
     dni: "",
     password: "",
+    confirm_password: "",
   });
   const getUser = (id) => {
     getUserByID(id);
@@ -36,7 +37,8 @@ const EditUser = ({
         name: user.name || "",
         lastname: user.lastname || "",
         dni: user.dni || "",
-        password: user.password || "",
+        password: "",
+        confirm_password: "",
       });
     }
   }, [user, loading]);
@@ -76,14 +78,14 @@ const EditUser = ({
               <Input
                 type="password"
                 name="password"
-                value=""
+                value={formData.password}
                 onChange={(e) => onChange(e)}
               />
               <FormLabel>Confirm Password</FormLabel>
               <Input
                 type="password"
-                name="password"
-                value=""
+                name="confirm_password"
+                value={formData.confirm_password}
                 onChange={(e) => onChange(e)}
               />
             </div>
