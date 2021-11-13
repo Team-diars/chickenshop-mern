@@ -18,7 +18,7 @@ const EditProduct = ({
   const [formData, setFormData] = useState({
     _id: null,
     name: "",
-    description: "",
+    desc: "",
     category: "",
     price: 0,
     image: "",
@@ -36,7 +36,7 @@ const EditProduct = ({
       setFormData({
         _id: product._id || "",
         name: product.name || "",
-        description: product.description || "",
+        desc: product.desc || "",
         category: product.category || "",
         price: product.price || 0,
         image: setImage(product.image) || "",
@@ -98,7 +98,7 @@ const EditProduct = ({
               <FormLabel>Description</FormLabel>
               <Input
                 name="description"
-                value={formData.description}
+                value={formData.desc}
                 type="text"
                 onChange={(e) => onChange(e)}
               />
