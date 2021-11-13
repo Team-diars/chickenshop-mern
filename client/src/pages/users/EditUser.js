@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { getUserByID, updateUser } from "../../actions/user";
 import { Link } from "react-router-dom";
 import { FormLabel, Input, Select, Button, FormControl } from "@chakra-ui/react";
-import "./index.css";
+import "../../components/users/index.css";
 
 const EditUser = ({
   history,

@@ -13,11 +13,7 @@ import {
   Circle,
 } from "@chakra-ui/react";
 import { WebSocketContext } from "../../ws";
-<<<<<<< HEAD:client/src/components/orders/LiveOrdersKitchen.js
-import OrdersCard from "./OrderCard";
-=======
 import OrderCard from "./../../components/orders/OrderCard";
->>>>>>> ba72faa49117c63a3a4073fc01d0ac9c7d73d11d:client/src/pages/orders/LiveOrdersKitchen.js
 let socket;
 const CONNECTION_PORT = `http://127.0.0.1:5000/`;
 export const LiveOrdersKitchen = () => {

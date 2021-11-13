@@ -5,7 +5,7 @@ import { getEmployeeByID, updateEmployee } from "../../actions/employee";
 import { Link } from "react-router-dom";
 import { Input, FormControl, Select, Button, FormLabel } from "@chakra-ui/react";
 import { Form, ModalBody, ModalFooter, Spinner } from "react-bootstrap";
-import "../users/index.css";
+import "../../components/users/index.css";
 function EditEmployee({
   history,
   getEmployeeByID,
