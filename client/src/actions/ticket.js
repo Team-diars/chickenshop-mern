@@ -12,6 +12,7 @@ import {
 
 //* Add Ticket
 export const addTicket = (formData) => async (dispatch) => {
+  console.log("ticket:", formData);
   try {
     const config = {
       headers: {
@@ -23,11 +24,11 @@ export const addTicket = (formData) => async (dispatch) => {
       type: ADD_TICKET,
       payload: res.data,
     });
-    dispatch(setAlert("Ticket Added", "success"));
+    dispatch(setAlert("Ticket creado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, error)));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
     }
     dispatch({
       type: TICKET_ERROR,
@@ -38,14 +39,14 @@ export const addTicket = (formData) => async (dispatch) => {
 
 //* Delete ticket
 export const deleteTicket = (id) => async (dispatch) => {
-  if (window.confirm("Are you sure you want to delete this ticket?")) {
+  if (window.confirm("Estas seguro de eliminar este ticket?")) {
     try {
       await axios.delete(`/api/ticket/delete/${id}`);
       dispatch({
         type: REMOVE_TICKET,
         payload: id,
       });
-      dispatch(setAlert("Ticket Removed", "error"));
+      dispatch(setAlert("Ticker eliminado", "error"));
     } catch (err) {
       dispatch({
         type: TICKET_ERROR,
@@ -85,7 +86,7 @@ export const updateTicket = (id, formData, history) => async (dispatch) => {
       payload: { id, tickets: res.data },
     });
     history.push("/orders");
-    dispatch(setAlert("Order Updated", "success"));
+    dispatch(setAlert("Pedido actualizado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

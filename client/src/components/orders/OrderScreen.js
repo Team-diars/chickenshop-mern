@@ -215,7 +215,7 @@ const OrderScreen = ({
                 </Button>
               </InputGroup>
             </FormControl>
-            <FormControl marginBottom="5">
+            <FormControl marginBottom="6">
               <FormLabel>Bebidas</FormLabel>
               <InputGroup>
                 <Select

@@ -1,5 +1,6 @@
 {
-  "mongoURI": "mongodb://hectorsum:r8yg7gpd@cluster0-shard-00-00.rfjqv.mongodb.net:27017,cluster0-shard-00-01.rfjqv.mongodb.net:27017,cluster0-shard-00-02.rfjqv.mongodb.net:27017/chickenshop?ssl=true&replicaSet=atlas-gulbdj-shard-0&authSource=admin&retryWrites=true&w=majority",
+  // "mongoURI": "mongodb://hectorsum:r8yg7gpd@cluster0-shard-00-00.rfjqv.mongodb.net:27017,cluster0-shard-00-01.rfjqv.mongodb.net:27017,cluster0-shard-00-02.rfjqv.mongodb.net:27017/chickenshop?ssl=true&replicaSet=atlas-gulbdj-shard-0&authSource=admin&retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://jcpsh:Fn58wz26dtllyO8I@evo.4ank7.mongodb.net/foodmenu-app?retryWrites=true&w=majority",
   //"mongoURI": "mongodb+srv://hectorsum:r8yg7gpd@cluster0.rfjqv.mongodb.net/chickenshop?retryWrites=true&w=majority",
   "jwtSecret": "mysecrettoken",
   "githubClientId": "c5ec06ff79027979c7ba",

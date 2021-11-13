@@ -10,11 +10,12 @@ import {
   Tooltip,
   Button,
 } from "@chakra-ui/react";
-import { FiPlus, FiShoppingCart } from "react-icons/fi";
+import { FiPlus, FiMinus } from "react-icons/fi";
 
 function ProductAddToCart(props) {
   return (
-    <Box width={["full", "48", "52"]} mb="16" mx="2">
+    // width={["full", "32%", "18%"]}
+    <Box width={["full", "31.3%", "18%"]} mb="16" mx="1%">
       <Box
         bg={useColorModeValue("white", "gray.800")}
         maxHeight="320px"
@@ -46,14 +47,16 @@ function ProductAddToCart(props) {
           marginTop="-10"
           rounded="full"
           boxSize="150px"
-          border="2px"
+          border="1px"
           borderColor="yellow.200"
           objectFit="cover"
-          src={`/images/${props.product.image}`}
+          backgroundColor="gray.100"
+          src="https://via.placeholder.com/300"
+          // src={`/images/${props.product.image}`}
           alt={props.product.name}
         />
 
-        <Box py="6" px="4" width="full">
+        <Box py="4" px="4" width="full">
           {/* <Box d="flex" alignItems="baseline">
             {data.isNew && (
               <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
@@ -61,7 +64,12 @@ function ProductAddToCart(props) {
               </Badge>
             )}
           </Box> */}
-          <Flex mt="1" justifyContent="center" alignContent="center">
+          <Flex
+            mt="1"
+            flexDirection="column"
+            justifyContent="center"
+            alignContent="center"
+          >
             <Box
               fontSize="xl"
               fontWeight="semibold"
@@ -71,6 +79,17 @@ function ProductAddToCart(props) {
               marginBottom="10px"
             >
               {props.product.name}
+            </Box>
+            <Box
+              fontSize="sm"
+              fontWeight="medium"
+              as="span"
+              lineHeight="tight"
+              isTruncated
+              marginBottom="5px"
+              color={useColorModeValue("blackAlpha.700", "white")}
+            >
+              {props.product.description || "..."}
             </Box>
           </Flex>
 

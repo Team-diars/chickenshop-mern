@@ -23,8 +23,8 @@ router.get("/", getEmployees);
 //* @access Private
 router.get("/:id", [auth], async (req, res) => {
   try {
-    const {id} = req.params;
-    const employee = await Employee.find({ _id:id, status: 1 }).exec();
+    const { id } = req.params;
+    const employee = await Employee.find({ _id: id, status: 1 }).exec();
     return res.json(employee[0]);
   } catch (error) {
     res.status(500).send("Server error");
@@ -42,7 +42,7 @@ router.get("/:id", [auth], getEmployee);
 router.post(
   "/",
   [
-    auth,
+    // auth,
     check("name", "Name is required").not().isEmpty(),
     check("lastname", "Lastname is required").not().isEmpty(),
     check("address", "Address is required").not().isEmpty(),

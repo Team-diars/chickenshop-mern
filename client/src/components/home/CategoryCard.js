@@ -1,3 +1,4 @@
+import React from "react";
 import { Flex, Box, Image, useColorModeValue } from "@chakra-ui/react";
 
 function Rating({ rating, numReviews }) {
@@ -85,7 +86,8 @@ function CategoryCard(props) {
               lineHeight="tight"
               isTruncated
             >
-              {data.name}
+              {/* {data.name} */}
+              {props.product}
             </Box>
           </Flex>
 
@@ -99,5 +101,6 @@ function CategoryCard(props) {
     </Box>
   );
 }
+
 
 export default CategoryCard;

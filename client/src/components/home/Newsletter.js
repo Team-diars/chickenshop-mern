@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Stack,
   FormControl,
@@ -33,7 +33,7 @@ export default function Simple() {
           textAlign={"center"}
           mb={5}
         >
-          Suscribete a nuestras promociones!
+          Suscribete y llevate un pisco gratis
         </Heading>
         <Stack
           direction={{ base: "column", md: "row" }}

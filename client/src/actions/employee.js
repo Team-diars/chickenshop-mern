@@ -39,11 +39,11 @@ export const addEmployee = (formData) => async (dispatch) => {
       type: ADD_EMPLOYEE,
       payload: res.data,
     });
-    dispatch(setAlert("Empleado agregado", "success"));
+    dispatch(setAlert("Empleado creado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, error)));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
     }
     dispatch({
       type: EMPLOYEE_ERROR,

@@ -10,10 +10,10 @@ import {
 } from "@chakra-ui/react";
 
 // import { MainMenu } from "@/components/layout/Header";
-import { useLayoutContext } from "@/components/layout/LayoutContext";
+import { useLayoutContext } from "./LayoutContext";
 // import { Logo } from '@/components';
 
-export const NavDrawer = ({ ...rest }) => {
+export const NavDrawer = (props, { ...rest }) => {
   const { navIsOpen, navOnClose } = useLayoutContext();
   return (
     <Drawer
@@ -24,13 +24,16 @@ export const NavDrawer = ({ ...rest }) => {
     >
       <DrawerOverlay>
         <DrawerContent
-          bg="gray.800"
-          color="white"
+          bg="yellow.300"
+          color="blackalpha.200"
           pt="safe-top"
           pb="safe-bottom"
         >
           <DrawerCloseButton mt="safe-top" />
-          <DrawerHeader>{/* <Logo /> */}</DrawerHeader>
+          <DrawerHeader>
+            {props.appname}
+            {/* <Logo /> */}
+          </DrawerHeader>
           <DrawerBody p="2">{/* <MainMenu direction="column" /> */}</DrawerBody>
         </DrawerContent>
       </DrawerOverlay>

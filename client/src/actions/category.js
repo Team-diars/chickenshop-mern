@@ -38,7 +38,7 @@ export const updateCategory = (formData) => async (dispatch) => {
       type: EDIT_CATEGORY,
       payload: res.data,
     });
-    dispatch(setAlert("Datos de Categoria actualizada", "success"));
+    dispatch(setAlert("Categoria actualizada", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
