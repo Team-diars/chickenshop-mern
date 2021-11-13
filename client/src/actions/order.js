@@ -17,14 +17,13 @@ const config = {
 
 //* Add Order
 export const addOrder = (formData) => async (dispatch) => {
-  console.log("Action Order:", formData);
   try {
     const res = await axios.post("/api/menu", formData, config);
     dispatch({
       type: ADD_ORDER,
       payload: res.data,
     });
-    dispatch(setAlert("Order Added", "success"));
+    dispatch(setAlert("Pedido creado", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

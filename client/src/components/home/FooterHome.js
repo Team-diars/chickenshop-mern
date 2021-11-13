@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   chakra,
@@ -34,7 +35,8 @@ const SocialButton = ({ children, label, href }) => {
   );
 };
 
-export default function SmallWithSocial() {
+export default function FooterWithSocial(props) {
+  const { settings } = props;
   const year = new Date().getFullYear();
   return (
     <Box
@@ -50,12 +52,20 @@ export default function SmallWithSocial() {
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
       >
-        <Text fontWeight="semibold">© {year}</Text>
+        <Text fontWeight="semibold">
+          {settings?.appname} © {year}
+        </Text>
         <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Facebook"} href={"#"}>
+          <SocialButton
+            label={"Facebook"}
+            href={settings?.social_links.facebook}
+          >
             <FaFacebook />
           </SocialButton>
-          <SocialButton label={"Instagram"} href={"#"}>
+          <SocialButton
+            label={"Instagram"}
+            href={settings?.social_links.instagram}
+          >
             <FaInstagram />
           </SocialButton>
         </Stack>

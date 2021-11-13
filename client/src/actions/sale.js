@@ -14,16 +14,16 @@ export const addSale = (num_table) => async (dispatch) => {
       type: ADD_SALE,
       payload: res.data,
     });
-    dispatch(setAlert("Sale Added", "success"));
+    dispatch(setAlert("Venta realizada", "success"));
   } catch (err) {
-    // const errors = err.response.data.errors;
-    // if(errors){
-    //   errors.forEach(error => dispatch(setAlert(error.msg,error)));
-    // }
-    // dispatch({
-    //   type: SALE_ERROR,
-    //   payload: { msg: err.response.statusText, status: err.response.status }
-    // })
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
+    }
+    dispatch({
+      type: SALE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
 //* Get Sales

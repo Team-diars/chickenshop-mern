@@ -57,20 +57,16 @@ router.post(
       ).isInt({ min: 1, max: 20 }),
     ],
     [
-      // check('product','Ticket must have products').not().isEmpty(),
-      // check('product','Must be an array').isArray(),
+      check("product", "Ticket must have products").not().isEmpty(),
+      check("product", "Must be an array").isArray(),
     ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())
       return res.status(400).json({ errors: errors.array() });
-    let DISCOUNT = 0.18;
-    let subtotal = 0;
-    let amount_per_item;
-    let prices;
+    const IGV = 0.18;
     let { num_table, product } = req.body;
-    
     let tableExists = await Sale.exists({ num_table, status: 1 });
     if (tableExists)
       return res.status(500).json({
@@ -81,29 +77,24 @@ router.post(
         ],
       });
     try {
-      amount_per_item = product.map(async (item, idx) => {
-        
+      let amount_per_item = product.map(async (item, idx) => {
         let { price } = await Product.findOne({
-          name: item?.dish_name || item?.drink_name || item?.salad_name,
+          name: item?.name,
           status: 1,
         });
-        let amount =
-          price * item?.dish_quantity ||
-          item?.drink_quantity ||
-          item?.salad_quantity;
+        let amount = price * item?.quantity;
         return amount;
       });
-      prices = await Promise.all(amount_per_item);
-      subtotal = prices.reduce((total, num) => {
-        return total + num;
-      }, 0);
-      const { name, lastname } = await Employee.findOne({ _id: req.user.id });
-      let total = subtotal - subtotal * DISCOUNT;
-      
-      const ids = product.map(
-        (item) => item?.dish_id || item?.drink_id || item?.salad_id
-      );
+      let prices = await Promise.all(amount_per_item);
+      let total = prices
+        .reduce((total, num) => {
+          return total + num;
+        }, 0)
+        .toFixed(2);
+      let subtotal = (total - total * IGV).toFixed(2);
 
+      const ids = product.map((item) => item?._id);
+      const { name, lastname } = await Employee.findOne({ _id: req.user.id });
       const newTicket = new Sale({
         product: ids,
         num_table,
@@ -112,9 +103,8 @@ router.post(
         cashier: `${name} ${lastname}`,
       });
       await newTicket.save();
-      return res.json({ status: "Ticked saved successfully" });
+      return res.json(newTicket);
     } catch (e) {
-      
       res.status(500).send(e.message);
     }
   }
@@ -158,7 +148,7 @@ router.delete("/delete/:id", [auth], async (req, res) => {
   try {
     const { id } = req.params;
     const exists = await Sale.exists({ _id: id, status: 1 });
-    
+
     if (!exists) {
       return res.status(500).send("Ticket not found");
     }

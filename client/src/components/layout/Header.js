@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as ReachLink, useLocation, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout, loadUser } from "../../actions/auth";
+import { getSettings } from "../../actions/settings";
+
 import {
   Box,
   Flex,
@@ -35,7 +37,25 @@ import {
   FiShoppingBag,
   FiPlusCircle,
   FiFileText,
+  FiMenu,
 } from "react-icons/fi";
+import { useLayoutContext } from "./LayoutContext";
+
+import { NavDrawer } from "./Drawer";
+// const MenuButtonMov = (props) => {
+//   const { navOnOpen } = useLayoutContext();
+//   return (
+//     <IconButton
+//       aria-label="Navigation"
+//       icon={<FiMenu size="1.5em" />}
+//       onClick={navOnOpen}
+//       bg="transparent"
+//       _active={{ bg: 'gray.700' }}
+//       _hover={{ bg: 'gray.900' }}
+//       {...props}
+//     />
+//   );
+// };
 
 const MainMenuItem = ({ to, ...rest }) => {
   // const { rtlValue } = useRtl();
@@ -129,11 +149,21 @@ const Header = ({
   to,
   logout,
   loadUser,
+  getSettings,
+  settings: { settings: _settings },
   auth: { user, isAuthenticated, loading },
   ...rest
 }) => {
   const { pathname } = useLocation();
   const isActive = pathname.startsWith(to);
+  const { navOnOpen } = useLayoutContext();
+  const showDrawer = useBreakpointValue({
+    base: true,
+    md: false,
+  });
+  const [settingsData, setSettingsData] = useState({});
+  const { appname, address, telephone, email, facebook, instagram } =
+    settingsData;
   const AdminNavbar = (
     <>
       <Menu placement="bottom-end" {...rest}>
@@ -186,6 +216,10 @@ const Header = ({
               Pedidos Online
             </MenuItem>
           </MenuGroup>
+          <MenuDivider />
+          <MenuItem as={ReachLink} to="/kitchen" icon={<FiRadio />}>
+            Pedidos (Cocina)
+          </MenuItem>
           <MenuDivider />
           <MenuItem as={ReachLink} to="/orders" icon={<FiShoppingBag />}>
             Pedidos
@@ -367,20 +401,12 @@ const Header = ({
         </MenuButton>
         <MenuList color={"gray.800"} maxW="12rem" overflow="hidden">
           <MenuGroup title={""} isTruncated>
-            <MenuItem
-              as={ReachLink}
-              to="/orders"
-              icon={<Icon icon={FiUser} fontSize="lg" color="gray.400" />}
-            >
+            <MenuItem as={ReachLink} to="/orders" icon={<FiUser />}>
               Registrar Pedido
             </MenuItem>
           </MenuGroup>
           <MenuDivider />
-          <MenuItem
-            as={ReachLink}
-            to="/sales"
-            icon={<Icon icon={FiLogOut} fontSize="lg" color="gray.400" />}
-          >
+          <MenuItem as={ReachLink} to="/sales" icon={<FiLogOut />}>
             Generar Venta
           </MenuItem>
         </MenuList>
@@ -388,9 +414,18 @@ const Header = ({
       <AccountMenu user={user} />
     </>
   );
+
   useEffect(() => {
     loadUser();
   }, [loadUser]);
+  useEffect(() => {
+    getSettings();
+  }, [getSettings]);
+  useEffect(() => {
+    if (_settings) {
+      setSettingsData(_settings || {});
+    }
+  }, [_settings]);
   return (
     <Box
       backgroundColor={"yellow.300"}
@@ -400,21 +435,33 @@ const Header = ({
       px="6"
     >
       <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <IconButton
+          display={{ base: "flex", md: "none" }}
+          ms="-0.5rem"
+          aria-label="Navigation"
+          icon={<FiMenu size="1.5em" />}
+          onClick={navOnOpen}
+          bg="transparent"
+          _active={{ bg: "yellow.300" }}
+          _hover={{ bg: "yellow.500" }}
+        />
+        {showDrawer && <NavDrawer appname={appname} />}
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Text
             as={ReachLink}
             to={"/"}
             textAlign={"center"}
             fontFamily={"heading"}
+            fontWeight={"semibold"}
             fontSize="2xl"
           >
-            Rinconcito Ayacuchano
+            {appname}
           </Text>
         </Flex>
         <Flex alignItems={"center"} display={{ base: "none", md: "flex" }}>
           <HStack spacing={9} alignItems={"center"}>
             <HStack as={"nav"} spacing={6} fontSize="lg">
-              <Stack direction="row" spacing="3" {...rest}>
+              <Stack direction="row" spacing="3">
                 <Text
                   textAlign={useBreakpointValue({ base: "center", md: "left" })}
                   fontFamily={"heading"}
@@ -423,16 +470,17 @@ const Header = ({
                   alignItems="center"
                   marginRight="3"
                 >
-                  Llamanos:
+                  Llámanos:
                   <Button
                     as={"a"}
+                    marginLeft="1"
                     fontSize={"sm"}
                     fontWeight={500}
                     color={"black"}
                     variant="link"
-                    href={"tel: 5199999"}
+                    href={`tel: ${telephone}`}
                   >
-                    +51 {"99999222"}
+                    {telephone}
                   </Button>
                 </Text>
                 <MainMenuItem to="/menu">Menu</MainMenuItem>
@@ -456,10 +504,12 @@ const Header = ({
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  settings: state.settings,
 });
 
 const mapDispatchToProps = {
   loadUser,
   logout,
+  getSettings,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

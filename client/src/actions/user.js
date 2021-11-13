@@ -111,7 +111,7 @@ export const deleteUser = (id) => async (dispatch) => {
         type: REMOVE_USER,
         payload: id,
       });
-      dispatch(setAlert("Usuario removido", "error"));
+      dispatch(setAlert("Usuario eliminado", "error"));
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {

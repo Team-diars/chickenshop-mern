@@ -16,10 +16,11 @@ import {
   Collapse,
 } from "@chakra-ui/react";
 import { FiCheck, FiX } from "react-icons/fi";
+
 import { WebSocketContext } from "../../ws";
 import io from "socket.io-client";
 
-const OrdersCard = (props) => {
+function OrdersCard(props) {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
   const ws = useContext(WebSocketContext);
@@ -35,13 +36,13 @@ const OrdersCard = (props) => {
   let status_letter;
   if (props.order.status === Types.PENDING) {
     status = "gray";
-    status_letter = "PENDING";
+    status_letter = "PENDIENTE";
   } else if (props.order.status === Types.VALIDATED) {
     status = "blue";
-    status_letter = "VALIDATED";
+    status_letter = "ACEPTADO";
   } else if (props.order.status === Types.DELIVERED) {
     status = "green";
-    status_letter = "DELIVERED";
+    status_letter = "ENTREGADO";
   }
   const handleChecked = (id) => {
     ws.checkOrder(id);
@@ -50,17 +51,11 @@ const OrdersCard = (props) => {
     ws.uncheckOrder(id);
   };
   return (
-    <Flex
-      width={{
-        base: "100%", // 0-48em
-        md: "48%", // 48em-80em,
-        xl: "23%", // 80em+
-      }}
-      mb="12"
-    >
-      <Flex
-        // bg="gray.800"
-        flex="1"
+    <Box width={["full", "46%", "23%"]} mb="8" mx={["2%", "2%", "1%"]}>
+      <Box
+        // bg="gray.100"
+        // flex="1"
+        // width="full"
         borderWidth="1px"
         rounded="xl"
         shadow="lg"
@@ -71,7 +66,11 @@ const OrdersCard = (props) => {
         justifyContent="center"
         p="4"
       >
-        <Flex justifyContent="space-between">
+        <Flex
+          justifyContent="space-between"
+          borderBottom="1px solid"
+          borderColor="gray.200"
+        >
           <Box>
             <Text
               fontSize="xl"
@@ -103,6 +102,7 @@ const OrdersCard = (props) => {
               bg={`${status}.300`}
             />
             <Badge rounded="full" px="2" fontSize="sm" colorScheme={status}>
+              {/* {props.order.status === 1 ? "Pendiente" : "Entregado"} */}
               {status_letter}
             </Badge>
           </Box>
@@ -130,13 +130,14 @@ const OrdersCard = (props) => {
         >
           {props.order.products?.length > 0 &&
             props.order.products.map((product, idx) => (
-              <Flex justifyContent="space-between" key={idx}>
+              <Flex justifyContent="space-between" pt="1" key={idx}>
                 <Box w={1 / 3}>
                   <Image
                     rounded="full"
                     boxSize="50px"
                     objectFit="cover"
-                    src={`/images/${product.image}`}
+                    src={`https://via.placeholder.com/100`}
+                    // src={`/images/${product.image}`}
                     alt={product.name + "-" + product.image}
                   />
                 </Box>
@@ -159,7 +160,7 @@ const OrdersCard = (props) => {
                       isTruncated
                       marginBottom="5px"
                     >
-                      {product.desc}
+                      {product.description}
                     </Text>
                     <Box
                       display="flex"
@@ -184,7 +185,7 @@ const OrdersCard = (props) => {
                         isTruncated
                         marginBottom="5px"
                       >
-                        Qty: {product.quantity}
+                        Can: {product.quantity}
                       </Text>
                     </Box>
                   </Flex>
@@ -194,25 +195,19 @@ const OrdersCard = (props) => {
         </Box>
         {/* </Collapse> */}
 
-        <Box pt="4" width="full">
+        <Box pt="4" width="full" borderTop="1px solid" borderColor="gray.200">
           <Flex justifyContent="space-between" alignItems="center">
-            <Box fontSize="xl" fontWeight="semibold" color="green.500">
-              <Box as="span" color={"green.500"} fontSize="md" mr="1">
+            <Box fontSize="xl" fontWeight="semibold" color="blue.500">
+              <Box as="span" color={"gray.600"} fontSize="md" mr="1">
                 S/
               </Box>
               {props.order.total?.toFixed(2)}
             </Box>
             {props.order.status === 1 && (
-              <Flex
-                fontSize="xl"
-                fontWeight="semibold"
-                display={"flex"}
-                justifyContent={"flex-end"}
-              >
+              <Flex fontSize="xl" fontWeight="semibold">
                 <Button
                   size="lg"
                   display={"flex"}
-                  style={{ width: "30%", borderRadius: "40px" }}
                   mr="2"
                   colorScheme="green"
                   onClick={() => handleChecked(props.order._id)}
@@ -222,7 +217,6 @@ const OrdersCard = (props) => {
                 <Button
                   size="lg"
                   display={"flex"}
-                  style={{ width: "30%", borderRadius: "40px" }}
                   colorScheme="red"
                   onClick={() => handleUncheck(props.order._id)}
                 >
@@ -232,9 +226,9 @@ const OrdersCard = (props) => {
             )}
           </Flex>
         </Box>
-      </Flex>
-    </Flex>
+      </Box>
+    </Box>
   );
-};
+}
 
 export default OrdersCard;
